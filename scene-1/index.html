@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TCS Scene 1 - Eyes to Rivers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="scene-1-shell">
+    <section class="stage" aria-label="TCS eyes becoming rivers">
+      <svg id="sceneSvg" viewBox="0 0 390 844" role="img" aria-label="Eyes, tears, and rivers in painterly style">
+        <defs>
+          <filter id="brushstroke" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <filter id="paintTexture" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="4" result="grain" />
+            <feColorMatrix in="grain" type="saturate" values="0" />
+            <feBlend in="SourceGraphic" in2="grain" mode="multiply" />
+          </filter>
+          <radialGradient id="poolInk" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stop-color="#1a1a1a" />
+            <stop offset="100%" stop-color="#0d0d0d" />
+          </radialGradient>
+        </defs>
+
+        <rect x="0" y="0" width="390" height="844" class="canvas" />
+
+        <g id="eyeSystem" filter="url(#brushstroke)">
+          <g id="frames" stroke="#2c2416" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="60" y="245" width="125" height="95" rx="30" ry="30" />
+            <rect x="205" y="245" width="125" height="95" rx="30" ry="30" />
+            <path d="M 185 292 Q 195 286 205 292" />
+            <path d="M 54 286 Q 45 290 50 302" />
+            <path d="M 336 286 Q 345 290 340 302" />
+          </g>
+
+          <g id="eyes" filter="url(#paintTexture)">
+            <ellipse cx="122" cy="300" rx="34" ry="22" class="eye-white" />
+            <ellipse cx="268" cy="300" rx="34" ry="22" class="eye-white" />
+            <ellipse id="leftIris" cx="122" cy="302" rx="15" ry="15" class="iris" />
+            <ellipse id="rightIris" cx="268" cy="302" rx="15" ry="15" class="iris" />
+            <circle id="leftPupil" cx="122" cy="302" r="7" class="pupil" />
+            <circle id="rightPupil" cx="268" cy="302" r="7" class="pupil" />
+          </g>
+
+          <g id="lids" stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M 86 299 Q 122 276 158 299" />
+            <path d="M 232 299 Q 268 276 304 299" />
+          </g>
+        </g>
+
+        <g id="tearLayer" stroke="#1a1a1a" stroke-width="3.2" fill="none" stroke-linecap="round" filter="url(#brushstroke)">
+          <path class="tear" d="M 118 321 Q 112 360 122 412 Q 132 465 126 518" />
+          <path class="tear" d="M 128 322 Q 138 358 134 412 Q 129 472 140 530" />
+          <path class="tear" d="M 112 321 Q 106 374 110 426 Q 116 474 120 536" />
+          <path class="tear" d="M 262 322 Q 252 366 258 418 Q 265 470 252 528" />
+          <path class="tear" d="M 272 322 Q 280 356 277 413 Q 270 472 284 534" />
+          <path class="tear" d="M 258 321 Q 246 370 244 425 Q 246 482 238 540" />
+          <path class="tear" d="M 120 321 Q 176 386 188 470 Q 194 530 192 628" />
+          <path class="tear" d="M 270 321 Q 214 388 202 474 Q 198 540 198 628" />
+          <path class="tear" d="M 124 321 Q 150 400 175 482 Q 191 550 193 626" />
+          <path class="tear" d="M 266 321 Q 240 396 217 482 Q 202 548 197 626" />
+        </g>
+
+        <g id="poolPositionGroup" transform="translate(195 700)">
+          <g id="poolScaleGroup">
+            <path
+              id="poolShape"
+              d="M -90 0 C -74 -35 -26 -50 0 -44 C 29 -48 72 -33 90 0 C 76 34 36 48 0 44 C -32 47 -75 35 -90 0 Z"
+              fill="url(#poolInk)"
+              stroke="#0d0d0d"
+              stroke-width="3"
+              filter="url(#brushstroke)"
+            />
+            <ellipse cx="0" cy="0" rx="62" ry="19" class="ripple ripple-a" />
+            <ellipse cx="0" cy="0" rx="43" ry="12" class="ripple ripple-b" />
+          </g>
+        </g>
+
+        <g id="riverLayer" stroke="#0d0d0d" stroke-width="6" fill="none" stroke-linecap="round" filter="url(#brushstroke)">
+          <path class="river" d="M 160 718 C 138 758 126 798 120 844" />
+          <path class="river" d="M 190 724 C 184 762 180 804 178 844" />
+          <path class="river" d="M 220 722 C 232 760 246 800 260 844" />
+          <path class="river" d="M 145 732 C 120 772 98 812 84 844" />
+          <path class="river" d="M 242 734 C 270 772 296 812 316 844" />
+        </g>
+      </svg>
+
+      <div class="caption-block">
+        <p class="caption-title">Scene 1</p>
+        <p class="caption-copy">His tears become rivers. Love and death flow from the same source.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="animations.js"></script>
+</body>
+</html>

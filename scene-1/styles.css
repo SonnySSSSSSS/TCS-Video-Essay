@@ -1,0 +1,111 @@
+:root {
+  --canvas: #f5f1e8;
+  --ink: #2c2416;
+  --tear: #1a1a1a;
+  --tear-faded: #5f5a52;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+  color: var(--ink);
+}
+
+body {
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+.scene-1-shell {
+  min-height: 300vh;
+  position: relative;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.35), transparent 35%),
+    radial-gradient(circle at 85% 75%, rgba(44, 36, 22, 0.09), transparent 32%);
+}
+
+#sceneSvg {
+  width: min(100vw, 430px);
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.canvas {
+  fill: var(--canvas);
+}
+
+.eye-white {
+  fill: #e8e2d6;
+}
+
+.iris {
+  fill: #3a5a7e;
+}
+
+.pupil {
+  fill: #1e3a5f;
+}
+
+.tear {
+  opacity: 0.95;
+}
+
+.ripple {
+  fill: none;
+  stroke: #f5f1e8;
+  stroke-width: 2;
+  opacity: 0.8;
+}
+
+#riverLayer {
+  opacity: 0;
+}
+
+.caption-block {
+  position: absolute;
+  bottom: 5dvh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(88vw, 360px);
+  text-align: center;
+  color: #2f2a21;
+  pointer-events: none;
+}
+
+.caption-title {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.caption-copy {
+  margin: 0.35rem 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1rem, 4.2vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  #sceneSvg {
+    width: min(58vh, 420px);
+  }
+}
