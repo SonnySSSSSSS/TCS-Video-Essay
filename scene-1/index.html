@@ -14,61 +14,100 @@
     <section class="stage" aria-label="TCS eyes becoming rivers">
       <svg id="sceneSvg" viewBox="0 0 390 844" role="img" aria-label="Eyes, tears, and rivers in painterly style">
         <defs>
+          <!-- brushstroke: displacement filter whose seed is cycled by JS
+               on each 12fps tick to create the "boiling" hand-drawn look -->
           <filter id="brushstroke" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="9" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.020" numOctaves="3" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" />
           </filter>
-          <filter id="paintTexture" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="4" result="grain" />
-            <feColorMatrix in="grain" type="saturate" values="0" />
-            <feBlend in="SourceGraphic" in2="grain" mode="multiply" />
+          <!-- paintTexture: visible grain for aged-paper / lacquer-canvas quality -->
+          <filter id="paintTexture" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3" seed="4" result="grain" />
+            <feColorMatrix in="grain" type="saturate" values="0" result="grayGrain" />
+            <feComposite in="grayGrain" in2="SourceGraphic" operator="in" result="maskedGrain" />
+            <feBlend in="SourceGraphic" in2="maskedGrain" mode="multiply" />
+          </filter>
+          <!-- tearFlow: gentle low-scale displacement — sad flowing lines, not chaos -->
+          <filter id="tearFlow" x="-10%" y="-5%" width="120%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
           </filter>
           <radialGradient id="poolInk" cx="50%" cy="45%" r="65%">
             <stop offset="0%" stop-color="#1a1a1a" />
             <stop offset="100%" stop-color="#0d0d0d" />
+          </radialGradient>
+          <!-- Warm aged-paper vignette over the whole canvas (TCS lacquer/oil style) -->
+          <radialGradient id="warmVignette" cx="50%" cy="50%" r="72%">
+            <stop offset="0%" stop-color="#f5ead0" stop-opacity="0" />
+            <stop offset="70%" stop-color="#d4a96a" stop-opacity="0.07" />
+            <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18" />
           </radialGradient>
         </defs>
 
         <rect x="0" y="0" width="390" height="844" class="canvas" />
 
         <g id="eyeSystem" filter="url(#brushstroke)">
-          <g id="frames" stroke="#2c2416" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="60" y="245" width="125" height="95" rx="30" ry="30" />
-            <rect x="205" y="245" width="125" height="95" rx="30" ry="30" />
-            <path d="M 185 292 Q 195 286 205 292" />
-            <path d="M 54 286 Q 45 290 50 302" />
-            <path d="M 336 286 Q 345 290 340 302" />
+          <!-- Eyebrows: natural, expressive arch above frames -->
+          <g id="brows" stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M 62 236 Q 120 222 176 230" />
+            <path d="M 212 230 Q 268 222 328 236" />
+          </g>
+
+          <!-- Frames: TCS's iconic soft-rounded glasses — large, gently squared,
+               rx=22 captures the 70s/80s intellectual style he's known for -->
+          <g id="frames" stroke="#2c2416" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="50" y="242" width="140" height="90" rx="22" ry="22" />
+            <rect x="198" y="242" width="140" height="90" rx="22" ry="22" />
+            <!-- bridge -->
+            <path d="M 190 272 Q 194 267 198 272" />
+            <!-- temples -->
+            <path d="M 48 262 Q 34 264 30 278" />
+            <path d="M 340 262 Q 354 264 358 278" />
           </g>
 
           <g id="eyes" filter="url(#paintTexture)">
-            <ellipse cx="122" cy="300" rx="34" ry="22" class="eye-white" />
-            <ellipse cx="268" cy="300" rx="34" ry="22" class="eye-white" />
-            <ellipse id="leftIris" cx="122" cy="302" rx="15" ry="15" class="iris" />
-            <ellipse id="rightIris" cx="268" cy="302" rx="15" ry="15" class="iris" />
-            <circle id="leftPupil" cx="122" cy="302" r="7" class="pupil" />
-            <circle id="rightPupil" cx="268" cy="302" r="7" class="pupil" />
+            <!-- Larger eye whites — room to show sclera around the iris -->
+            <ellipse cx="120" cy="290" rx="40" ry="24" class="eye-white" />
+            <ellipse cx="268" cy="290" rx="40" ry="24" class="eye-white" />
+            <!-- Irises: large, seated slightly high for that direct searching gaze -->
+            <ellipse id="leftIris" cx="120" cy="288" rx="19" ry="19" class="iris" />
+            <ellipse id="rightIris" cx="268" cy="288" rx="19" ry="19" class="iris" />
+            <!-- Pupils: dilated — emotional, open, compassionate -->
+            <circle id="leftPupil" cx="120" cy="288" r="11" class="pupil" />
+            <circle id="rightPupil" cx="268" cy="288" r="11" class="pupil" />
+            <!-- Catchlights: the spark that makes eyes alive and soulful -->
+            <circle cx="114" cy="283" r="3.5" class="catchlight" />
+            <circle cx="262" cy="283" r="3.5" class="catchlight" />
           </g>
 
-          <g id="lids" stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
-            <path d="M 86 299 Q 122 276 158 299" />
-            <path d="M 232 299 Q 268 276 304 299" />
+          <!-- Upper lids: slightly heavy, contemplative — TCS's thoughtful gaze -->
+          <g id="lids" stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
+            <path d="M 78 292 Q 120 264 162 292" />
+            <path d="M 226 292 Q 268 264 312 292" />
+          </g>
+          <!-- Lower lids: subtle crease — suggests depth, weariness, tenderness -->
+          <g id="lowerLids" stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
+            <path d="M 84 298 Q 120 310 156 298" />
+            <path d="M 232 298 Q 268 310 306 298" />
           </g>
         </g>
 
-        <g id="tearLayer" stroke="#1a1a1a" stroke-width="3.2" fill="none" stroke-linecap="round" filter="url(#brushstroke)">
+        <g id="tearLayer" stroke="#1a1a1a" stroke-width="3.2" fill="none" stroke-linecap="round" filter="url(#tearFlow)">
+          <!-- Short outer tears — fall straight down, gently -->
           <path class="tear" d="M 118 321 Q 112 360 122 412 Q 132 465 126 518" />
           <path class="tear" d="M 128 322 Q 138 358 134 412 Q 129 472 140 530" />
           <path class="tear" d="M 112 321 Q 106 374 110 426 Q 116 474 120 536" />
           <path class="tear" d="M 262 322 Q 252 366 258 418 Q 265 470 252 528" />
           <path class="tear" d="M 272 322 Q 280 356 277 413 Q 270 472 284 534" />
           <path class="tear" d="M 258 321 Q 246 370 244 425 Q 246 482 238 540" />
-          <path class="tear" d="M 120 321 Q 176 386 188 470 Q 194 530 192 628" />
-          <path class="tear" d="M 270 321 Q 214 388 202 474 Q 198 540 198 628" />
-          <path class="tear" d="M 124 321 Q 150 400 175 482 Q 191 550 193 626" />
-          <path class="tear" d="M 266 321 Q 240 396 217 482 Q 202 548 197 626" />
+          <!-- Long inner tears — converge toward pool at y≈505 -->
+          <path class="tear" d="M 120 321 Q 168 382 182 455 Q 190 484 190 504" />
+          <path class="tear" d="M 270 321 Q 218 384 206 460 Q 200 488 200 505" />
+          <path class="tear" d="M 124 321 Q 146 394 168 460 Q 182 483 188 502" />
+          <path class="tear" d="M 266 321 Q 242 392 222 460 Q 208 484 204 502" />
         </g>
 
-        <g id="poolPositionGroup" transform="translate(195 700)">
+        <g id="poolPositionGroup" transform="translate(195 510)">
           <g id="poolScaleGroup">
             <path
               id="poolShape"
@@ -84,12 +123,15 @@
         </g>
 
         <g id="riverLayer" stroke="#0d0d0d" stroke-width="6" fill="none" stroke-linecap="round" filter="url(#brushstroke)">
-          <path class="river" d="M 160 718 C 138 758 126 798 120 844" />
-          <path class="river" d="M 190 724 C 184 762 180 804 178 844" />
-          <path class="river" d="M 220 722 C 232 760 246 800 260 844" />
-          <path class="river" d="M 145 732 C 120 772 98 812 84 844" />
-          <path class="river" d="M 242 734 C 270 772 296 812 316 844" />
+          <path class="river" d="M 172 558 C 154 638 136 732 120 844" />
+          <path class="river" d="M 192 562 C 188 642 184 736 180 844" />
+          <path class="river" d="M 214 561 C 228 640 246 734 260 844" />
+          <path class="river" d="M 154 568 C 128 648 100 740 84 844" />
+          <path class="river" d="M 238 570 C 264 648 292 740 316 844" />
         </g>
+
+        <!-- Warm aged-paper vignette — sits above all art, pointer-events off -->
+        <rect x="0" y="0" width="390" height="844" fill="url(#warmVignette)" class="vignette-overlay" />
       </svg>
 
       <div class="caption-block">

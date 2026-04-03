@@ -3,7 +3,8 @@
 Thumbs.db
 
 # Editors
-.vscode/
+.vscode/*
+!.vscode/tasks.json
 .idea/
 
 # Logs

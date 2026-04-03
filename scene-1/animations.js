@@ -23,13 +23,24 @@ function setupStrokeDrawing(paths) {
   });
 }
 
-function addStopMotionJitter(targets, intensity = 1.15) {
+function addStopMotionJitter(targets, intensity = 3.5) {
   gsap.ticker.fps(12);
+
+  // Boiling effect: cycle filter seeds each frame so displacement distortion
+  // shifts slightly, making every frame look individually hand-drawn.
+  const turbulence = document.querySelector("#brushstroke feTurbulence");
+  const seeds = [9, 14, 7, 22, 11, 5, 18, 3, 16, 8, 25, 12, 2, 19, 6];
+  let seedIndex = 0;
+
   gsap.ticker.add(() => {
+    seedIndex = (seedIndex + 1) % seeds.length;
+    if (turbulence) turbulence.setAttribute("seed", seeds[seedIndex]);
+
     targets.forEach((el) => {
       gsap.set(el, {
         x: (Math.random() - 0.5) * intensity,
-        y: (Math.random() - 0.5) * intensity
+        y: (Math.random() - 0.5) * intensity,
+        rotation: (Math.random() - 0.5) * 0.7
       });
     });
   });
@@ -90,10 +101,9 @@ function setupScroll() {
     }
   });
 
-  // Phase 1: eyes recede, pool approaches and scales toward center.
+  // Phase 1: eyes recede upward, pool stays at bottom and scales up.
   scrollTl
     .fromTo(scene.eyeSystem, { y: 0, scale: 1, opacity: 1 }, { y: -170, scale: 0.72, opacity: 0.16, duration: 0.5 }, 0)
-    .fromTo(scene.poolPosition, { y: 0 }, { y: -278, duration: 0.5 }, 0)
     .fromTo(
       scene.poolScale,
       { scale: 1, transformOrigin: "50% 50%" },
@@ -126,7 +136,8 @@ function initializeScene() {
   gsap.set(scene.riverLayer, { opacity: 0, y: 48 });
 
   if (!prefersReducedMotion) {
-    addStopMotionJitter([scene.eyeSystem, scene.tearLayer], 1.1);
+    // Only jitter the eye system — tears should flow calmly, not shake
+  addStopMotionJitter([scene.eyeSystem], 3.5);
     runIntro();
     animatePool();
     setupScroll();
