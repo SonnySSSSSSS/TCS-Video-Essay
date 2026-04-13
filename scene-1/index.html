@@ -49,46 +49,41 @@
         <g id="eyeSystem" filter="url(#brushstroke)">
           <!-- Eyebrows: natural, expressive arch above frames -->
           <g id="brows" stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
-            <path d="M 62 236 Q 120 222 176 230" />
-            <path d="M 212 230 Q 268 222 328 236" />
+            <path d="M 72 228 Q 120 213 168 222" />
+            <path d="M 220 222 Q 268 213 316 228" />
           </g>
 
-          <!-- Frames: TCS's iconic soft-rounded glasses — large, gently squared,
-               rx=22 captures the 70s/80s intellectual style he's known for -->
+          <!-- Frames: TCS's iconic round glasses — circular lenses as seen
+               in his own sketched self-portrait, large and intellectually warm -->
           <g id="frames" stroke="#2c2416" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="50" y="242" width="140" height="90" rx="22" ry="22" />
-            <rect x="198" y="242" width="140" height="90" rx="22" ry="22" />
-            <!-- bridge -->
-            <path d="M 190 272 Q 194 267 198 272" />
-            <!-- temples -->
-            <path d="M 48 262 Q 34 264 30 278" />
-            <path d="M 340 262 Q 354 264 358 278" />
+            <circle cx="120" cy="285" r="52" />
+            <circle cx="268" cy="285" r="52" />
+            <!-- bridge: short arc connecting the two circles -->
+            <path d="M 172 278 Q 194 268 216 278" />
+            <!-- temples: attach at upper-outer edge of each circle -->
+            <path d="M 71 267 Q 36 262 30 278" />
+            <path d="M 317 267 Q 352 262 358 278" />
           </g>
 
           <g id="eyes" filter="url(#paintTexture)">
-            <!-- Larger eye whites — room to show sclera around the iris -->
-            <ellipse cx="120" cy="290" rx="40" ry="24" class="eye-white" />
-            <ellipse cx="268" cy="290" rx="40" ry="24" class="eye-white" />
-            <!-- Irises: large, seated slightly high for that direct searching gaze -->
-            <ellipse id="leftIris" cx="120" cy="288" rx="19" ry="19" class="iris" />
-            <ellipse id="rightIris" cx="268" cy="288" rx="19" ry="19" class="iris" />
-            <!-- Pupils: dilated — emotional, open, compassionate -->
-            <circle id="leftPupil" cx="120" cy="288" r="11" class="pupil" />
-            <circle id="rightPupil" cx="268" cy="288" r="11" class="pupil" />
-            <!-- Catchlights: the spark that makes eyes alive and soulful -->
-            <circle cx="114" cy="283" r="3.5" class="catchlight" />
-            <circle cx="262" cy="283" r="3.5" class="catchlight" />
+            <!-- Simple dark ink marks — no whites, no colour, just the sketch-like
+                 suggestion of an eye behind large round frames -->
+            <ellipse id="leftIris" cx="120" cy="289" rx="13" ry="10" class="iris" />
+            <ellipse id="rightIris" cx="268" cy="289" rx="13" ry="10" class="iris" />
+            <!-- Pupils: merged into the iris mark, just a slightly darker centre -->
+            <circle id="leftPupil" cx="120" cy="289" r="6" class="pupil" />
+            <circle id="rightPupil" cx="268" cy="289" r="6" class="pupil" />
           </g>
 
           <!-- Upper lids: slightly heavy, contemplative — TCS's thoughtful gaze -->
           <g id="lids" stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
-            <path d="M 78 292 Q 120 264 162 292" />
-            <path d="M 226 292 Q 268 264 312 292" />
+            <path d="M 86 290 Q 120 268 154 290" />
+            <path d="M 234 290 Q 268 268 302 290" />
           </g>
           <!-- Lower lids: subtle crease — suggests depth, weariness, tenderness -->
           <g id="lowerLids" stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
-            <path d="M 84 298 Q 120 310 156 298" />
-            <path d="M 232 298 Q 268 310 306 298" />
+            <path d="M 90 296 Q 120 308 150 296" />
+            <path d="M 238 296 Q 268 308 298 296" />
           </g>
         </g>
 
@@ -130,9 +125,47 @@
           <path class="river" d="M 238 570 C 264 648 292 740 316 844" />
         </g>
 
+        <!-- Song title labels — one per river, rotated vertical to flow alongside it.
+             Positions are at the mid-body of each river (~y 690).
+             Order matches DOM order of .river paths above. -->
+        <g id="riverLabels"
+           font-family="'Cormorant Garamond', Georgia, serif"
+           font-size="9"
+           font-style="italic"
+           fill="#2c2416"
+           text-anchor="middle"
+           filter="url(#brushstroke)">
+          <!-- River 0 (M 172→120): Diễm Xưa -->
+          <text class="river-label" opacity="0"
+                transform="rotate(-90, 130, 690)" x="130" y="694">Diễm Xưa</text>
+          <!-- River 1 (M 192→180): Như Cánh Vạc Bay -->
+          <text class="river-label" opacity="0"
+                transform="rotate(-90, 183, 690)" x="183" y="694">Như Cánh Vạc Bay</text>
+          <!-- River 2 (M 214→260): Biển Nhớ -->
+          <text class="river-label" opacity="0"
+                transform="rotate(-90, 248, 690)" x="248" y="694">Biển Nhớ</text>
+          <!-- River 3 (M 154→84): Nối Vòng Tay Lớn -->
+          <text class="river-label" opacity="0"
+                transform="rotate(-90, 96, 690)" x="96" y="694">Nối Vòng Tay Lớn</text>
+          <!-- River 4 (M 238→316): Một Cõi Đi Về -->
+          <text class="river-label" opacity="0"
+                transform="rotate(-90, 301, 690)" x="301" y="694">Một Cõi Đi Về</text>
+        </g>
+
         <!-- Warm aged-paper vignette — sits above all art, pointer-events off -->
         <rect x="0" y="0" width="390" height="844" fill="url(#warmVignette)" class="vignette-overlay" />
       </svg>
+
+      <!-- Scrollytelling chapter narrations (opacity driven by GSAP scroll timeline) -->
+      <div class="s1-narr" id="s1-narr-grief">
+        His grief<br>became something else.
+      </div>
+      <div class="s1-narr" id="s1-narr-rivers">
+        It became rivers.
+      </div>
+      <div class="s1-narr" id="s1-narr-source">
+        Five rivers.<br><em>One source.</em>
+      </div>
 
       <div class="caption-block">
         <p class="caption-title">Scene 1</p>

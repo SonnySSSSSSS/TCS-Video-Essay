@@ -1,0 +1,262 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic "Love" [ref=e3]
+    - generic "Impermanence" [ref=e4]
+    - generic "Death" [ref=e5]
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - img "Two rivers diverging from a shared source" [ref=e8]:
+        - generic [ref=e25]:
+          - generic [ref=e27]: LOVE
+          - generic [ref=e28]: Tình Yêu
+        - generic [ref=e29]:
+          - generic [ref=e31]: IMPERMANENCE
+          - generic [ref=e32]: Vô Thường
+      - generic:
+        - paragraph: The tears had become rivers.
+        - paragraph: And now the river meets a choice.
+      - generic:
+        - button "Love Tình Yêu →":
+          - generic: Love
+          - generic: Tình Yêu →
+        - button "Impermanence Vô Thường →":
+          - generic: Impermanence
+          - generic: Vô Thường →
+    - generic:
+      - generic:
+        - img
+        - generic:
+          - generic: Tình Yêu
+          - generic: Love
+      - generic:
+        - article:
+          - generic:
+            - img "Diễm Xưa — rain on ancient tower"
+          - generic:
+            - generic: Stop I
+            - generic: Young Love
+            - heading "Diễm Xưa Past Beauty" [level=2]:
+              - text: Diễm Xưa
+              - generic: Past Beauty
+            - paragraph: Huế, 1960
+            - blockquote:
+              - paragraph:
+                - text: Mưa vẫn hay mưa trên hàng lá nhỏ
+                - text: Buổi chiều ngồi ngóng những chuyến mưa qua...
+              - paragraph:
+                - emphasis: "\"The rain still finds the small leaves to fall on / An afternoon sitting, watching the rains pass...\""
+            - paragraph: "Written for a young woman he watched from across a courtyard in Huế — he never spoke to her. She became the prototype for all his idealized loves: beautiful, unreachable, dissolving in rain. This song was his first sight of the strawberry."
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Nối Vòng Tay Lớn — circle of hands"
+          - generic:
+            - generic: Stop II
+            - generic: Love in Wartime
+            - heading "Nối Vòng Tay Lớn Join Hands" [level=2]:
+              - text: Nối Vòng Tay Lớn
+              - generic: Join Hands
+            - paragraph: Sài Gòn, 1968
+            - blockquote:
+              - paragraph:
+                - text: Nối vòng tay lớn
+                - text: Chúng ta đi từ đồng hoang vu qua bưng biền trống...
+              - paragraph:
+                - emphasis: "\"Joining hands wide / We walk from barren fields through emptied marshlands...\""
+            - paragraph: Written during the Tet Offensive when the war had reached every doorstep. TCS turned the romantic "join hands" into a call for an entire nation. Love could no longer be private — it had to be as wide as the country's suffering.
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Biển Nhớ — figure at the sea's edge"
+          - generic:
+            - generic: Stop III
+            - generic: Love as Compassion
+            - heading "Biển Nhớ The Sea Remembers" [level=2]:
+              - text: Biển Nhớ
+              - generic: The Sea Remembers
+            - paragraph: Đà Lạt, 1962
+            - blockquote:
+              - paragraph:
+                - text: Ngày mai em đi, biển nhớ tên em gọi về
+                - text: Gọi hồn liễu rủ lê thê, gọi bờ xa đón bước về...
+              - paragraph:
+                - emphasis: "\"Tomorrow you leave, the sea will miss your name and call it back / Calling the drooping willow-soul, calling the far shore to receive your return...\""
+            - paragraph: By his early thirties, TCS's love songs had deepened. The beloved is no longer just a woman but a gathering place of all tenderness. The sea that remembers is love itself — patient, vast, holding everything that has passed through it.
+        - generic:
+          - img
+          - paragraph:
+            - text: The stream does not end here.
+            - generic: Return to the river to continue.
+          - button "Return to the river →"
+    - generic:
+      - generic:
+        - img
+        - generic:
+          - generic: Vô Thường
+          - generic: Impermanence
+      - generic:
+        - article:
+          - generic:
+            - img "Như Cánh Vạc Bay — stork in flight"
+          - generic:
+            - generic: Stop I
+            - generic: Fleeting Youth
+            - heading "Như Cánh Vạc Bay Like a Stork Flying" [level=2]:
+              - text: Như Cánh Vạc Bay
+              - generic: Like a Stork Flying
+            - paragraph: Huế, 1961
+            - blockquote:
+              - paragraph:
+                - text: Như cánh vạc bay, lặng lẽ vào đời
+                - text: Như làn mây trôi, thấp thoáng mái đầu...
+              - paragraph:
+                - emphasis: "\"Like a stork flying, quietly entering life / Like a drifting cloud, glimpsed above a rooftop...\""
+            - paragraph: Among his earliest songs, written while still a student in Huế. Even then, he sensed that everything he loved was already in the process of leaving — not tragically, but naturally, like a bird that was never meant to land.
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Đất Nước — Vietnam silhouette and ruins"
+          - generic:
+            - generic: Stop II
+            - generic: Impermanence in War
+            - heading "Đất Nước Motherland" [level=2]:
+              - text: Đất Nước
+              - generic: Motherland
+            - paragraph: Sài Gòn, 1967
+            - blockquote:
+              - paragraph:
+                - text: Đất nước tôi thon thả giọt đàn bầu
+                - text: Nghe buồn buồn vọng nước non xa...
+              - paragraph:
+                - emphasis: "\"My country, slender as a monochord's drop / Hearing the sad echo from the distant land...\""
+            - paragraph: As the American War intensified, TCS saw Vietnam as a body being unmade. Cities were destroyed, rebuilt, destroyed again. He experienced impermanence not as philosophy but as the daily fact of a country that refused to hold its shape.
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Một Cõi Đi Về — figure walking a circular path"
+          - generic:
+            - generic: Stop III
+            - generic: Embracing Change
+            - heading "Một Cõi Đi Về A Realm of Coming and Going" [level=2]:
+              - text: Một Cõi Đi Về
+              - generic: A Realm of Coming and Going
+            - paragraph: Sài Gòn, 1980
+            - blockquote:
+              - paragraph:
+                - text: Bao nhiêu năm rồi còn mãi ra đi
+                - text: Đi đâu loanh quanh cho đời mỏi mệt...
+              - paragraph:
+                - emphasis: "\"So many years and still always departing / Going in circles just to tire out life...\""
+            - paragraph: "Written in the post-reunification years, after TCS had lived long enough to trace his own circles. The song is not lament but recognition: coming and going are the same motion. Impermanence is not something that happens to us — it is us."
+        - generic:
+          - img
+          - paragraph:
+            - text: The stream does not end here.
+            - generic: Return to the river to continue.
+          - button "Return to the river →"
+    - generic:
+      - generic:
+        - img
+        - generic:
+          - generic: Cái Chết
+          - generic: Death
+      - generic:
+        - article:
+          - generic:
+            - img "Gia Tài Của Mẹ — candle against historical columns"
+          - generic:
+            - generic: Stop I
+            - generic: Witnessing Death
+            - heading "Gia Tài Của Mẹ Mother's Legacy" [level=2]:
+              - text: Gia Tài Của Mẹ
+              - generic: Mother's Legacy
+            - paragraph: Sài Gòn, 1965
+            - blockquote:
+              - paragraph:
+                - text: Một ngàn năm đô hộ giặc Tầu
+                - text: Một trăm năm đô hộ giặc Tây
+                - text: Hai mươi năm nội chiến từng ngày...
+              - paragraph:
+                - emphasis: "\"A thousand years under Chinese occupation / A hundred years under French occupation / Twenty years of civil war, every day...\""
+            - paragraph: Banned by both sides during the war. TCS catalogued Vietnam's dead with the patience of a coroner — not to accuse, not to glorify, but to bear witness. The mother's legacy is a history of other people's dying. He made it impossible to look away.
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Hát Cho Một Người Nằm Xuống — reclining figure, singing":
+              - generic: ♪
+          - generic:
+            - generic: Stop II
+            - generic: Death as Companion
+            - heading "Hát Cho Một Người Nằm Xuống Song for Someone Lying Down" [level=2]:
+              - text: Hát Cho Một Người Nằm Xuống
+              - generic: Song for Someone Lying Down
+            - paragraph: Sài Gòn, 1968
+            - blockquote:
+              - paragraph:
+                - text: Anh nằm xuống sau một lần đã đến đây
+                - text: Đến đây rồi anh sẽ không bao giờ đi nữa...
+              - paragraph:
+                - emphasis: "\"You lie down after having come here once / Come here and you will never leave again...\""
+            - paragraph: Written for a young soldier killed in 1968, the song refuses anger. TCS sings to the dead not with grief but with a kind of tender acceptance — as if death were simply the final room in a house we all must eventually enter. The tiger is not the enemy. It was always part of the journey.
+        - generic:
+          - img
+        - article:
+          - generic:
+            - img "Ca Dao Mẹ — mother and child in circular embrace"
+          - generic:
+            - generic: Stop III
+            - generic: Death as Liberation
+            - heading "Ca Dao Mẹ Mother's Folk Song" [level=2]:
+              - text: Ca Dao Mẹ
+              - generic: Mother's Folk Song
+            - paragraph: Sài Gòn, 1973
+            - blockquote:
+              - paragraph:
+                - text: Mẹ ngồi ru con, tiếng hát ầu ơ
+                - text: Tiếng hát ngàn năm còn mãi xanh tươi...
+              - paragraph:
+                - emphasis: "\"Mother sits rocking her child, lullaby ầu ơ / A song of a thousand years, still forever green...\""
+            - paragraph: By the early 1970s TCS had arrived at something like peace with death. In this late song, the dying is held inside a lullaby. Mother, child, earth, and song are one continuous cycle. We die back into the voice that first named us. Death is not ending — it is return.
+        - generic:
+          - img
+          - paragraph:
+            - text: The stream does not end here.
+            - generic: Return to the river to continue.
+          - button "Return to the river →"
+    - generic:
+      - img "Two more paths diverge from the reconverged river":
+        - generic:
+          - generic: DEATH
+          - generic: Cái Chết
+        - generic:
+          - generic: —
+          - generic: —
+      - generic:
+        - paragraph: The rivers have met — and parted once more.
+        - generic:
+          - button "Death Cái Chết →":
+            - generic: Death
+            - generic: Cái Chết →
+          - button "— —":
+            - generic: —
+            - generic: —
+        - paragraph: Both streams must be crossed.
+    - generic:
+      - generic:
+        - img "The rivers converge and find a smile"
+        - generic: All rivers meet.
+        - generic:
+          - text: Love. Impermanence. Death.
+          - text: The same water.
+        - generic: And what does it all press against?
+        - generic: A smile.
+        - generic:
+          - emphasis: How sweet it tasted.
+        - generic:
+          - paragraph: Now you see.
+          - paragraph: What will you taste?

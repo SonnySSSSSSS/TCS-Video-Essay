@@ -1,10 +1,14 @@
-gsap.registerPlugin(ScrollTrigger);
+(function () {
+  'use strict';
 
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const scene = {
   eyeSystem: document.querySelector("#eyeSystem"),
   pupils: gsap.utils.toArray("#leftPupil, #rightPupil"),
+  nosePaths: gsap.utils.toArray("#nose path"),
   tears: gsap.utils.toArray(".tear"),
   tearLayer: document.querySelector("#tearLayer"),
   poolPosition: document.querySelector("#poolPositionGroup"),
@@ -12,7 +16,8 @@ const scene = {
   poolShape: document.querySelector("#poolShape"),
   ripples: gsap.utils.toArray(".ripple"),
   rivers: gsap.utils.toArray(".river"),
-  riverLayer: document.querySelector("#riverLayer")
+  riverLayer: document.querySelector("#riverLayer"),
+  riverLabels: gsap.utils.toArray(".river-label")
 };
 
 function setupStrokeDrawing(paths) {
@@ -47,18 +52,20 @@ function addStopMotionJitter(targets, intensity = 3.5) {
 }
 
 function runIntro() {
-  const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
+  const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
 
-  tl.from("#frames", { opacity: 0, duration: 0.75 })
-    .from("#eyes", { opacity: 0, y: 8, duration: 0.65 }, "<0.2")
-    .from("#lids", { opacity: 0, duration: 0.55 }, "<0.1")
-    .to(scene.pupils, { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.14 }, 2.5)
-    .to(scene.pupils, { scaleY: 1, duration: 0.18 }, 2.64)
-    .to(scene.pupils, { scaleY: 0.08, duration: 0.14 }, 4.2)
-    .to(scene.pupils, { scaleY: 1, duration: 0.18 }, 4.34)
-    .to(scene.tears, { strokeDashoffset: 0, duration: 2.3, stagger: 0.08, ease: "none" }, 5.5)
-    .to(scene.tears, { stroke: "#5f5a52", opacity: 0.8, duration: 1.2, ease: "none" }, 8)
-    .from(scene.poolScale, { scale: 0.1, opacity: 0, duration: 0.9, transformOrigin: "50% 50%" }, 9);
+  tl.from("#frames", { opacity: 0, duration: 0.75, ease: "power2.out" })
+    .from("#eyes", { opacity: 0, y: 8, duration: 0.65, ease: "power2.out" }, "<0.2")
+    .from("#lids", { opacity: 0, duration: 0.55, ease: "power2.out" }, "<0.1")
+    .to(scene.nosePaths, { strokeDashoffset: 0, duration: 1.1, stagger: 0.12, ease: "power1.inOut" }, 1.4)
+    .to(scene.pupils, { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.14, ease: "none" }, 2.5)
+    .to(scene.pupils, { scaleY: 1, duration: 0.18, ease: "back.out" }, 2.64)
+    .to(scene.pupils, { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.14, ease: "none" }, 4.2)
+    .to(scene.pupils, { scaleY: 1, duration: 0.18, ease: "back.out" }, 4.34)
+    .to(scene.tears, { strokeDashoffset: 0, duration: 2.8, stagger: 0.12, ease: "power1.inOut" }, 5.5)
+    .to(scene.tears, { stroke: "#5f5a52", opacity: 0.8, duration: 1.4, ease: "sine.inOut" }, 8.3)
+    .from(scene.poolScale, { scale: 0.1, opacity: 0, duration: 1.1, transformOrigin: "50% 50%", ease: "elastic.out" }, 9)
+    .to(scene.poolScale, { scale: 1.02, duration: 0.8, transformOrigin: "50% 50%", ease: "sine.inOut" }, 10.1);
 }
 
 function animatePool() {
@@ -87,33 +94,50 @@ function animatePool() {
   });
 }
 
+// ─── Narration helper — fade a text overlay in then out within a scrubbed timeline.
+// inAt / outAt are timeline seconds; inDur / outDur control the crossfade speed.
+function narr(tl, id, inAt, outAt, inDur = 0.08, outDur = 0.08, riseY = 10) {
+  const el = document.querySelector(id);
+  if (!el) return;
+  tl.fromTo(el,
+    { opacity: 0, y: riseY },
+    { opacity: 1, y: 0, duration: inDur, ease: "power1.out" },
+    inAt
+  ).to(el,
+    { opacity: 0, duration: outDur, ease: "power1.in" },
+    outAt
+  );
+}
+
 function setupScroll() {
+  const pinSelector = document.querySelector(".scene1-stage") ? ".scene1-stage" : ".stage";
+
   const scrollTl = gsap.timeline({
-    defaults: { ease: "none" },
+    defaults: { ease: "sine.inOut" },
     scrollTrigger: {
       trigger: ".scene-1-shell",
       start: "top top",
-      end: "+=190%",
+      end: "+=480%",
       scrub: 1.2,
-      pin: ".stage",
+      pin: pinSelector,
       anticipatePin: 1,
       invalidateOnRefresh: true
     }
   });
 
-  // Phase 1: eyes recede upward, pool stays at bottom and scales up.
+  // Phase 1: eyes recede upward & fade, pool scales gracefully upward.
   scrollTl
-    .fromTo(scene.eyeSystem, { y: 0, scale: 1, opacity: 1 }, { y: -170, scale: 0.72, opacity: 0.16, duration: 0.5 }, 0)
+    .fromTo(scene.eyeSystem, { y: 0, scale: 1, opacity: 1 }, { y: -170, scale: 0.72, opacity: 0.12, duration: 0.5, ease: "power2.in" }, 0)
     .fromTo(
       scene.poolScale,
       { scale: 1, transformOrigin: "50% 50%" },
-      { scale: 3.25, duration: 0.5, transformOrigin: "50% 50%" },
+      { scale: 3.2, duration: 0.6, transformOrigin: "50% 50%", ease: "power2.out" },
       0
     )
-    // Phase 2: rivers draw and take over visual focus.
-    .fromTo(scene.riverLayer, { opacity: 0, y: 48 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5)
-    .to(scene.tearLayer, { opacity: 0.24, duration: 0.35 }, 0.55)
-    .to(scene.poolScale, { scale: 3.7, duration: 0.5 }, 0.5);
+    // Phase 2: rivers enter with presence, fade tears slightly, scale pool to final size.
+    .fromTo(scene.riverLayer, { opacity: 0, y: 48 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" }, 0.5)
+    .to(scene.tearLayer, { opacity: 0.18, duration: 0.45, ease: "sine.inOut" }, 0.55)
+    .to(scene.poolScale, { scale: 3.8, duration: 0.65, ease: "power2.out" }, 0.5);
 
   scene.rivers.forEach((river, index) => {
     const length = river.getTotalLength();
@@ -123,29 +147,61 @@ function setupScroll() {
     scrollTl.fromTo(
       river,
       { strokeDashoffset: length },
-      { strokeDashoffset: 0, duration: 0.45 },
-      0.54 + index * 0.03
+      { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" },
+      0.54 + index * 0.04
     );
   });
+
+  // ── Chapter narration beats ──────────────────────────────────────────────
+  // Grief: appears as pool dominates and eyes recede (early scroll 20–90vh)
+  narr(scrollTl, "#s1-narr-grief",  0.12, 0.46, 0.06, 0.06);
+
+  // Rivers: appears as rivers start drawing and remain drawn (100–175vh)
+  narr(scrollTl, "#s1-narr-rivers", 0.52, 1.10, 0.06, 0.06);
+
+  // Song labels stagger in alongside each river drawing on
+  scene.riverLabels.forEach((label, index) => {
+    scrollTl.fromTo(
+      label,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.12, ease: "power1.out" },
+      0.66 + index * 0.09
+    );
+  });
+
+  // Source: long read window after all rivers and labels are visible (285–430vh)
+  narr(scrollTl, "#s1-narr-source", 1.55, 2.70, 0.15, 0.15);
 }
 
 function initializeScene() {
+  setupStrokeDrawing(scene.nosePaths);
   setupStrokeDrawing(scene.tears);
 
   gsap.set(scene.poolScale, { transformOrigin: "50% 50%" });
   gsap.set(scene.riverLayer, { opacity: 0, y: 48 });
 
   if (!prefersReducedMotion) {
-    // Only jitter the eye system — tears should flow calmly, not shake
-  addStopMotionJitter([scene.eyeSystem], 3.5);
+    addStopMotionJitter([scene.eyeSystem, ...scene.tears], 3.5);
     runIntro();
     animatePool();
     setupScroll();
   } else {
+    gsap.set(scene.nosePaths, { strokeDashoffset: 0 });
     gsap.set(scene.tears, { strokeDashoffset: 0 });
     gsap.set(scene.riverLayer, { opacity: 1, y: 0 });
     gsap.set(scene.poolScale, { scale: 3.5 });
+    gsap.set(scene.riverLabels, { opacity: 1 });
+  }
+
+  const enterRiversButton = document.getElementById("enter-rivers-btn");
+  if (enterRiversButton) {
+    enterRiversButton.addEventListener("click", () => {
+      if (window.Scene2 && typeof window.Scene2.activate === "function") {
+        window.Scene2.activate();
+      }
+    });
   }
 }
 
-window.addEventListener("load", initializeScene);
+  window.addEventListener("load", initializeScene);
+})();

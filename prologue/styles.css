@@ -1,0 +1,134 @@
+:root {
+  --canvas:   #f5f1e8;
+  --ink:      #2c2416;
+  --space:    #060610;
+  --star:     rgba(220, 230, 255, 0.85);
+  --narr-light: rgba(235, 225, 205, 0.94);
+  --narr-dark:  #2f2a21;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--space);
+  color: var(--ink);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+/* ─── SHELLS (provide scroll distance) ─── */
+.prologue-shell {
+  position: relative;
+}
+#cosmos-shell  { min-height: 600vh; background: var(--space); }
+#eyes-shell    { min-height: 280vh; background: var(--canvas); }
+#parable-shell { min-height: 400vh; background: var(--canvas); }
+#bridge-shell  { min-height: 250vh; background: var(--canvas); }
+
+/* ─── STAGES (pinned viewport) ─── */
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.cosmos-stage  { background: var(--space); }
+.eyes-stage    { background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%); }
+.parable-stage { background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%); }
+.bridge-stage  { background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%); }
+
+/* ─── SVG SIZING ─── */
+.prologue-svg {
+  width: min(100vw, 430px);
+  height: 100vh;
+  max-height: 100vh;
+}
+@media (min-width: 768px) {
+  .prologue-svg { width: min(58vh, 420px); }
+}
+
+/* ─── NARRATION TEXT ─── */
+.narr {
+  position: absolute;
+  opacity: 0;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.05rem, 3.8vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.55;
+  width: min(84vw, 360px);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 20;
+  letter-spacing: 0.01em;
+}
+
+/* Light text — on dark space background */
+.narr-cosmos {
+  color: var(--narr-light);
+  text-shadow: 0 0 24px rgba(100, 120, 200, 0.5);
+  bottom: 9vh;
+}
+/* Dark text — on warm parchment background */
+.narr-warm {
+  color: var(--narr-dark);
+  bottom: 9vh;
+  background: #f5f1e8;
+  padding: 1.2em 1.6em;
+  border-radius: 3px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 24px rgba(44, 36, 22, 0.1);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+/* Large italic beat for emphasis */
+.narr-beat {
+  font-size: clamp(1.4rem, 5.5vw, 2.2rem);
+  font-weight: 700;
+  font-style: italic;
+  bottom: 12vh;
+}
+/* Centered vertically for "How sweet it tasted." */
+.narr-center-v {
+  bottom: auto;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #f5f1e8 !important;
+  padding: 1.8em 2em !important;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 32px rgba(44, 36, 22, 0.12);
+}
+
+/* ─── SCENE TRANSITION ─── */
+.scene-transition {
+  background: var(--canvas);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 0 8vh;
+}
+
+.continue-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  text-decoration: none;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 500;
+  color: var(--narr-dark);
+  border-bottom: 1px solid rgba(44, 36, 22, 0.3);
+  padding-bottom: 0.15em;
+  letter-spacing: 0.04em;
+  transition: border-color 0.3s, opacity 0.3s;
+}
+.continue-link:hover { opacity: 0.65; border-color: rgba(44, 36, 22, 0.7); }
+.continue-arrow { font-size: 1.2em; line-height: 1; }
