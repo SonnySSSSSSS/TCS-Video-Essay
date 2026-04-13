@@ -527,7 +527,6 @@ html, body {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 32px rgba(44, 36, 22, 0.12);
-}
   z-index: 20;
   pointer-events: none;
 }

@@ -9,7 +9,6 @@
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 const state = {
-  firstPath:     null,       // 'love' | 'death'
   currentScreen: 's-intermission',
   completed:     new Set()   // completed path IDs
 };
@@ -78,115 +77,6 @@ function updateDots() {
   }
 }
 
-// ─── INTRO ANIMATION (scroll-driven via wheel / touch) ──────────────────────
-// Driven by window wheel + touch events so it works whether #s-intro is a
-// scroll container or not (root index.html vs standalone scene-2/index.html).
-
-let introTl            = null;
-let introWheelHandler  = null;
-let introTouchStart    = null;
-let introTouchMove     = null;
-let introAccumulated   = 0;
-const INTRO_WHEEL_MAX  = 900; // total wheel-delta px to advance through the full timeline
-
-function buildIntroTl() {
-  introTl = gsap.timeline({ paused: true })
-
-    // ── Phase 1 (t 0–14): Left river cluster flows in ────────────────────
-    .fromTo('#iLeft',
-      { opacity: 0, y: -30 },
-      { opacity: 1, y:   0, duration: 12, ease: 'power3.out' },
-      0
-    )
-
-    // ── Phase 2 (t 5–19): Right river cluster flows in ───────────────────
-    .fromTo('#iRight',
-      { opacity: 0, y: -30 },
-      { opacity: 1, y:   0, duration: 12, ease: 'power3.out' },
-      5
-    )
-
-    // ── Phase 3 (t 18–30): Side labels appear ────────────────────────────
-    .fromTo('#iSignL',
-      { opacity: 0, y: 14 },
-      { opacity: 1, y:   0, duration: 10, ease: 'power2.out' },
-      18
-    )
-    .fromTo('#iSignR',
-      { opacity: 0, y: 14 },
-      { opacity: 1, y:   0, duration: 10, ease: 'power2.out' },
-      22
-    )
-
-    // ── Phase 4 (t 32–44): Narration ─────────────────────────────────────
-    .fromTo('#intro-narr',
-      { opacity: 0, y: 18 },
-      { opacity: 1, y:   0, duration: 10, ease: 'power2.out' },
-      32
-    )
-
-    // ── Phase 5 (t 48–60): Fork choice buttons ───────────────────────────
-    .fromTo('#intro-fork-btns',
-      { opacity: 0, y: 22, scale: 0.90 },
-      { opacity: 1, y:   0, scale: 1,    duration: 12, ease: 'back.out(1.5)' },
-      48
-    );
-  // Total duration ≈ 60
-
-  // Force initial ("from") states so nothing flashes before first scroll
-  introTl.progress(0, true);
-}
-
-function driveIntroProgress(p) {
-  if (!introTl) return;
-  gsap.to(introTl, { progress: Math.min(1, p), duration: 0.55, ease: 'power2.out', overwrite: 'auto' });
-  if (p >= 0.95) document.getElementById('intro-fork-btns').classList.add('ready');
-}
-
-function detachIntroScroll() {
-  if (introWheelHandler) {
-    window.removeEventListener('wheel',      introWheelHandler);
-    introWheelHandler = null;
-  }
-  if (introTouchStart) {
-    window.removeEventListener('touchstart', introTouchStart);
-    introTouchStart = null;
-  }
-  if (introTouchMove) {
-    window.removeEventListener('touchmove',  introTouchMove);
-    introTouchMove = null;
-  }
-}
-
-function attachIntroScroll() {
-  introAccumulated = 0;
-  let touchY = 0;
-
-  introWheelHandler = (e) => {
-    introAccumulated = Math.max(0, Math.min(INTRO_WHEEL_MAX, introAccumulated + e.deltaY));
-    driveIntroProgress(introAccumulated / INTRO_WHEEL_MAX);
-  };
-
-  introTouchStart = (e) => { touchY = e.touches[0].clientY; };
-
-  introTouchMove = (e) => {
-    const delta = touchY - e.touches[0].clientY;
-    touchY = e.touches[0].clientY;
-    introAccumulated = Math.max(0, Math.min(INTRO_WHEEL_MAX, introAccumulated + delta * 2.5));
-    driveIntroProgress(introAccumulated / INTRO_WHEEL_MAX);
-    e.preventDefault();
-  };
-
-  window.addEventListener('wheel',      introWheelHandler, { passive: true });
-  window.addEventListener('touchstart', introTouchStart,   { passive: true });
-  window.addEventListener('touchmove',  introTouchMove,    { passive: false });
-}
-
-function runIntro() {
-  buildIntroTl();
-  attachIntroScroll();
-}
-
 // ─── FORK CHOICE REVEAL ─────────────────────────────────────────────────────
 // Called after the intermission transitions to s-intro.
 // Shows rivers, labels, and fork buttons immediately — no scrolling needed.
@@ -203,8 +93,6 @@ function showForkChoice() {
 
 // ─── FORK 1 ──────────────────────────────────────────────────────────────────
 function handleFork1(path) {
-  detachIntroScroll(); // stop wheel events from driving the intro timeline
-  state.firstPath = path;
   showScreen('s-' + path, null, 1); // 1 = descend into the path
 }
 

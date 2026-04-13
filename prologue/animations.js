@@ -556,6 +556,24 @@ function setupJitter() {
   );
 }
 
+function enableReducedMotionScene2Transition() {
+  const riversShell = document.getElementById("rivers-shell");
+  const overlay = document.getElementById("scene2-overlay");
+
+  if (!riversShell || !overlay) return;
+
+  ScrollTrigger.create({
+    trigger: riversShell,
+    start: "bottom bottom",
+    once: true,
+    onEnter: () => {
+      if (window.Scene2 && typeof window.Scene2.activate === "function") {
+        window.Scene2.activate();
+      }
+    }
+  });
+}
+
 // ─────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────
@@ -580,6 +598,7 @@ function init() {
       "#n-saw-sb", "#n-why", "#n-tigers", "#n-art-born",
       "#n-river-born", "#n-song-titles"
     ], { opacity: 1 });
+    enableReducedMotionScene2Transition();
     return;
   }
 
