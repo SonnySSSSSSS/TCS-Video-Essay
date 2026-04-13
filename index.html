@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>TCS Video Essay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- ═══════════════════════════════════════════════════════
+     STAGE 1 — COSMOS
+     Singularity → cosmic eye opens → galaxies → earth → Huế → TCS eyes
+     ═══════════════════════════════════════════════════════ -->
+<section class="prologue-shell" id="cosmos-shell">
+  <div class="stage cosmos-stage" id="cosmos-stage">
+    <svg id="cosmosSvg" class="prologue-svg" viewBox="0 0 390 844"
+         role="img" aria-label="The cosmos awakening from emptiness">
+      <defs>
+        <!-- Singularity glow -->
+        <filter id="cSingGlow" x="-400%" y="-400%" width="900%" height="900%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <!-- Soft nebula glow -->
+        <filter id="cSoftGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <!-- Cosmic brushstroke distortion -->
+        <filter id="cBrush" x="-15%" y="-15%" width="130%" height="130%">
+          <feTurbulence id="cBrushTurb" type="fractalNoise" baseFrequency="0.018"
+                        numOctaves="2" seed="7" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <!-- Eye-lid blur for soft edge -->
+        <filter id="cLidEdge">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+
+        <!-- Gradients -->
+        <radialGradient id="cNebulaGradA" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#4a3f8f" stop-opacity="0.75"/>
+          <stop offset="55%"  stop-color="#1a1545" stop-opacity="0.38"/>
+          <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="cNebulaGradB" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#163050" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="cSingGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#ffffff"/>
+          <stop offset="25%"  stop-color="#d8e4ff"/>
+          <stop offset="100%" stop-color="#060610" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="cEarthGrad" cx="38%" cy="32%" r="62%">
+          <stop offset="0%"   stop-color="#5ab5e8"/>
+          <stop offset="38%"  stop-color="#1a72b8"/>
+          <stop offset="100%" stop-color="#0a2a50"/>
+        </radialGradient>
+        <!-- Warm vignette for TCS eye transition -->
+        <radialGradient id="cWarmVigGrad" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Deep space background — fill animates to parchment at end -->
+      <rect id="cBg" x="0" y="0" width="390" height="844" fill="#060610"/>
+
+      <!-- Stars layer (populated by JS) -->
+      <g id="cStars" opacity="0"/>
+
+      <!-- Nebulae -->
+      <ellipse id="cNebulaA" cx="195" cy="422" rx="165" ry="118"
+               fill="url(#cNebulaGradA)" opacity="0" filter="url(#cSoftGlow)"/>
+      <ellipse id="cNebulaB" cx="108" cy="290" rx="95" ry="72"
+               fill="url(#cNebulaGradB)" opacity="0" filter="url(#cSoftGlow)"/>
+
+      <!-- Galaxy spirals (Milky Way suggestion) -->
+      <g id="cGalaxy" opacity="0">
+        <ellipse cx="195" cy="422" rx="132" ry="38"
+                 fill="none" stroke="#7e94d0" stroke-width="1.4" opacity="0.55"
+                 transform="rotate(-22,195,422)" filter="url(#cBrush)"/>
+        <ellipse cx="195" cy="422" rx="90" ry="26"
+                 fill="none" stroke="#9aaedc" stroke-width="1" opacity="0.5"
+                 transform="rotate(-22,195,422)" filter="url(#cBrush)"/>
+        <ellipse cx="195" cy="422" rx="50" ry="14"
+                 fill="none" stroke="#b8c8f0" stroke-width="1" opacity="0.7"
+                 transform="rotate(-22,195,422)"/>
+        <!-- Galactic core -->
+        <circle cx="195" cy="422" r="7" fill="#ccd8f8"
+                opacity="0.9" filter="url(#cSoftGlow)"/>
+      </g>
+
+      <!-- Zoom rings (scale out as we "travel" through space) -->
+      <g id="cZoomRings" opacity="0">
+        <circle cx="195" cy="422" r="185" fill="none" stroke="#404870"
+                stroke-width="0.7" opacity="0.38"/>
+        <circle cx="195" cy="422" r="140" fill="none" stroke="#404870"
+                stroke-width="0.7" opacity="0.3"/>
+        <circle cx="195" cy="422" r="95" fill="none" stroke="#404870"
+                stroke-width="0.7" opacity="0.3"/>
+      </g>
+
+      <!-- Singularity point -->
+      <circle id="cSingHalo" cx="195" cy="422" r="50"
+              fill="url(#cSingGrad)" opacity="0"/>
+      <circle id="cSing" cx="195" cy="422" r="2.5"
+              fill="white" filter="url(#cSingGlow)"/>
+
+      <!-- Cosmic eyelids (dark shapes that open to reveal the cosmos) -->
+      <!-- Upper lid: covers top half, curved lower edge like an eyelid -->
+      <path id="cUpperLid"
+            d="M 0,0 L 390,0 L 390,430 Q 290,362 195,348 Q 100,362 0,430 Z"
+            fill="#050508"/>
+      <!-- Lower lid: covers bottom half -->
+      <path id="cLowerLid"
+            d="M 0,844 L 390,844 L 390,414 Q 290,480 195,494 Q 100,480 0,414 Z"
+            fill="#050508"/>
+
+      <!-- Earth -->
+      <g id="cEarth" opacity="0">
+        <circle cx="195" cy="422" r="56" fill="url(#cEarthGrad)"
+                filter="url(#cSoftGlow)"/>
+        <!-- Continent suggestion -->
+        <path d="M 178,376 Q 188,368 200,370 Q 214,368 220,380
+                 Q 228,392 222,406 Q 212,416 200,418
+                 Q 186,416 178,404 Q 173,394 178,376 Z"
+              fill="#2d7a3a" opacity="0.65"/>
+        <!-- Atmosphere rim -->
+        <circle cx="195" cy="422" r="58" fill="none"
+                stroke="rgba(160,210,255,0.2)" stroke-width="3"/>
+        <!-- Highlight -->
+        <ellipse cx="174" cy="390" rx="14" ry="9"
+                 fill="rgba(200,235,255,0.12)" transform="rotate(-20,174,390)"/>
+      </g>
+
+      <!-- Geography (Vietnam coast + Perfume River) -->
+      <g id="cGeo" opacity="0">
+        <!-- Simplified SE-Asian coastline near Huế -->
+        <path id="cCoast"
+              d="M 214,374 Q 218,390 216,406 Q 220,420 218,438
+                 Q 222,452 219,466"
+              stroke="#4aaa58" stroke-width="1.8" fill="none"
+              stroke-linecap="round"/>
+        <!-- Perfume River -->
+        <path id="cRiver"
+              d="M 178,420 Q 195,416 214,420 Q 228,424 240,419"
+              stroke="#5ab5e8" stroke-width="1.6" fill="none"
+              stroke-linecap="round" opacity="0.9"/>
+        <!-- Huế marker -->
+        <circle id="cHue" cx="196" cy="420" r="4.5"
+                fill="#f5c842" filter="url(#cSoftGlow)"/>
+        <!-- Label -->
+        <text id="cHueLabel" x="204" y="416"
+              font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="10.5" fill="#f5efe0" opacity="0">Huế</text>
+      </g>
+
+      <!-- Human eyes transition: TCS glasses fade in at end of cosmos stage -->
+      <g id="cHumanEyes" opacity="0">
+        <!-- Brows -->
+        <g stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+          <path d="M 72 228 Q 120 213 168 222"/>
+          <path d="M 220 222 Q 268 213 316 228"/>
+        </g>
+        <!-- Glasses frames (same as scene-1) -->
+        <g stroke="#2c2416" stroke-width="7" fill="none"
+           stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="120" cy="285" r="52"/>
+          <circle cx="268" cy="285" r="52"/>
+          <path d="M 172 283 Q 194 287 216 283"/>
+          <path d="M 71 267 Q 36 262 30 278"/>
+          <path d="M 317 267 Q 352 262 358 278"/>
+        </g>
+        <!-- Irises + pupils -->
+        <ellipse cx="120" cy="289" rx="15" ry="9" fill="#2c2416"/>
+        <ellipse cx="268" cy="289" rx="15" ry="9" fill="#2c2416"/>
+        <ellipse cx="120" cy="289" rx="7"  ry="6" fill="#0d0b08"/>
+        <ellipse cx="268" cy="289" rx="7"  ry="6" fill="#0d0b08"/>
+        <!-- Lids -->
+        <g stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <path d="M 88 293 Q 116 269 154 286"/>
+          <path d="M 234 286 Q 272 269 302 293"/>
+        </g>
+        <!-- Nose -->
+        <g stroke="#2c2416" stroke-width="2.8" fill="none" stroke-linecap="round">
+          <path d="M 172 302 Q 179 355 180 392"/>
+          <path d="M 216 302 Q 209 355 208 392"/>
+          <path d="M 180 392 Q 194 400 208 392"/>
+          <path d="M 180 392 Q 169 402 171 412"/>
+          <path d="M 208 392 Q 219 402 217 412"/>
+        </g>
+      </g>
+
+      <!-- Warm vignette overlay (fades in with TCS eyes) -->
+      <rect id="cWarmVig" x="0" y="0" width="390" height="844"
+            fill="url(#cWarmVigGrad)" opacity="0" pointer-events="none"/>
+    </svg>
+
+    <!-- Narration overlays -->
+    <div class="narr narr-cosmos" id="n-sunyata">
+      In Buddhism, there is the concept of Śūnyatā –<br>
+      emptiness, the void from which all things arise.
+    </div>
+    <div class="narr narr-cosmos" id="n-awareness">
+      And from that emptiness, awareness emerged.<br>
+      To be. To see.
+    </div>
+    <div class="narr narr-cosmos narr-beat" id="n-what-see">
+      What is it that I see?
+    </div>
+    <div class="narr narr-cosmos" id="n-logos">
+      From this seeing came the Logos –<br>
+      the word, the pattern, the order.<br>
+      Stars scattered across the heavens.<br>
+      Planets took their orbits.<br>
+      Cosmic formations bloomed in the darkness.
+    </div>
+    <div class="narr narr-cosmos" id="n-kalpas">
+      Through countless kalpas –<br>
+      eons beyond measure –<br>
+      this unfolding continued.
+    </div>
+    <div class="narr narr-cosmos" id="n-blue-planet">
+      Until on one small blue planet,<br>
+      in a spiral arm of the Milky Way galaxy...
+    </div>
+    <div class="narr narr-cosmos" id="n-hue">
+      In the ancient city of Huế,<br>
+      by the Perfume River...
+    </div>
+    <div class="narr narr-warm" id="n-born">
+      A man was born who saw life differently.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     STAGE 2 — TCS EYES + IMAGES → STRAWBERRIES
+     ═══════════════════════════════════════════════════════ -->
+<section class="prologue-shell" id="eyes-shell">
+  <div class="stage eyes-stage" id="eyes-stage">
+    <svg id="eyesSvg" class="prologue-svg" viewBox="0 260 390 560"
+         overflow="hidden"
+         role="img" aria-label="Trịnh Công Sơn's eyes beholding the world">
+      <defs>
+        <filter id="eBrush" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence id="eBrushTurb" type="fractalNoise" baseFrequency="0.020"
+                        numOctaves="3" seed="9" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="ePaint" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3"
+                        seed="4" result="grain"/>
+          <feColorMatrix in="grain" type="saturate" values="0" result="gg"/>
+          <feComposite in="gg" in2="SourceGraphic" operator="in" result="mg"/>
+          <feBlend in="SourceGraphic" in2="mg" mode="multiply"/>
+        </filter>
+        <radialGradient id="eVig" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+        <radialGradient id="eSbRed" cx="35%" cy="30%" r="65%">
+          <stop offset="0%"   stop-color="#e85555"/>
+          <stop offset="100%" stop-color="#a51e1e"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+      <!-- TCS face — glasses centered mid-canvas -->
+      <g id="eFace" filter="url(#eBrush)">
+        <!-- Brows -->
+        <g stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+          <path d="M 72 365 Q 120 350 168 359"/>
+          <path d="M 220 359 Q 268 350 316 365"/>
+        </g>
+        <!-- Frames -->
+        <g stroke="#2c2416" stroke-width="7" fill="none"
+           stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="120" cy="422" r="52"/>
+          <circle cx="268" cy="422" r="52"/>
+          <path d="M 172 420 Q 194 424 216 420"/>
+          <path d="M 71 404 Q 36 399 30 415"/>
+          <path d="M 317 404 Q 352 399 358 415"/>
+        </g>
+        <!-- Eyes — iris IDs used by GSAP for cx attribute tracking -->
+        <g filter="url(#ePaint)">
+          <ellipse id="eLeftIris"  cx="120" cy="426" rx="15" ry="9" fill="#2c2416"/>
+          <ellipse id="eRightIris" cx="268" cy="426" rx="15" ry="9" fill="#2c2416"/>
+          <ellipse id="eLeftPupil"  cx="120" cy="426" rx="7"  ry="6" fill="#0d0b08"/>
+          <ellipse id="eRightPupil" cx="268" cy="426" rx="7"  ry="6" fill="#0d0b08"/>
+        </g>
+        <!-- Lids -->
+        <g stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <path d="M 88 430 Q 116 406 154 423"/>
+          <path d="M 234 423 Q 272 406 302 430"/>
+        </g>
+        <g stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
+          <path d="M 90 435 Q 120 448 152 432"/>
+          <path d="M 236 432 Q 268 448 298 435"/>
+        </g>
+        <!-- Nose -->
+        <g stroke="#2c2416" stroke-width="2.8" fill="none" stroke-linecap="round">
+          <path class="eNose" d="M 172 439 Q 179 492 180 529"/>
+          <path class="eNose" d="M 216 439 Q 209 492 208 529"/>
+          <path class="eNose" d="M 180 529 Q 194 537 208 529"/>
+          <path class="eNose" d="M 180 529 Q 169 539 171 549"/>
+          <path class="eNose" d="M 208 529 Q 219 539 217 549"/>
+        </g>
+      </g>
+
+      <!-- ── Carousel: icons float below eyes, scrolling right→left ── -->
+      <!-- Strawberry shape def -->
+      <defs>
+        <g id="eSbShape">
+          <path d="M 0,-22 C 10,-12 15,0 15,12 C 15,26 8,33 0,35
+                   C -8,33 -15,26 -15,12 C -15,0 -10,-12 0,-22 Z"
+                fill="url(#eSbRed)" stroke="#8b0000" stroke-width="1.2"/>
+          <circle cx="-5"  cy=" 4" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <circle cx=" 5"  cy=" 2" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <circle cx=" 0"  cy="15" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <circle cx="-7"  cy="14" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <circle cx=" 7"  cy="13" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <circle cx=" 1"  cy="-5" r="1.8" fill="#8b0000" opacity="0.5"/>
+          <path d="M -5,-22 Q -9,-35 -2,-31 Q 0,-41 4,-31 Q 9,-35 6,-22"
+                fill="#2d7a2d" stroke="#1a5a1a" stroke-width="0.9"/>
+        </g>
+      </defs>
+
+      <!-- Static y-strip at 640; GSAP only animates #eCarousel's x -->
+      <g transform="translate(0,640)">
+      <g id="eCarousel"><!-- starts off-screen right via etl.set in JS -->
+        <!-- 1. Street vendor (local x=0) -->
+        <g class="eIcon" id="eIcon-vendor" transform="translate(0,0)">
+          <rect x="-24" y="-10" width="48" height="26" rx="3"
+                stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <circle cx="-13" cy="20" r="7" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <circle cx=" 13" cy="20" r="7" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <path d="M -7,-10 Q -5,-20 -7,-28" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+          <path d="M  2,-10 Q  4,-22  2,-30" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+          <path d="M 11,-10 Q 13,-20 11,-26" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 2. Children playing (local x=120) -->
+        <g class="eIcon" id="eIcon-children" transform="translate(120,0)">
+          <circle cx="-12" cy="-26" r="8" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <line x1="-12" y1="-18" x2="-12" y2="4" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-12" y1="-6"  x2="-26" y2="-18" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-12" y1="-6"  x2="2"   y2="-18" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-12" y1="4"   x2="-18" y2="20"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-12" y1="4"   x2="-6"  y2="20"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="14" cy="-26" r="8" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <line x1="14" y1="-18" x2="14" y2="4"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="14" y1="-6"  x2="0"  y2="-20" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="14" y1="-6"  x2="28" y2="-20" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="14" y1="4"   x2="8"  y2="20"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="14" y1="4"   x2="20" y2="20"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- 3. Woman's smile (local x=240) -->
+        <g class="eIcon" id="eIcon-woman" transform="translate(240,0)">
+          <circle cx="0" cy="-10" r="24" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <path d="M -20,-14 Q -18,-38  0,-36 Q 18,-38 20,-14"
+                stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M -9,-17 Q -7,-21 -5,-17" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+          <path d="M  5,-17 Q  7,-21  9,-17" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+          <path d="M -11,-2 Q 0,8 11,-2" stroke="#2c2416" stroke-width="2.5"
+                fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 4. River at dawn (local x=360) -->
+        <g class="eIcon" id="eIcon-river" transform="translate(360,0)">
+          <circle cx="0" cy="-28" r="8"  stroke="#2c2416" stroke-width="2"  fill="none"/>
+          <line x1="0"  y1="-38" x2=" 0"  y2="-42" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1=" 8" y1="-35" x2=" 11" y2="-38" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1="-8" y1="-35" x2="-11" y2="-38" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <path d="M -22,-12 Q -10,-19  0,-12 Q 10,-6  22,-12"
+                stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M -22,  0 Q  -8, -6  0,  0 Q 10, 6  22,  0"
+                stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M -22, 12 Q -10,  6  0, 12 Q 10,18  22, 12"
+                stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 5. Musicians (local x=480) -->
+        <g class="eIcon" id="eIcon-music" transform="translate(480,0)">
+          <ellipse cx="0" cy="12" rx="15" ry="19" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <line x1="0" y1="-7"  x2="0" y2="-30" stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+          <line x1="0" y1="-28" x2="8" y2="-32" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1="-11" y1="6"  x2="11" y2="6"  stroke="#2c2416" stroke-width="1" opacity="0.6"/>
+          <line x1="-13" y1="12" x2="13" y2="12" stroke="#2c2416" stroke-width="1" opacity="0.6"/>
+          <line x1="-11" y1="18" x2="11" y2="18" stroke="#2c2416" stroke-width="1" opacity="0.6"/>
+        </g>
+        <!-- 6. Jasmine flowers (local x=600) -->
+        <g class="eIcon" id="eIcon-flowers" transform="translate(600,0)">
+          <circle cx=" 0"   cy="-15" r="7" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx=" 13"  cy="-5"  r="7" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx="  8"  cy=" 10" r="7" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx=" -8"  cy=" 10" r="7" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx="-13"  cy="-5"  r="7" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx="  0"  cy="  0" r="5" fill="#2c2416"/>
+          <g transform="translate(-22,22) scale(0.55)">
+            <circle cx=" 0"  cy="-15" r="7" stroke="#2c2416" stroke-width="3" fill="none"/>
+            <circle cx="13"  cy="-5"  r="7" stroke="#2c2416" stroke-width="3" fill="none"/>
+            <circle cx=" 8"  cy=" 10" r="7" stroke="#2c2416" stroke-width="3" fill="none"/>
+            <circle cx="-8"  cy=" 10" r="7" stroke="#2c2416" stroke-width="3" fill="none"/>
+            <circle cx="-13" cy="-5"  r="7" stroke="#2c2416" stroke-width="3" fill="none"/>
+            <circle cx=" 0"  cy="  0" r="5" fill="#2c2416"/>
+          </g>
+        </g>
+        <!-- Strawberries at same carousel positions — shown as each icon crosses center -->
+        <g class="eSb" id="eSb-vendor"   transform="translate(0,0)"   opacity="0"><use href="#eSbShape"/></g>
+        <g class="eSb" id="eSb-children" transform="translate(120,0)" opacity="0"><use href="#eSbShape"/></g>
+        <g class="eSb" id="eSb-woman"    transform="translate(240,0)" opacity="0"><use href="#eSbShape"/></g>
+        <g class="eSb" id="eSb-river"    transform="translate(360,0)" opacity="0"><use href="#eSbShape"/></g>
+        <g class="eSb" id="eSb-music"    transform="translate(480,0)" opacity="0"><use href="#eSbShape"/></g>
+        <g class="eSb" id="eSb-flowers"  transform="translate(600,0)" opacity="0"><use href="#eSbShape"/></g>
+      </g><!-- end #eCarousel -->
+      </g><!-- end static y-strip -->
+
+      <rect x="0" y="0" width="390" height="844" fill="url(#eVig)" pointer-events="none"/>
+    </svg>
+
+    <div class="narr narr-warm narr-beat" id="n-saw-sb">He saw strawberries.</div>
+    <div class="narr narr-warm" id="n-not-just">
+      Not just the fruit, but what the fruit means.<br>
+      Sweetness. The precious taste of a moment.<br>
+      Everything he loved became strawberries in his vision.
+    </div>
+    <div class="narr narr-warm" id="n-why">
+      But why strawberries?<br>
+      Why this particular way of seeing?
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     STAGE 3 — ZEN PARABLE
+     ═══════════════════════════════════════════════════════ -->
+<section class="prologue-shell" id="parable-shell">
+  <div class="stage parable-stage" id="parable-stage">
+    <svg id="parableSvg" class="prologue-svg" viewBox="0 0 390 844"
+         role="img" aria-label="The Zen parable of the strawberry">
+      <defs>
+        <filter id="pBrush" x="-15%" y="-15%" width="130%" height="130%">
+          <feTurbulence id="pBrushTurb" type="fractalNoise" baseFrequency="0.018"
+                        numOctaves="3" seed="11" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="7"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="pSoft" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+        <linearGradient id="pSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8bca6"/>
+          <stop offset="100%" stop-color="#ddd4bc"/>
+        </linearGradient>
+        <linearGradient id="pCliff" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#8a7a68"/>
+          <stop offset="100%" stop-color="#6a5a48"/>
+        </linearGradient>
+        <radialGradient id="pSbRed" cx="35%" cy="30%" r="65%">
+          <stop offset="0%"   stop-color="#e85555"/>
+          <stop offset="100%" stop-color="#a51e1e"/>
+        </radialGradient>
+        <radialGradient id="pFaceGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#ede0c8"/>
+          <stop offset="100%" stop-color="#d8c9a8"/>
+        </radialGradient>
+        <radialGradient id="pVig" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Sky and abyss -->
+      <rect x="0" y="0"   width="390" height="590" fill="url(#pSky)"/>
+      <rect x="0" y="590" width="390" height="254" fill="#10100c"/>
+
+      <!-- Left plateau (man runs from here) -->
+      <path d="M 0,590 L 210,590 L 210,470 L 0,470 Z"
+            fill="#9a8870" filter="url(#pBrush)"/>
+      <!-- Cliff face -->
+      <path d="M 210,470 L 222,476 L 224,548 L 212,590 L 210,590 Z"
+            fill="url(#pCliff)"/>
+
+      <!-- ── Scene elements (all hidden, revealed by scroll) ── -->
+
+      <!-- Chasing tiger (behind man, left) -->
+      <g id="pTigerChase" transform="translate(32,542)" opacity="0">
+        <ellipse cx="0" cy="0" rx="30" ry="17" fill="none"
+                 stroke="#2c2416" stroke-width="2.5" filter="url(#pBrush)"/>
+        <circle cx="26" cy="-9" r="15" fill="none"
+                stroke="#2c2416" stroke-width="2.5" filter="url(#pBrush)"/>
+        <path d="M 17,-20 L 13,-30 L 22,-23" stroke="#2c2416" stroke-width="2" fill="none"/>
+        <path d="M 29,-21 L 31,-31 L 37,-24" stroke="#2c2416" stroke-width="2" fill="none"/>
+        <ellipse cx="20" cy="-11" rx="3" ry="2.5" fill="#2c2416"/>
+        <ellipse cx="30" cy="-11" rx="3" ry="2.5" fill="#2c2416"/>
+        <!-- Running legs -->
+        <line x1="-18" y1="9"  x2="-24" y2="27" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1=" -4" y1="15" x2=" -2" y2="29" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="  8" y1="12" x2=" 12" y2="28" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Stripes -->
+        <line x1="-8" y1="-15" x2="-6" y2="15" stroke="#2c2416" stroke-width="1.5" opacity="0.35"/>
+        <line x1=" 6" y1="-17" x2=" 8" y2="15" stroke="#2c2416" stroke-width="1.5" opacity="0.35"/>
+      </g>
+
+      <!-- Running man -->
+      <g id="pManRun" transform="translate(118,528)" opacity="0">
+        <circle cx="0" cy="-28" r="11" stroke="#2c2416" stroke-width="2.5" fill="#f0e8d8"/>
+        <line x1="0"  y1="-17" x2="0"  y2=" 6"  stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0"  y1="-8"  x2="-17" y2="-21" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0"  y1="-8"  x2=" 15" y2="  1" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0"  y1=" 6"  x2="-13" y2=" 24" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0"  y1=" 6"  x2=" 15" y2=" 18" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- Vine (hanging from cliff edge) -->
+      <path id="pVine"
+            d="M 216,476 Q 219,518 217,562 Q 215,604 217,646"
+            stroke="#4a6a28" stroke-width="4.5" fill="none"
+            stroke-linecap="round" filter="url(#pBrush)" opacity="0"/>
+
+      <!-- Tiger above (sniffing down from cliff top) -->
+      <g id="pTigerAbove" transform="translate(118,476)" opacity="0">
+        <ellipse cx="0" cy="0" rx="32" ry="18" fill="none"
+                 stroke="#2c2416" stroke-width="2.5" filter="url(#pBrush)"/>
+        <circle cx="-28" cy="-10" r="16" fill="none"
+                stroke="#2c2416" stroke-width="2.5" filter="url(#pBrush)"/>
+        <path d="M -34,-22 L -38,-32 L -30,-26" stroke="#2c2416" stroke-width="2" fill="none"/>
+        <path d="M -22,-24 L -20,-34 L -16,-28" stroke="#2c2416" stroke-width="2" fill="none"/>
+        <ellipse cx="-32" cy="-12" rx="3" ry="2.5" fill="#2c2416"/>
+        <ellipse cx="-22" cy="-12" rx="3" ry="2.5" fill="#2c2416"/>
+        <line x1="8"  y1="-16" x2="10" y2="16" stroke="#2c2416" stroke-width="1.5" opacity="0.35"/>
+        <line x1="-4" y1="-18" x2="-2" y2="16" stroke="#2c2416" stroke-width="1.5" opacity="0.35"/>
+      </g>
+
+      <!-- Man hanging on vine -->
+      <g id="pManHang" transform="translate(217,596)" opacity="0">
+        <circle cx="0" cy="-12" r="10" stroke="#2c2416" stroke-width="2.5" fill="#f0e8d8"/>
+        <!-- Arms reaching up -->
+        <line x1="0" y1="-2"  x2="-15" y2="-18" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0" y1="-2"  x2=" 15" y2="-18" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Torso -->
+        <line x1="0" y1="-2"  x2="  0" y2=" 14" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Dangling legs -->
+        <line x1="0" y1=" 14" x2=" -9" y2=" 32" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="0" y1=" 14" x2="  9" y2=" 32" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- Tiger below (in abyss, looking up) -->
+      <g id="pTigerBelow" transform="translate(217,748)" opacity="0">
+        <ellipse cx="0" cy="0" rx="30" ry="17" fill="none"
+                 stroke="#4a4030" stroke-width="2.5" filter="url(#pBrush)"/>
+        <circle cx="26" cy="-9" r="15" fill="none"
+                stroke="#4a4030" stroke-width="2.5" filter="url(#pBrush)"/>
+        <path d="M 17,-19 L 13,-29 L 22,-22" stroke="#4a4030" stroke-width="2" fill="none"/>
+        <path d="M 29,-21 L 31,-31 L 37,-24" stroke="#4a4030" stroke-width="2" fill="none"/>
+        <ellipse cx="20" cy="-10" rx="3" ry="2.5" fill="#4a4030"/>
+        <ellipse cx="30" cy="-10" rx="3" ry="2.5" fill="#4a4030"/>
+        <line x1="-8" y1="-14" x2="-6" y2="14" stroke="#4a4030" stroke-width="1.5" opacity="0.4"/>
+        <line x1=" 6" y1="-16" x2=" 8" y2="14" stroke="#4a4030" stroke-width="1.5" opacity="0.4"/>
+      </g>
+
+      <!-- Two mice gnawing the vine -->
+      <g id="pMice" opacity="0">
+        <!-- White mouse -->
+        <g transform="translate(206,486)">
+          <ellipse cx="0" cy="0" rx="9" ry="5.5" fill="#ddd4be" stroke="#2c2416" stroke-width="1.5"/>
+          <ellipse cx="-7" cy="-4"  rx="4.5" ry="3.5" fill="#ddd4be" stroke="#2c2416" stroke-width="1.5"/>
+          <path d="M 9,0 Q 18,2 20,9" stroke="#2c2416" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Black mouse -->
+        <g transform="translate(228,484)">
+          <ellipse cx="0" cy="0" rx="9" ry="5.5" fill="#2c2416"/>
+          <ellipse cx="7" cy="-4" rx="4.5" ry="3.5" fill="#2c2416"/>
+          <path d="M -9,0 Q -18,2 -20,9" stroke="#2c2416" stroke-width="1.5" fill="none"/>
+        </g>
+      </g>
+
+      <!-- Strawberry growing from cliff face -->
+      <g id="pStrawberry" transform="translate(240,542)" opacity="0">
+        <path d="M -14,2 L -22,2" stroke="#4a6a28" stroke-width="2" stroke-linecap="round"/>
+        <path d="M 0,-18 C 9,-10 13,0 13,10 C 13,22 7,28 0,30
+                 C -7,28 -13,22 -13,10 C -13,0 -9,-10 0,-18 Z"
+              fill="url(#pSbRed)" stroke="#8b0000" stroke-width="1.2"/>
+        <circle cx="-3" cy=" 4" r="1.6" fill="#8b0000" opacity="0.5"/>
+        <circle cx=" 4" cy=" 2" r="1.6" fill="#8b0000" opacity="0.5"/>
+        <circle cx=" 0" cy="13" r="1.6" fill="#8b0000" opacity="0.5"/>
+        <circle cx="-5" cy="13" r="1.6" fill="#8b0000" opacity="0.5"/>
+        <circle cx=" 6" cy="11" r="1.6" fill="#8b0000" opacity="0.5"/>
+        <path d="M -3,-18 Q -6,-28 -1,-25 Q 0,-33 3,-25 Q 6,-28 4,-18"
+              fill="#2d7a2d" stroke="#1a5a1a" stroke-width="0.9"/>
+      </g>
+
+      <!-- Close-up: man tasting (fades over the scene) -->
+      <g id="pTasting" opacity="0">
+        <rect x="0" y="0" width="390" height="844" fill="#ddd4bc" opacity="0.96"/>
+        <!-- Face -->
+        <circle cx="195" cy="360" r="96"
+                stroke="#2c2416" stroke-width="3" fill="url(#pFaceGrad)"
+                filter="url(#pBrush)"/>
+        <!-- Closed eyes (peaceful) -->
+        <path d="M 145,342 Q 165,330 185,342"
+              stroke="#2c2416" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M 205,342 Q 225,330 245,342"
+              stroke="#2c2416" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Serene smile -->
+        <path d="M 160,390 Q 195,410 230,390"
+              stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- Hand with strawberry -->
+        <path d="M 165,438 Q 163,416 168,404 Q 174,394 180,396
+                 Q 185,394 186,388 Q 190,380 198,384
+                 Q 204,380 208,388 Q 212,394 215,384
+                 Q 222,380 222,394 Q 224,406 220,420
+                 Q 216,436 195,440 Q 175,442 165,438 Z"
+              stroke="#2c2416" stroke-width="2" fill="url(#pFaceGrad)"/>
+        <!-- Strawberry in hand -->
+        <path d="M 195,384 C 204,392 208,402 208,412 C 208,424 202,430 195,432
+                 C 188,430 182,424 182,412 C 182,402 186,392 195,384 Z"
+              fill="url(#pSbRed)" stroke="#8b0000" stroke-width="1.2"/>
+        <circle cx="190" cy="406" r="1.8" fill="#8b0000" opacity="0.5"/>
+        <circle cx="200" cy="404" r="1.8" fill="#8b0000" opacity="0.5"/>
+        <circle cx="195" cy="416" r="1.8" fill="#8b0000" opacity="0.5"/>
+        <path d="M 191,384 Q 188,374 193,376 Q 195,370 198,376 Q 202,374 200,384"
+              fill="#2d7a2d" stroke="#1a5a1a" stroke-width="0.9"/>
+      </g>
+
+      <rect x="0" y="0" width="390" height="844" fill="url(#pVig)" pointer-events="none"/>
+    </svg>
+
+    <div class="narr narr-warm" id="n-parable-intro">
+      There is an old story in Zen Buddhism:
+    </div>
+    <div class="narr narr-warm" id="n-parable-tiger">
+      A man traveling across a field encountered a tiger.<br>
+      He fled, the tiger chasing after him.
+    </div>
+    <div class="narr narr-warm" id="n-parable-vine">
+      Coming to a precipice, he caught hold of a wild vine<br>
+      and swung himself down over the edge.<br>
+      The tiger sniffed at him from above.
+    </div>
+    <div class="narr narr-warm" id="n-parable-mice">
+      Trembling, the man looked down to where,<br>
+      far below, another tiger waited.<br><br>
+      Two mice – one white, one black –<br>
+      began to gnaw away at the vine.
+    </div>
+    <div class="narr narr-warm" id="n-parable-berry">
+      The man saw a luscious strawberry near him.<br>
+      Grasping the vine with one hand,<br>
+      he plucked the strawberry with the other.
+    </div>
+    <div class="narr narr-warm narr-beat narr-center-v" id="n-parable-sweet">
+      How sweet it tasted.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     STAGE 4 — BRIDGE
+     Back to TCS eyes → flash images → tears → rivers → transition
+     ═══════════════════════════════════════════════════════ -->
+<section class="prologue-shell" id="bridge-shell">
+  <div class="stage bridge-stage" id="bridge-stage">
+    <svg id="bridgeSvg" class="prologue-svg" viewBox="0 0 390 844"
+         role="img" aria-label="Trịnh Công Sơn's eyes become rivers">
+      <defs>
+        <filter id="bBrush" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence id="bBrushTurb" type="fractalNoise" baseFrequency="0.020"
+                        numOctaves="3" seed="9" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="bPaint" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3"
+                        seed="4" result="grain"/>
+          <feColorMatrix in="grain" type="saturate" values="0" result="gg"/>
+          <feComposite in="gg" in2="SourceGraphic" operator="in" result="mg"/>
+          <feBlend in="SourceGraphic" in2="mg" mode="multiply"/>
+        </filter>
+        <filter id="bTearFlow" x="-10%" y="-5%" width="120%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2"
+                        seed="9" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <radialGradient id="bPoolInk" cx="50%" cy="45%" r="65%">
+          <stop offset="0%"   stop-color="#1a1a1a"/>
+          <stop offset="100%" stop-color="#0d0d0d"/>
+        </radialGradient>
+        <radialGradient id="bVig" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+      <!-- TCS eyes/glasses — identical to scene-1 -->
+      <g id="bEyeSystem" filter="url(#bBrush)">
+        <g stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+          <path d="M 72 228 Q 120 213 168 222"/>
+          <path d="M 220 222 Q 268 213 316 228"/>
+        </g>
+        <g stroke="#2c2416" stroke-width="7" fill="none"
+           stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="120" cy="285" r="52"/>
+          <circle cx="268" cy="285" r="52"/>
+          <path d="M 172 283 Q 194 287 216 283"/>
+          <path d="M 71 267 Q 36 262 30 278"/>
+          <path d="M 317 267 Q 352 262 358 278"/>
+        </g>
+        <g filter="url(#bPaint)">
+          <ellipse cx="120" cy="289" rx="15" ry="9" fill="#2c2416"/>
+          <ellipse cx="268" cy="289" rx="15" ry="9" fill="#2c2416"/>
+          <ellipse id="bLeftPupil"  cx="120" cy="289" rx="7" ry="6" fill="#0d0b08"/>
+          <ellipse id="bRightPupil" cx="268" cy="289" rx="7" ry="6" fill="#0d0b08"/>
+        </g>
+        <g stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
+          <path d="M 88 293 Q 116 269 154 286"/>
+          <path d="M 234 286 Q 272 269 302 293"/>
+        </g>
+        <g stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
+          <path d="M 90 298 Q 120 311 152 295"/>
+          <path d="M 236 295 Q 268 311 298 298"/>
+        </g>
+        <g stroke="#2c2416" stroke-width="2.8" fill="none" stroke-linecap="round">
+          <path d="M 172 302 Q 179 355 180 392"/>
+          <path d="M 216 302 Q 209 355 208 392"/>
+          <path d="M 180 392 Q 194 400 208 392"/>
+          <path d="M 180 392 Q 169 402 171 412"/>
+          <path d="M 208 392 Q 219 402 217 412"/>
+        </g>
+      </g>
+
+      <!-- Flash images (small icons that appear/vanish rapidly) -->
+      <g id="bFlash" opacity="0">
+        <g transform="translate(55,180)">
+          <rect x="-20" y="-8" width="40" height="22" rx="3"
+                stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx="-11" cy="17" r="6" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <circle cx=" 11" cy="17" r="6" stroke="#2c2416" stroke-width="2" fill="none"/>
+        </g>
+        <g transform="translate(328,180)">
+          <circle cx="-12" cy="-22" r="8" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <line x1="-12" y1="-14" x2="-12" y2="4"   stroke="#2c2416" stroke-width="2"/>
+          <line x1="-12" y1="-4"  x2="-24" y2="-16" stroke="#2c2416" stroke-width="2"/>
+          <line x1="-12" y1="-4"  x2="  0" y2="-16" stroke="#2c2416" stroke-width="2"/>
+          <circle cx="14" cy="-22" r="8" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <line x1="14" y1="-14" x2="14" y2="4"   stroke="#2c2416" stroke-width="2"/>
+          <line x1="14" y1="-4"  x2=" 2" y2="-18" stroke="#2c2416" stroke-width="2"/>
+          <line x1="14" y1="-4"  x2="26" y2="-18" stroke="#2c2416" stroke-width="2"/>
+        </g>
+        <g transform="translate(46,510)">
+          <circle cx="0" cy="-10" r="24" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <path d="M -10,-2 Q 0,8 10,-2" stroke="#2c2416" stroke-width="2"
+                fill="none" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(344,510)">
+          <path d="M -22,-10 Q -10,-17 0,-10 Q 10,-4 22,-10"
+                stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M -22,  2 Q  -8, -4 0,  2 Q 10, 8 22,  2"
+                stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M -22, 14 Q -10,  8 0, 14 Q 10,20 22, 14"
+                stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- Tears -->
+      <g id="bTearLayer" stroke="#1a1a1a" stroke-width="3.2" fill="none"
+         stroke-linecap="round" filter="url(#bTearFlow)" opacity="0">
+        <path class="bTear" d="M 118 321 Q 112 360 122 412 Q 132 465 126 518"/>
+        <path class="bTear" d="M 128 322 Q 138 358 134 412 Q 129 472 140 530"/>
+        <path class="bTear" d="M 112 321 Q 106 374 110 426 Q 116 474 120 536"/>
+        <path class="bTear" d="M 262 322 Q 252 366 258 418 Q 265 470 252 528"/>
+        <path class="bTear" d="M 272 322 Q 280 356 277 413 Q 270 472 284 534"/>
+        <path class="bTear" d="M 258 321 Q 246 370 244 425 Q 246 482 238 540"/>
+        <path class="bTear" d="M 152 322 Q 170 352 177 378 Q 180 395 184 418 Q 188 458 190 504"/>
+        <path class="bTear" d="M 236 322 Q 218 352 211 378 Q 208 395 204 418 Q 200 458 198 505"/>
+      </g>
+
+      <!-- Pool -->
+      <g id="bPoolGroup" transform="translate(195,510)" opacity="0">
+        <path id="bPoolShape"
+              d="M -90 0 C -74 -35 -26 -50 0 -44 C 29 -48 72 -33 90 0
+                 C 76 34 36 48 0 44 C -32 47 -75 35 -90 0 Z"
+              fill="url(#bPoolInk)" stroke="#0d0d0d" stroke-width="3"
+              filter="url(#bBrush)"/>
+        <ellipse cx="0" cy="0" rx="62" ry="19"
+                 fill="none" stroke="#f5f1e8" stroke-width="2" opacity="0.8"/>
+      </g>
+
+      <!-- Rivers: 2 groups diverging left and right from pool -->
+      <g id="bRiverLayer" stroke="#0d0d0d" stroke-width="6" fill="none"
+         stroke-linecap="round" filter="url(#bBrush)" opacity="0">
+        <!-- Left river — toward bottom-left -->
+        <path class="bRiver" d="M 187 558 C 172 638 148 732 118 844"/>
+        <path class="bRiver" d="M 175 562 C 155 645 124 742  78 844"/>
+        <!-- Right river — toward bottom-right -->
+        <path class="bRiver" d="M 203 558 C 218 638 242 732 272 844"/>
+        <path class="bRiver" d="M 215 562 C 235 645 266 742 312 844"/>
+      </g>
+
+      <rect x="0" y="0" width="390" height="844"
+            fill="url(#bVig)" pointer-events="none"/>
+    </svg>
+
+    <div class="narr narr-warm narr-beat" id="n-tcs-way">
+      <em>That is how he saw life.</em>
+    </div>
+    <div class="narr narr-warm" id="n-tigers">
+      He saw the tigers.<br>
+      He knew the vine was fraying.<br>
+      He tasted the strawberry anyway.
+    </div>
+    <div class="narr narr-warm" id="n-art-born">
+      And from that knowing –<br>
+      from seeing both the sweetness and the abyss –<br>
+      his art was born.
+    </div>
+  </div>
+</section>
+<!-- scene-1 removed from main page: the bridge section above already covers
+     the tears→pool→rivers moment. scene-1 lives at /scene-1/ as standalone.
+<main class="scene-1-shell">
+    <section class="scene1-stage" aria-label="TCS eyes becoming rivers">
+      <svg id="sceneSvg" viewBox="0 0 390 844" role="img" aria-label="Eyes, tears, and rivers in painterly style">
+        <defs>
+          <!-- brushstroke: displacement filter whose seed is cycled by JS
+               on each 12fps tick to create the "boiling" hand-drawn look -->
+          <filter id="brushstroke" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.020" numOctaves="3" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <!-- paintTexture: visible grain for aged-paper / lacquer-canvas quality -->
+          <filter id="paintTexture" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3" seed="4" result="grain" />
+            <feColorMatrix in="grain" type="saturate" values="0" result="grayGrain" />
+            <feComposite in="grayGrain" in2="SourceGraphic" operator="in" result="maskedGrain" />
+            <feBlend in="SourceGraphic" in2="maskedGrain" mode="multiply" />
+          </filter>
+          <!-- tearFlow: gentle low-scale displacement — sad flowing lines, not chaos -->
+          <filter id="tearFlow" x="-10%" y="-5%" width="120%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="9" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+          <radialGradient id="poolInk" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stop-color="#1a1a1a" />
+            <stop offset="100%" stop-color="#0d0d0d" />
+          </radialGradient>
+          <!-- Warm aged-paper vignette over the whole canvas (TCS lacquer/oil style) -->
+          <radialGradient id="warmVignette" cx="50%" cy="50%" r="72%">
+            <stop offset="0%" stop-color="#f5ead0" stop-opacity="0" />
+            <stop offset="70%" stop-color="#d4a96a" stop-opacity="0.07" />
+            <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18" />
+          </radialGradient>
+        </defs>
+
+        <rect x="0" y="0" width="390" height="844" class="canvas" />
+
+        <g id="eyeSystem" filter="url(#brushstroke)">
+          <!-- Eyebrows: natural, expressive arch above frames -->
+          <g id="brows" stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M 72 228 Q 120 213 168 222" />
+            <path d="M 220 222 Q 268 213 316 228" />
+          </g>
+
+          <!-- Frames: TCS's iconic round glasses — circular lenses as seen
+               in his own sketched self-portrait, large and intellectually warm -->
+          <g id="frames" stroke="#2c2416" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="120" cy="285" r="52" />
+            <circle cx="268" cy="285" r="52" />
+            <!-- bridge: short arc connecting the two circles -->
+            <path d="M 172 278 Q 194 268 216 278" />
+            <!-- temples: attach at upper-outer edge of each circle -->
+            <path d="M 71 267 Q 36 262 30 278" />
+            <path d="M 317 267 Q 352 262 358 278" />
+          </g>
+
+          <g id="eyes" filter="url(#paintTexture)">
+            <!-- Simple dark ink marks — no whites, no colour, just the sketch-like
+                 suggestion of an eye behind large round frames -->
+            <ellipse id="leftIris" cx="120" cy="289" rx="13" ry="10" class="iris" />
+            <ellipse id="rightIris" cx="268" cy="289" rx="13" ry="10" class="iris" />
+            <!-- Pupils: merged into the iris mark, just a slightly darker centre -->
+            <circle id="leftPupil" cx="120" cy="289" r="6" class="pupil" />
+            <circle id="rightPupil" cx="268" cy="289" r="6" class="pupil" />
+          </g>
+
+          <!-- Upper lids: slightly heavy, contemplative — TCS's thoughtful gaze -->
+          <g id="lids" stroke="#2c2416" stroke-width="3.5" fill="none" stroke-linecap="round">
+            <path d="M 86 290 Q 120 268 154 290" />
+            <path d="M 234 290 Q 268 268 302 290" />
+          </g>
+          <!-- Lower lids: subtle crease — suggests depth, weariness, tenderness -->
+          <g id="lowerLids" stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4">
+            <path d="M 90 296 Q 120 308 150 296" />
+            <path d="M 238 296 Q 268 308 298 296" />
+          </g>
+        </g>
+
+        <g id="tearLayer" stroke="#1a1a1a" stroke-width="3.2" fill="none" stroke-linecap="round" filter="url(#tearFlow)">
+          <!-- Short outer tears — fall straight down, gently -->
+          <path class="tear" d="M 118 321 Q 112 360 122 412 Q 132 465 126 518" />
+          <path class="tear" d="M 128 322 Q 138 358 134 412 Q 129 472 140 530" />
+          <path class="tear" d="M 112 321 Q 106 374 110 426 Q 116 474 120 536" />
+          <path class="tear" d="M 262 322 Q 252 366 258 418 Q 265 470 252 528" />
+          <path class="tear" d="M 272 322 Q 280 356 277 413 Q 270 472 284 534" />
+          <path class="tear" d="M 258 321 Q 246 370 244 425 Q 246 482 238 540" />
+          <!-- Long inner tears — converge toward pool at y≈505 -->
+          <path class="tear" d="M 120 321 Q 168 382 182 455 Q 190 484 190 504" />
+          <path class="tear" d="M 270 321 Q 218 384 206 460 Q 200 488 200 505" />
+          <path class="tear" d="M 124 321 Q 146 394 168 460 Q 182 483 188 502" />
+          <path class="tear" d="M 266 321 Q 242 392 222 460 Q 208 484 204 502" />
+        </g>
+
+        <g id="poolPositionGroup" transform="translate(195 510)">
+          <g id="poolScaleGroup">
+            <path
+              id="poolShape"
+              d="M -90 0 C -74 -35 -26 -50 0 -44 C 29 -48 72 -33 90 0 C 76 34 36 48 0 44 C -32 47 -75 35 -90 0 Z"
+              fill="url(#poolInk)"
+              stroke="#0d0d0d"
+              stroke-width="3"
+              filter="url(#brushstroke)"
+            />
+            <ellipse cx="0" cy="0" rx="62" ry="19" class="ripple ripple-a" />
+            <ellipse cx="0" cy="0" rx="43" ry="12" class="ripple ripple-b" />
+          </g>
+        </g>
+
+        <g id="riverLayer" stroke="#0d0d0d" stroke-width="6" fill="none" stroke-linecap="round" filter="url(#brushstroke)">
+          <path class="river" d="M 172 558 C 154 638 136 732 120 844" />
+          <path class="river" d="M 192 562 C 188 642 184 736 180 844" />
+          <path class="river" d="M 214 561 C 228 640 246 734 260 844" />
+          <path class="river" d="M 154 568 C 128 648 100 740 84 844" />
+          <path class="river" d="M 238 570 C 264 648 292 740 316 844" />
+        </g>
+
+        <!-- Warm aged-paper vignette — sits above all art, pointer-events off -->
+        <rect x="0" y="0" width="390" height="844" fill="url(#warmVignette)" class="vignette-overlay" />
+      </svg>
+
+      <div class="caption-block">
+        <p class="caption-title">Scene 1</p>
+        <p class="caption-copy">His tears become rivers. Love and death flow from the same source.</p>
+      </div>
+    </section>
+  </main>
+-->
+
+<!-- ═══════════════════════════════════════════════════════
+     STAGE 5 — TWO RIVERS
+     After the pool forms, two rivers diverge: Love and Death.
+     ═══════════════════════════════════════════════════════ -->
+<section class="prologue-shell" id="rivers-shell">
+  <div class="stage rivers-stage" id="rivers-stage">
+    <svg id="riversSvg" class="prologue-svg" viewBox="0 0 390 844"
+         role="img" aria-label="Two rivers — love and death — flowing from the same source">
+      <defs>
+        <filter id="rBrush" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence id="rBrushTurb" type="fractalNoise" baseFrequency="0.020"
+                        numOctaves="3" seed="9" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <radialGradient id="rVig" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+      <!-- Left river: Love — meanders from top to bottom-left -->
+      <g id="rRiverLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+         stroke-linecap="round" filter="url(#rBrush)" opacity="0">
+        <path class="rRiver" d="M 112 0 C 90 110 136 230 108 360
+                                 C 80 490 126 610 100 730 C 74 820 105 835  88 844"/>
+        <path class="rRiver" d="M 152 0 C 174 110 142 230 170 360
+                                 C 198 490 154 610 178 730 C 202 820 172 835 186 844"/>
+      </g>
+
+      <!-- Right river: Death — meanders from top to bottom-right -->
+      <g id="rRiverRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+         stroke-linecap="round" filter="url(#rBrush)" opacity="0">
+        <path class="rRiver" d="M 238 0 C 216 110 248 230 220 360
+                                 C 192 490 236 610 212 730 C 188 820 218 835 204 844"/>
+        <path class="rRiver" d="M 278 0 C 300 110 268 230 292 360
+                                 C 316 490 272 610 296 730 C 320 820 290 835 302 844"/>
+      </g>
+
+      <!-- River labels — live inside SVG so they never exceed the column -->
+      <g id="rl-love" opacity="0" pointer-events="none">
+        <text x="68" y="292"
+              font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="26" font-weight="700" fill="#2c2416"
+              text-anchor="middle" letter-spacing="0.4">Tình yêu</text>
+        <text x="68" y="318"
+              font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
+              text-anchor="middle">Love</text>
+      </g>
+      <g id="rl-death" opacity="0" pointer-events="none">
+        <text x="322" y="292"
+              font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="26" font-weight="700" fill="#2c2416"
+              text-anchor="middle" letter-spacing="0.4">Cái chết</text>
+        <text x="322" y="318"
+              font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
+              text-anchor="middle">Death</text>
+      </g>
+
+      <rect x="0" y="0" width="390" height="844" fill="url(#rVig)" pointer-events="none"/>
+    </svg>
+
+    <!-- Narration beats -->
+    <div class="narr narr-warm narr-beat" id="n-two-rivers">Two rivers.</div>
+    <div class="narr narr-warm" id="n-rivers-named">
+      One carries love.<br>
+      One carries death.
+    </div>
+    <div class="narr narr-warm" id="n-rivers-same">
+      In Trịnh Công Sơn's music,<br>
+      they always flowed from the same grief.
+    </div>
+  </div>
+</section>
+
+<div id="scene2-overlay">
+<!-- Progress indicator (appears after first choice) -->
+<div class="progress-dots" id="progress-dots">
+  <div class="progress-dot" data-path="love"  title="Love"></div>
+  <div class="progress-dot" data-path="death" title="Death &amp; Impermanence"></div>
+</div>
+
+<div id="scene2">
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 1: INTRO — rivers arrive and split
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="s-intro">
+  <svg id="introSvg" class="scene-svg" viewBox="0 0 390 844"
+       role="img" aria-label="Two rivers — love and impermanence — flowing side by side">
+    <defs>
+      <filter id="iBrush" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.020" numOctaves="3"
+                      seed="9" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <radialGradient id="iVig" cx="50%" cy="50%" r="72%">
+        <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+        <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+        <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+      </radialGradient>
+    </defs>
+
+    <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+    <!-- LEFT river cluster (Love) -->
+    <g id="iLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+       stroke-linecap="round" filter="url(#iBrush)" opacity="0">
+      <path d="M 112 0 C 90 110 136 230 108 360
+               C 80 490 126 610 100 730 C 74 820 88 838 80 844"/>
+      <path d="M 152 0 C 174 110 142 230 170 360
+               C 198 490 154 610 178 730 C 202 820 188 838 184 844"/>
+    </g>
+
+    <!-- RIGHT river cluster (Impermanence) -->
+    <g id="iRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+       stroke-linecap="round" filter="url(#iBrush)" opacity="0">
+      <path d="M 238 0 C 216 110 248 230 220 360
+               C 192 490 236 610 212 730 C 188 820 202 838 206 844"/>
+      <path d="M 278 0 C 300 110 268 230 292 360
+               C 316 490 272 610 296 730 C 320 820 306 838 310 844"/>
+    </g>
+
+    <rect x="0" y="0" width="390" height="844"
+          fill="url(#iVig)" pointer-events="none"/>
+  </svg>
+
+  <!-- Side river labels -->
+  <div class="intro-sign" id="iSignL">
+    <span class="intro-sign-viet">Tình Yêu</span>
+    <span class="intro-sign-en">Love</span>
+  </div>
+  <div class="intro-sign intro-sign-right" id="iSignR">
+    <span class="intro-sign-viet">Cái Chết</span>
+    <span class="intro-sign-en">Death &amp; Impermanence</span>
+  </div>
+
+  <!-- Narration and fork buttons (positioned as overlays) -->
+  <div class="intro-narr" id="intro-narr">
+    <p>The tears had become rivers.</p>
+    <p class="intro-narr-sub">And now the river meets a choice.</p>
+  </div>
+
+  <div class="intro-fork-btns" id="intro-fork-btns">
+    <button class="intro-fork-btn" data-path="love">
+      <span class="stream-label">Love</span>
+      <span class="stream-label-viet">Tình Yêu →</span>
+    </button>
+    <button class="intro-fork-btn" data-path="death">
+      <span class="stream-label">Death &amp; Impermanence</span>
+      <span class="stream-label-viet">Cái Chết &amp; Vô Thường →</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 2: LOVE PATH — three huts
+     ═══════════════════════════════════════════════════ -->
+<div class="screen path-screen" id="s-love" data-path="love">
+  <div class="path-river-header love-header">
+    <svg class="river-header-svg" viewBox="0 0 390 110" aria-hidden="true">
+      <defs>
+        <filter id="lhB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="4"/>
+          <feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <linearGradient id="lhSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8d4b0"/>
+          <stop offset="100%" stop-color="#d4c4a0"/>
+        </linearGradient>
+      </defs>
+      <rect width="390" height="110" fill="url(#lhSky)"/>
+      <rect x="0" y="82" width="390" height="28" fill="#b8a888" filter="url(#lhB)"/>
+      <path d="M 0,88 Q 98,80 195,88 Q 292,96 390,88"
+            stroke="#7a9ab0" stroke-width="8" fill="none" stroke-linecap="round" filter="url(#lhB)"/>
+      <line x1="60"  y1="82" x2="60"  y2="52" stroke="#6a5838" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="60" cy="46" rx="18" ry="22" fill="#7a9854" filter="url(#lhB)"/>
+      <line x1="320" y1="82" x2="320" y2="54" stroke="#6a5838" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="320" cy="48" rx="16" ry="20" fill="#7a9854" filter="url(#lhB)"/>
+      <rect x="240" y="58" width="48" height="24" fill="#8a7858" stroke="#5a4828" stroke-width="1.5"/>
+      <path d="M 234,62 L 264,42 L 294,62 Z"  fill="#a09070" stroke="#5a4828" stroke-width="1.5"/>
+      <ellipse cx="264" cy="50" rx="4" ry="6" fill="#d4a040" opacity="0.6"/>
+    </svg>
+    <div class="path-title-bar">
+      <span class="stream-dot love-dot"></span>
+      <span class="path-name-viet">Tình Yêu</span>
+      <span class="path-name-en">Love</span>
+    </div>
+  </div>
+
+  <div class="huts-scroll" id="love-scroll">
+
+    <!-- Hut 1 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Diễm Xưa — rain on ancient tower">
+          <rect width="200" height="120" fill="#ede4d0"/>
+          <path d="M 72,0 L 72,120" stroke="#8a9ab8" stroke-width="0.6" opacity="0.45" stroke-dasharray="5 7"/>
+          <path d="M 90,0 L 90,120" stroke="#8a9ab8" stroke-width="0.6" opacity="0.45" stroke-dasharray="5 7"/>
+          <path d="M 108,0 L 108,120" stroke="#8a9ab8" stroke-width="0.6" opacity="0.45" stroke-dasharray="5 7"/>
+          <path d="M 126,0 L 126,120" stroke="#8a9ab8" stroke-width="0.6" opacity="0.45" stroke-dasharray="5 7"/>
+          <rect x="82" y="18" width="36" height="82" fill="none" stroke="#4a3820" stroke-width="2"/>
+          <path d="M 76,20 L 100,6 L 124,20" fill="none" stroke="#4a3820" stroke-width="2"/>
+          <path d="M 90,48 Q 100,42 110,48 L 110,68 L 90,68 Z" fill="#c8b890" stroke="#4a3820" stroke-width="1.5"/>
+          <path d="M 95,100 L 95,78 M 95,78" stroke="#2c2416" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="95" cy="72" r="6" stroke="#2c2416" stroke-width="2" fill="none"/>
+          <line x1="88" y1="84" x2="80" y2="90" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1="102" y1="84" x2="110" y2="82" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 92,100 Q 88,110 90,116 Q 95,118 100,116 Q 102,110 98,100"
+                fill="#2c2416" opacity="0.28"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop I</span>
+        <span class="hut-theme-tag">Young Love</span>
+        <h2 class="song-title">Diễm Xưa <span class="song-title-en">Past Beauty</span></h2>
+        <p class="song-year">Huế, 1960</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Mưa vẫn hay mưa trên hàng lá nhỏ<br>Buổi chiều ngồi ngóng những chuyến mưa qua...</p>
+          <p class="lyric-en"><em>"The rain still finds the small leaves to fall on / An afternoon sitting, watching the rains pass..."</em></p>
+        </blockquote>
+        <p class="song-context">Written for a young woman he watched from across a courtyard in Huế — he never spoke to her. She became the prototype for all his idealized loves: beautiful, unreachable, dissolving in rain. This song was his first sight of the strawberry.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 98,10 195,18 Q 292,26 390,18" stroke="#0d0d0d" stroke-width="3" fill="none" opacity="0.35"/></svg></div>
+
+    <!-- Hut 2 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Nối Vòng Tay Lớn — circle of hands">
+          <rect width="200" height="120" fill="#ede4d0"/>
+          <g transform="translate(100,60)">
+            <line x1="0"   y1="-42" x2="0"   y2="-28" stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="30"  y1="-30" x2="20"  y2="-20" stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="42"  y1="0"   x2="28"  y2="0"   stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="30"  y1="30"  x2="20"  y2="20"  stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0"   y1="42"  x2="0"   y2="28"  stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-30" y1="30"  x2="-20" y2="20"  stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-42" y1="0"   x2="-28" y2="0"   stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-30" y1="-30" x2="-20" y2="-20" stroke="#2c2416" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="0" cy="0" r="20" fill="none" stroke="#2c2416" stroke-width="1.8" stroke-dasharray="4 4"/>
+            <circle cx="0" cy="0" r="5"  fill="#2c2416"/>
+          </g>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop II</span>
+        <span class="hut-theme-tag">Love in Wartime</span>
+        <h2 class="song-title">Nối Vòng Tay Lớn <span class="song-title-en">Join Hands</span></h2>
+        <p class="song-year">Sài Gòn, 1968</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Nối vòng tay lớn<br>Chúng ta đi từ đồng hoang vu qua bưng biền trống...</p>
+          <p class="lyric-en"><em>"Joining hands wide / We walk from barren fields through emptied marshlands..."</em></p>
+        </blockquote>
+        <p class="song-context">Written during the Tet Offensive when the war had reached every doorstep. TCS turned the romantic "join hands" into a call for an entire nation. Love could no longer be private — it had to be as wide as the country's suffering.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 98,10 195,18 Q 292,26 390,18" stroke="#0d0d0d" stroke-width="3" fill="none" opacity="0.35"/></svg></div>
+
+    <!-- Hut 3 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Biển Nhớ — figure at the sea's edge">
+          <rect width="200" height="120" fill="#ede4d0"/>
+          <path d="M 0,66 Q 50,56 100,66 Q 150,76 200,66" stroke="#5a8ab0" stroke-width="2" fill="none"/>
+          <path d="M 0,78 Q 50,68 100,78 Q 150,88 200,78" stroke="#5a8ab0" stroke-width="2" fill="none"/>
+          <path d="M 0,90 Q 50,80 100,90 Q 150,100 200,90" stroke="#5a8ab0" stroke-width="2" fill="none"/>
+          <line x1="0" y1="64" x2="200" y2="64" stroke="#8aa0b8" stroke-width="0.8" stroke-dasharray="8 4" opacity="0.6"/>
+          <line x1="95" y1="64" x2="95" y2="50" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="95" cy="44" r="7" stroke="#2c2416" stroke-width="2.5" fill="none"/>
+          <line x1="88" y1="56" x2="80" y2="62" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="102" y1="56" x2="110" y2="54" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <ellipse cx="95" cy="72" rx="24" ry="4" fill="none" stroke="#5a8ab0" stroke-width="1" opacity="0.5"/>
+          <ellipse cx="95" cy="78" rx="34" ry="6" fill="none" stroke="#5a8ab0" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop III</span>
+        <span class="hut-theme-tag">Love as Compassion</span>
+        <h2 class="song-title">Biển Nhớ <span class="song-title-en">The Sea Remembers</span></h2>
+        <p class="song-year">Đà Lạt, 1962</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Ngày mai em đi, biển nhớ tên em gọi về<br>Gọi hồn liễu rủ lê thê, gọi bờ xa đón bước về...</p>
+          <p class="lyric-en"><em>"Tomorrow you leave, the sea will miss your name and call it back / Calling the drooping willow-soul, calling the far shore to receive your return..."</em></p>
+        </blockquote>
+        <p class="song-context">By his early thirties, TCS's love songs had deepened. The beloved is no longer just a woman but a gathering place of all tenderness. The sea that remembers is love itself — patient, vast, holding everything that has passed through it.</p>
+      </div>
+    </article>
+
+    <div class="path-end-block">
+      <svg viewBox="0 0 390 72" aria-hidden="true"><rect width="390" height="72" fill="#f5f1e8"/><path d="M 140,0 C 148,26 152,50 154,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/><path d="M 195,0 C 195,26 195,50 195,72" stroke="#0d0d0d" stroke-width="5" fill="none" opacity="0.55"/><path d="M 250,0 C 242,26 238,50 236,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/></svg>
+      <p class="path-end-text">The stream does not end here.<br><span class="path-end-sub">Return to the river to continue.</span></p>
+      <button class="path-return-btn" id="love-return-btn">Return to the river →</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 3: IMPERMANENCE PATH — three huts
+     ═══════════════════════════════════════════════════ -->
+<div class="screen path-screen" id="s-impermanence" data-path="impermanence">
+  <div class="path-river-header imp-header">
+    <svg class="river-header-svg" viewBox="0 0 390 110" aria-hidden="true">
+      <defs>
+        <filter id="ihB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="6"/>
+          <feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <linearGradient id="ihSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c8ccd8"/>
+          <stop offset="100%" stop-color="#b8bcc8"/>
+        </linearGradient>
+      </defs>
+      <rect width="390" height="110" fill="url(#ihSky)"/>
+      <rect x="0" y="82" width="390" height="28" fill="#909098" filter="url(#ihB)"/>
+      <path d="M 0,88 Q 98,82 195,88 Q 292,94 390,88"
+            stroke="#6a8898" stroke-width="8" fill="none" stroke-linecap="round" filter="url(#ihB)"/>
+      <line x1="50"  y1="82" x2="50"  y2="42" stroke="#5a5858" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 50,52 Q 40,60 38,72 M 50,52 Q 60,58 65,68" stroke="#5a5858" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="330" y1="82" x2="330" y2="44" stroke="#5a5858" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 330,54 Q 318,62 314,72 M 330,54 Q 342,60 348,68" stroke="#5a5858" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="242" y1="82" x2="242" y2="72" stroke="#5a5848" stroke-width="3"/>
+      <line x1="278" y1="82" x2="278" y2="72" stroke="#5a5848" stroke-width="3"/>
+      <rect x="236" y="56" width="50" height="18" fill="#7a7868" stroke="#5a5848" stroke-width="1.5"/>
+      <path d="M 230,60 L 261,44 L 292,60 Z" fill="#8a8878" stroke="#5a5848" stroke-width="1.5"/>
+      <circle cx="108" cy="46" r="3" fill="#888060" opacity="0.6"/>
+      <circle cx="158" cy="28" r="2" fill="#888060" opacity="0.5"/>
+      <circle cx="202" cy="52" r="2.5" fill="#888060" opacity="0.6"/>
+    </svg>
+    <div class="path-title-bar">
+      <span class="stream-dot imp-dot"></span>
+      <span class="path-name-viet">Vô Thường</span>
+      <span class="path-name-en">Impermanence</span>
+    </div>
+  </div>
+
+  <div class="huts-scroll" id="imp-scroll">
+
+    <!-- Hut 1 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Như Cánh Vạc Bay — stork in flight">
+          <rect width="200" height="120" fill="#e8e4d8"/>
+          <rect width="200" height="80" fill="#d8dce8" opacity="0.45"/>
+          <path d="M 80,44 Q 100,34 120,44" stroke="#2c2416" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 90,42 Q 100,30 110,42" stroke="#2c2416" stroke-width="2" fill="#e8e4d8" stroke-linecap="round"/>
+          <path d="M 96,43 L 112,55" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 100,42 Q 98,37 94,35" stroke="#2c2416" stroke-width="2.5" stroke-linecap="round"/>
+          <ellipse cx="92" cy="33" rx="4" ry="5" fill="none" stroke="#2c2416" stroke-width="2"/>
+          <line x1="108" y1="54" x2="116" y2="62" stroke="#2c2416" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M 30,37 Q 38,29 50,35 Q 56,25 68,31 Q 74,23 86,29"
+                stroke="#b8bcc8" stroke-width="1.5" fill="none" opacity="0.55"/>
+          <line x1="0" y1="80" x2="200" y2="80" stroke="#9a9888" stroke-width="1.5" opacity="0.65"/>
+          <ellipse cx="90"  cy="92" rx="6" ry="3" fill="#9a9888" opacity="0.38"/>
+          <ellipse cx="105" cy="100" rx="5" ry="2.5" fill="#9a9888" opacity="0.28"/>
+          <ellipse cx="118" cy="108" rx="4" ry="2" fill="#9a9888" opacity="0.18"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop I</span>
+        <span class="hut-theme-tag">Fleeting Youth</span>
+        <h2 class="song-title">Như Cánh Vạc Bay <span class="song-title-en">Like a Stork Flying</span></h2>
+        <p class="song-year">Huế, 1961</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Như cánh vạc bay, lặng lẽ vào đời<br>Như làn mây trôi, thấp thoáng mái đầu...</p>
+          <p class="lyric-en"><em>"Like a stork flying, quietly entering life / Like a drifting cloud, glimpsed above a rooftop..."</em></p>
+        </blockquote>
+        <p class="song-context">Among his earliest songs, written while still a student in Huế. Even then, he sensed that everything he loved was already in the process of leaving — not tragically, but naturally, like a bird that was never meant to land.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 98,10 195,18 Q 292,26 390,18" stroke="#0d0d0d" stroke-width="3" fill="none" opacity="0.32"/></svg></div>
+
+    <!-- Hut 2 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Đất Nước — Vietnam silhouette and ruins">
+          <rect width="200" height="120" fill="#e8e4d8"/>
+          <path d="M 95,10 Q 110,20 108,36 Q 115,52 112,66 Q 118,82 112,96 Q 108,108 100,115"
+                stroke="#6a5838" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+          <path d="M 95,10 Q 80,22 82,38 Q 76,54 80,68 Q 74,84 80,96 Q 85,108 100,115"
+                stroke="#6a5838" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+          <path d="M 95,10 Q 110,20 108,36 Q 115,52 112,66 Q 118,82 112,96 Q 108,108 100,115 Q 85,108 80,96 Q 74,84 80,68 Q 76,54 82,38 Q 80,22 95,10 Z"
+                fill="#9a8858" opacity="0.22"/>
+          <rect x="40" y="55" width="8" height="35" fill="#8a7858" opacity="0.7"/>
+          <rect x="54" y="42" width="8" height="48" fill="#8a7858" opacity="0.7"/>
+          <line x1="36" y1="55" x2="66" y2="55" stroke="#6a5838" stroke-width="3" opacity="0.65"/>
+          <path d="M 50,45 Q 55,40 58,44" stroke="#6a5838" stroke-width="2" fill="none" opacity="0.55"/>
+          <line x1="148" y1="92" x2="148" y2="80" stroke="#4a4838" stroke-width="2"/>
+          <circle cx="148" cy="78" r="3" fill="none" stroke="#4a4838" stroke-width="1.5"/>
+          <line x1="160" y1="92" x2="160" y2="80" stroke="#4a4838" stroke-width="2"/>
+          <circle cx="160" cy="78" r="3" fill="none" stroke="#4a4838" stroke-width="1.5"/>
+          <line x1="172" y1="92" x2="172" y2="80" stroke="#4a4838" stroke-width="2"/>
+          <circle cx="172" cy="78" r="3" fill="none" stroke="#4a4838" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop II</span>
+        <span class="hut-theme-tag">Impermanence in War</span>
+        <h2 class="song-title">Đất Nước <span class="song-title-en">Motherland</span></h2>
+        <p class="song-year">Sài Gòn, 1967</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Đất nước tôi thon thả giọt đàn bầu<br>Nghe buồn buồn vọng nước non xa...</p>
+          <p class="lyric-en"><em>"My country, slender as a monochord's drop / Hearing the sad echo from the distant land..."</em></p>
+        </blockquote>
+        <p class="song-context">As the American War intensified, TCS saw Vietnam as a body being unmade. Cities were destroyed, rebuilt, destroyed again. He experienced impermanence not as philosophy but as the daily fact of a country that refused to hold its shape.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 98,10 195,18 Q 292,26 390,18" stroke="#0d0d0d" stroke-width="3" fill="none" opacity="0.32"/></svg></div>
+
+    <!-- Hut 3 -->
+    <article class="hut-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Một Cõi Đi Về — figure walking a circular path">
+          <rect width="200" height="120" fill="#e8e4d8"/>
+          <circle cx="100" cy="60" r="36" fill="none" stroke="#6a5838" stroke-width="2" opacity="0.55"/>
+          <circle cx="100" cy="60" r="24" fill="none" stroke="#6a5838" stroke-width="1.5" opacity="0.42"/>
+          <circle cx="136" cy="60" r="6"  stroke="#2c2416" stroke-width="2" fill="none"/>
+          <line x1="136" y1="66"  x2="136" y2="78" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1="130" y1="72"  x2="124" y2="78" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <line x1="142" y1="72"  x2="146" y2="79" stroke="#2c2416" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="64"  cy="60" r="3.5" stroke="#8a7858" stroke-width="1.5" fill="none" opacity="0.45"/>
+          <path d="M 100,24 L 97,30 L 103,30 Z" fill="#6a5838" opacity="0.48"/>
+          <circle cx="100" cy="60" r="8"   fill="none" stroke="#6a5838" stroke-width="1.5" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop III</span>
+        <span class="hut-theme-tag">Embracing Change</span>
+        <h2 class="song-title">Một Cõi Đi Về <span class="song-title-en">A Realm of Coming and Going</span></h2>
+        <p class="song-year">Sài Gòn, 1980</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Bao nhiêu năm rồi còn mãi ra đi<br>Đi đâu loanh quanh cho đời mỏi mệt...</p>
+          <p class="lyric-en"><em>"So many years and still always departing / Going in circles just to tire out life..."</em></p>
+        </blockquote>
+        <p class="song-context">Written in the post-reunification years, after TCS had lived long enough to trace his own circles. The song is not lament but recognition: coming and going are the same motion. Impermanence is not something that happens to us — it is us.</p>
+      </div>
+    </article>
+
+    <div class="path-end-block">
+      <svg viewBox="0 0 390 72" aria-hidden="true"><rect width="390" height="72" fill="#f5f1e8"/><path d="M 140,0 C 148,26 152,50 154,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/><path d="M 195,0 C 195,26 195,50 195,72" stroke="#0d0d0d" stroke-width="5" fill="none" opacity="0.55"/><path d="M 250,0 C 242,26 238,50 236,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/></svg>
+      <p class="path-end-text">The stream does not end here.<br><span class="path-end-sub">Return to the river to continue.</span></p>
+      <button class="path-return-btn" id="imp-return-btn">Return to the river →</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 4: DEATH PATH — three huts
+     ═══════════════════════════════════════════════════ -->
+<div class="screen path-screen" id="s-death" data-path="death">
+  <div class="path-river-header death-header">
+    <svg class="river-header-svg" viewBox="0 0 390 110" aria-hidden="true">
+      <defs>
+        <filter id="dhB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="8"/>
+          <feDisplacementMap in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <linearGradient id="dhSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#9a9078"/>
+          <stop offset="100%" stop-color="#807858"/>
+        </linearGradient>
+      </defs>
+      <rect width="390" height="110" fill="url(#dhSky)"/>
+      <rect x="0" y="82" width="390" height="28" fill="#504840" filter="url(#dhB)"/>
+      <path d="M 0,88 Q 50,76 100,88 Q 150,100 195,88 Q 240,76 290,88 Q 340,100 390,88"
+            stroke="#384850" stroke-width="10" fill="none" stroke-linecap="round" filter="url(#dhB)"/>
+      <line x1="50"  y1="82" x2="50"  y2="36" stroke="#383028" stroke-width="5" stroke-linecap="round"/>
+      <line x1="40"  y1="54" x2="58"  y2="48" stroke="#383028" stroke-width="3" stroke-linecap="round"/>
+      <line x1="40"  y1="66" x2="62"  y2="62" stroke="#383028" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="330" y1="82" x2="330" y2="38" stroke="#383028" stroke-width="5" stroke-linecap="round"/>
+      <line x1="318" y1="51" x2="340" y2="46" stroke="#383028" stroke-width="3" stroke-linecap="round"/>
+      <rect x="234" y="54" width="52" height="28" fill="#585048" stroke="#383028" stroke-width="2"/>
+      <path d="M 228,58 L 260,40 L 292,58 Z"  fill="#686858" stroke="#383028" stroke-width="2"/>
+      <line x1="240" y1="66" x2="280" y2="66" stroke="#383028" stroke-width="0.8" opacity="0.5"/>
+      <line x1="240" y1="72" x2="280" y2="72" stroke="#383028" stroke-width="0.8" opacity="0.5"/>
+    </svg>
+    <div class="path-title-bar">
+      <span class="stream-dot death-dot"></span>
+      <span class="path-name-viet">Cái Chết</span>
+      <span class="path-name-en">Death</span>
+    </div>
+  </div>
+
+  <div class="huts-scroll" id="death-scroll">
+
+    <!-- Hut 1 -->
+    <article class="hut-card death-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Gia Tài Của Mẹ — candle against historical columns">
+          <rect width="200" height="120" fill="#ddd0b8"/>
+          <line x1="40" y1="8"  x2="40" y2="110" stroke="#6a5040" stroke-width="3" opacity="0.65"/>
+          <line x1="68" y1="8"  x2="68" y2="110" stroke="#6a5040" stroke-width="3" opacity="0.65"/>
+          <line x1="96" y1="8"  x2="96" y2="110" stroke="#6a5040" stroke-width="3" opacity="0.48"/>
+          <line x1="28" y1="30" x2="108" y2="30" stroke="#6a5040" stroke-width="1.5" opacity="0.48"/>
+          <line x1="28" y1="65" x2="108" y2="65" stroke="#6a5040" stroke-width="1.5" opacity="0.48"/>
+          <rect x="146" y="72" width="8" height="30" fill="#8a7858"/>
+          <path d="M 150,70 Q 145,62 146,54 Q 150,46 154,54 Q 155,62 150,70 Z" fill="#e8a020" opacity="0.88"/>
+          <ellipse cx="150" cy="58" rx="12" ry="12" fill="#e8a020" opacity="0.14"/>
+          <circle cx="150" cy="35" r="8"  stroke="#3a2808" stroke-width="2" fill="none"/>
+          <line x1="150" y1="43" x2="150" y2="58" stroke="#3a2808" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="144" y1="50" x2="136" y2="56" stroke="#3a2808" stroke-width="2" stroke-linecap="round"/>
+          <line x1="156" y1="50" x2="164" y2="45" stroke="#3a2808" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop I</span>
+        <span class="hut-theme-tag">Witnessing Death</span>
+        <h2 class="song-title">Gia Tài Của Mẹ <span class="song-title-en">Mother's Legacy</span></h2>
+        <p class="song-year">Sài Gòn, 1965</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Một ngàn năm đô hộ giặc Tầu<br>Một trăm năm đô hộ giặc Tây<br>Hai mươi năm nội chiến từng ngày...</p>
+          <p class="lyric-en"><em>"A thousand years under Chinese occupation / A hundred years under French occupation / Twenty years of civil war, every day..."</em></p>
+        </blockquote>
+        <p class="song-context">Banned by both sides during the war. TCS catalogued Vietnam's dead with the patience of a coroner — not to accuse, not to glorify, but to bear witness. The mother's legacy is a history of other people's dying. He made it impossible to look away.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 50,8 100,18 Q 150,28 195,18 Q 240,8 290,18 Q 340,28 390,18" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/></svg></div>
+
+    <!-- Hut 2 -->
+    <article class="hut-card death-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Hát Cho Một Người Nằm Xuống — reclining figure, singing">
+          <rect width="200" height="120" fill="#ddd0b8"/>
+          <path d="M 40,76 Q 80,70 120,76 Q 140,79 160,76"
+                stroke="#3a2808" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="55" cy="70" rx="14" ry="8" fill="none" stroke="#3a2808" stroke-width="2"/>
+          <circle cx="55" cy="59" r="9" fill="none" stroke="#3a2808" stroke-width="2"/>
+          <circle cx="90"  cy="68" r="5" fill="none" stroke="#6a8858" stroke-width="2"/>
+          <circle cx="106" cy="72" r="5" fill="none" stroke="#6a8858" stroke-width="2"/>
+          <circle cx="122" cy="68" r="5" fill="none" stroke="#6a8858" stroke-width="2"/>
+          <circle cx="136" cy="71" r="4" fill="none" stroke="#6a8858" stroke-width="1.5"/>
+          <line x1="100" y1="0"  x2="90"  y2="40" stroke="#d4a040" stroke-width="1.5" opacity="0.45"/>
+          <line x1="100" y1="0"  x2="100" y2="40" stroke="#d4a040" stroke-width="1.5" opacity="0.45"/>
+          <line x1="100" y1="0"  x2="110" y2="40" stroke="#d4a040" stroke-width="1.5" opacity="0.45"/>
+          <circle cx="175" cy="55" r="8"  fill="none" stroke="#3a2808" stroke-width="2"/>
+          <path d="M 175,63 L 175,80"     stroke="#3a2808" stroke-width="2" stroke-linecap="round"/>
+          <line x1="168" y1="70" x2="162" y2="75" stroke="#3a2808" stroke-width="2" stroke-linecap="round"/>
+          <line x1="182" y1="70" x2="188" y2="75" stroke="#3a2808" stroke-width="2" stroke-linecap="round"/>
+          <text x="188" y="55" font-size="11" fill="#3a2808" opacity="0.65">♪</text>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop II</span>
+        <span class="hut-theme-tag">Death as Companion</span>
+        <h2 class="song-title">Hát Cho Một Người Nằm Xuống <span class="song-title-en">Song for Someone Lying Down</span></h2>
+        <p class="song-year">Sài Gòn, 1968</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Anh nằm xuống sau một lần đã đến đây<br>Đến đây rồi anh sẽ không bao giờ đi nữa...</p>
+          <p class="lyric-en"><em>"You lie down after having come here once / Come here and you will never leave again..."</em></p>
+        </blockquote>
+        <p class="song-context">Written for a young soldier killed in 1968, the song refuses anger. TCS sings to the dead not with grief but with a kind of tender acceptance — as if death were simply the final room in a house we all must eventually enter. The tiger is not the enemy. It was always part of the journey.</p>
+      </div>
+    </article>
+
+    <div class="hut-divider"><svg viewBox="0 0 390 36" aria-hidden="true"><rect width="390" height="36" fill="#f5f1e8"/><path d="M 0,18 Q 50,8 100,18 Q 150,28 195,18 Q 240,8 290,18 Q 340,28 390,18" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/></svg></div>
+
+    <!-- Hut 3 -->
+    <article class="hut-card death-card">
+      <div class="hut-art">
+        <svg viewBox="0 0 200 120" aria-label="Ca Dao Mẹ — mother and child in circular embrace">
+          <rect width="200" height="120" fill="#ddd0b8"/>
+          <circle cx="90" cy="45" r="12" fill="none" stroke="#3a2808" stroke-width="2.5"/>
+          <path d="M 90,57 L 90,80" stroke="#3a2808" stroke-width="3" stroke-linecap="round"/>
+          <path d="M 78,66 Q 65,73 70,86 Q 80,97 90,93 Q 100,97 110,86 Q 115,73 102,66"
+                stroke="#3a2808" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="90" cy="80" r="7" fill="none" stroke="#3a2808" stroke-width="2"/>
+          <path d="M 20,108 Q 60,100 100,108 Q 140,116 180,108"
+                stroke="#6a5040" stroke-width="2" fill="none" opacity="0.55"/>
+          <circle cx="90" cy="75" r="22" fill="none" stroke="#d4a040" stroke-width="1"   stroke-dasharray="3 5" opacity="0.38"/>
+          <circle cx="90" cy="75" r="32" fill="none" stroke="#d4a040" stroke-width="0.8" stroke-dasharray="3 8" opacity="0.22"/>
+        </svg>
+      </div>
+      <div class="hut-content">
+        <span class="hut-stop-num">Stop III</span>
+        <span class="hut-theme-tag">Death as Liberation</span>
+        <h2 class="song-title">Ca Dao Mẹ <span class="song-title-en">Mother's Folk Song</span></h2>
+        <p class="song-year">Sài Gòn, 1973</p>
+        <blockquote class="lyric-block">
+          <p class="lyric-viet">Mẹ ngồi ru con, tiếng hát ầu ơ<br>Tiếng hát ngàn năm còn mãi xanh tươi...</p>
+          <p class="lyric-en"><em>"Mother sits rocking her child, lullaby ầu ơ / A song of a thousand years, still forever green..."</em></p>
+        </blockquote>
+        <p class="song-context">By the early 1970s TCS had arrived at something like peace with death. In this late song, the dying is held inside a lullaby. Mother, child, earth, and song are one continuous cycle. We die back into the voice that first named us. Death is not ending — it is return.</p>
+      </div>
+    </article>
+
+    <div class="path-end-block">
+      <svg viewBox="0 0 390 72" aria-hidden="true"><rect width="390" height="72" fill="#f5f1e8"/><path d="M 140,0 C 148,26 152,50 154,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/><path d="M 195,0 C 195,26 195,50 195,72" stroke="#0d0d0d" stroke-width="5" fill="none" opacity="0.55"/><path d="M 250,0 C 242,26 238,50 236,72" stroke="#0d0d0d" stroke-width="4" fill="none" opacity="0.45"/></svg>
+      <p class="path-end-text">The stream does not end here.<br><span class="path-end-sub">Return to the river to continue.</span></p>
+      <button class="path-return-btn" id="death-return-btn">Return to the river →</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 4b: INTERMISSION — rivers flow parallel, then merge
+     (Plays automatically after both Love + Impermanence are completed)
+     ═══════════════════════════════════════════════════ -->
+<div class="screen active" id="s-intermission">
+  <svg id="intmSvg" class="scene-svg" viewBox="0 0 390 844"
+       role="img" aria-label="Two rivers flowing side by side past trees, then merging">
+    <defs>
+      <filter id="intmBrush" x="-25%" y="-25%" width="150%" height="150%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <radialGradient id="intmVig" cx="50%" cy="50%" r="75%">
+        <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+        <stop offset="80%"  stop-color="#c8b888" stop-opacity="0.06"/>
+        <stop offset="100%" stop-color="#5a4820" stop-opacity="0.22"/>
+      </radialGradient>
+      <clipPath id="intmClip">
+        <rect width="390" height="844"/>
+      </clipPath>
+    </defs>
+
+    <!-- Ground / sky -->
+    <rect width="390" height="844" fill="#eae4d4"/>
+    <!-- Subtle colour band behind each river -->
+    <rect x="90"  y="0" width="54"  height="844" fill="#c8a878" opacity="0.12"/>
+    <rect x="246" y="0" width="54"  height="844" fill="#8a9eb8" opacity="0.14"/>
+    <!-- Centre land between rivers -->
+    <rect x="144" y="0" width="102" height="844" fill="#d8cc9a" opacity="0.18"/>
+
+    <!-- ─── Scrolling world (two identical vegetation tiles, seamless loop) ─── -->
+    <g id="intmWorld" clip-path="url(#intmClip)">
+
+      <!-- ══ TILE A  (y 0 – 844) ══════════════════════════════════════════════ -->
+      <!-- Left bank trees -->
+      <line x1="18"  y1="100" x2="18"  y2="65"  stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="18"  cy="50"  rx="17" ry="22" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="62"  y1="248" x2="62"  y2="210" stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="58"  cy="193" rx="22" ry="28" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="28"  y1="382" x2="28"  y2="348" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="26"  cy="333" rx="14" ry="20" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <ellipse cx="76"  cy="468" rx="20" ry="13" fill="#8aa060" filter="url(#intmBrush)" opacity="0.85"/>
+      <ellipse cx="62"  cy="472" rx="12" ry="9"  fill="#7a9050" filter="url(#intmBrush)" opacity="0.7"/>
+      <line x1="42"  y1="600" x2="42"  y2="563" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="40"  cy="547" rx="18" ry="24" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="20"  y1="735" x2="20"  y2="700" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="18"  cy="685" rx="16" ry="21" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <!-- Right bank trees -->
+      <line x1="374" y1="140" x2="374" y2="105" stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="375" cy="89"  rx="18" ry="22" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="328" y1="298" x2="328" y2="264" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="332" cy="248" rx="21" ry="27" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <ellipse cx="316" cy="390" rx="19" ry="14" fill="#8aa060" filter="url(#intmBrush)" opacity="0.85"/>
+      <ellipse cx="330" cy="394" rx="13" ry="10" fill="#7a9050" filter="url(#intmBrush)" opacity="0.7"/>
+      <line x1="370" y1="520" x2="370" y2="487" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="368" cy="472" rx="17" ry="22" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="342" y1="660" x2="342" y2="623" stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="346" cy="607" rx="22" ry="27" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="380" y1="808" x2="380" y2="774" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="378" cy="758" rx="16" ry="21" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <!-- Centre reeds (between the rivers) -->
+      <path d="M 158,175 Q 166,170 174,175" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 218,210 Q 226,205 234,210" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 152,340 Q 162,334 172,340" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 220,374 Q 228,369 238,374" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 160,540 Q 170,534 180,540" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 214,572 Q 222,567 232,572" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 155,720 Q 165,714 175,720" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 218,755 Q 226,750 236,755" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+
+      <!-- ══ TILE B  (y 844 – 1688, identical to Tile A + 844) ═════════════════ -->
+      <!-- Left bank trees -->
+      <line x1="18"  y1="944"  x2="18"  y2="909"  stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="18"  cy="894"  rx="17" ry="22" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="62"  y1="1092" x2="62"  y2="1054" stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="58"  cy="1037" rx="22" ry="28" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="28"  y1="1226" x2="28"  y2="1192" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="26"  cy="1177" rx="14" ry="20" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <ellipse cx="76"  cy="1312" rx="20" ry="13" fill="#8aa060" filter="url(#intmBrush)" opacity="0.85"/>
+      <ellipse cx="62"  cy="1316" rx="12" ry="9"  fill="#7a9050" filter="url(#intmBrush)" opacity="0.7"/>
+      <line x1="42"  y1="1444" x2="42"  y2="1407" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="40"  cy="1391" rx="18" ry="24" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="20"  y1="1579" x2="20"  y2="1544" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="18"  cy="1529" rx="16" ry="21" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <!-- Right bank trees -->
+      <line x1="374" y1="984"  x2="374" y2="949"  stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="375" cy="933"  rx="18" ry="22" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="328" y1="1142" x2="328" y2="1108" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="332" cy="1092" rx="21" ry="27" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <ellipse cx="316" cy="1234" rx="19" ry="14" fill="#8aa060" filter="url(#intmBrush)" opacity="0.85"/>
+      <ellipse cx="330" cy="1238" rx="13" ry="10" fill="#7a9050" filter="url(#intmBrush)" opacity="0.7"/>
+      <line x1="370" y1="1364" x2="370" y2="1331" stroke="#6a5838" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="368" cy="1316" rx="17" ry="22" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="342" y1="1504" x2="342" y2="1467" stroke="#6a5838" stroke-width="4"   stroke-linecap="round"/>
+      <ellipse cx="346" cy="1451" rx="22" ry="27" fill="#6a8844" filter="url(#intmBrush)" opacity="0.9"/>
+      <line x1="380" y1="1652" x2="380" y2="1618" stroke="#6a5838" stroke-width="3"   stroke-linecap="round"/>
+      <ellipse cx="378" cy="1602" rx="16" ry="21" fill="#7a9854" filter="url(#intmBrush)" opacity="0.9"/>
+      <!-- Centre reeds tile B -->
+      <path d="M 158,1019 Q 166,1014 174,1019" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 218,1054 Q 226,1049 234,1054" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 152,1184 Q 162,1178 172,1184" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 220,1218 Q 228,1213 238,1218" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 160,1384 Q 170,1378 180,1384" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 214,1416 Q 222,1411 232,1416" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 155,1564 Q 165,1558 175,1564" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+      <path d="M 218,1599 Q 226,1594 236,1599" stroke="#8a7040" stroke-width="1.5" fill="none" opacity="0.35"/>
+
+    </g><!-- /#intmWorld -->
+
+    <!-- ─── LEFT river — Love (warm ink) ─────────────────────────────────── -->
+    <g id="intmParL" stroke="#503020" stroke-width="5" fill="none"
+       stroke-linecap="round" filter="url(#intmBrush)">
+      <path d="M 108,-20 L 108 864"/>
+      <path d="M 122,-20 L 122 864"/>
+    </g>
+
+    <!-- ─── RIGHT river — Impermanence (cool ink) ─────────────────────────── -->
+    <g id="intmParR" stroke="#304858" stroke-width="5" fill="none"
+       stroke-linecap="round" filter="url(#intmBrush)">
+      <path d="M 268,-20 L 268 864"/>
+      <path d="M 282,-20 L 282 864"/>
+    </g>
+
+    <!-- ─── Merged river — fades in at convergence ────────────────────────── -->
+    <g id="intmMerged" opacity="0" stroke="#0d0d0d" stroke-width="8" fill="none"
+       stroke-linecap="round" filter="url(#intmBrush)">
+      <path d="M 183,-20 L 183 864"/>
+      <path d="M 195,-20 L 195 864"/>
+      <path d="M 207,-20 L 207 864"/>
+    </g>
+
+    <!-- Vignette overlay -->
+    <rect width="390" height="844" fill="url(#intmVig)" pointer-events="none"/>
+  </svg>
+
+  <!-- Narration 1: parallel phase -->
+  <div class="intm-narr" id="intm-n1" style="opacity:0;">
+    <p>The rivers ran beside each other<br>for a while.</p>
+  </div>
+
+  <!-- Narration 2: convergence -->
+  <div class="intm-narr" id="intm-n2" style="opacity:0;">
+    <p>They were always<br>the same water.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 5: FORK 2 — Death + remaining path
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="s-fork2">
+  <svg id="fork2Svg" class="scene-svg" viewBox="0 0 390 844"
+       role="img" aria-label="Two more paths diverge from the reconverged river">
+    <defs>
+      <filter id="f2Brush" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.020" numOctaves="3"
+                      seed="12" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <radialGradient id="f2Vig" cx="50%" cy="50%" r="72%">
+        <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+        <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+        <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+      </radialGradient>
+    </defs>
+
+    <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+    <!-- Two rivers merging from opposite sides at top -->
+    <g stroke="#0d0d0d" stroke-width="5" fill="none"
+       stroke-linecap="round" filter="url(#f2Brush)" opacity="0.48">
+      <path d="M  38,0  Q  80,80 130,168 Q 160,208 192,228"/>
+      <path d="M 352,0  Q 310,80 260,168 Q 230,208 198,228"/>
+    </g>
+    <!-- Merged river briefly -->
+    <g stroke="#0d0d0d" stroke-width="7" fill="none"
+       stroke-linecap="round" filter="url(#f2Brush)" opacity="0.7">
+      <path d="M 186,228 C 185,258 186,294 185,330"/>
+      <path d="M 195,228 C 195,258 195,294 195,330"/>
+      <path d="M 204,228 C 205,258 204,294 205,330"/>
+    </g>
+    <!-- Left (Death) stream — heavier -->
+    <g stroke="#0d0d0d" stroke-width="6" fill="none"
+       stroke-linecap="round" filter="url(#f2Brush)">
+      <path d="M 170,340 Q 128,434 96,540 Q 68,628 44,744 Q 32,796 20,844" opacity="0.82"/>
+      <path d="M 184,346 Q 144,440 114,546 Q 86,634 62,748" opacity="0.6"/>
+    </g>
+    <!-- Right (remaining) stream -->
+    <g stroke="#0d0d0d" stroke-width="4" fill="none"
+       stroke-linecap="round" filter="url(#f2Brush)" opacity="0.62">
+      <path d="M 220,340 Q 262,434 294,540 Q 322,628 346,744 Q 358,796 370,844"/>
+      <path d="M 206,346 Q 246,440 276,546 Q 304,634 328,748"/>
+    </g>
+
+    <!-- Death sign (left) -->
+    <g transform="translate(100,548)">
+      <rect x="-46" y="-22" width="92" height="40" rx="3"
+            fill="#8a7858" stroke="#3a2808" stroke-width="2"/>
+      <line x1="0" y1="18" x2="0" y2="42" stroke="#3a2808" stroke-width="2"/>
+      <text x="0" y="-5" text-anchor="middle"
+            font-family="'Cormorant Garamond', Georgia, serif"
+            font-size="12" font-weight="700" fill="#f0e8d8">DEATH</text>
+      <text x="0" y="11" text-anchor="middle"
+            font-family="'Cormorant Garamond', Georgia, serif"
+            font-size="9" font-style="italic" fill="#d0c8b0">Cái Chết</text>
+    </g>
+
+    <!-- Right sign (dynamic — set by JS) -->
+    <g id="f2SignRight" transform="translate(290,548)">
+      <rect x="-60" y="-22" width="120" height="40" rx="3"
+            fill="#d4b882" stroke="#5a4010" stroke-width="2"/>
+      <line x1="0" y1="18" x2="0" y2="42" stroke="#5a4010" stroke-width="2"/>
+      <text id="f2LabelMain" x="0" y="-5" text-anchor="middle"
+            font-family="'Cormorant Garamond', Georgia, serif"
+            font-size="12" font-weight="700" fill="#3a2808">—</text>
+      <text id="f2LabelViet" x="0" y="11" text-anchor="middle"
+            font-family="'Cormorant Garamond', Georgia, serif"
+            font-size="9" font-style="italic" fill="#5a4010">—</text>
+    </g>
+
+    <rect x="0" y="0" width="390" height="844"
+          fill="url(#f2Vig)" pointer-events="none"/>
+  </svg>
+
+  <div class="fork-choice-overlay">
+    <p class="fork-prompt">The rivers have met — and parted once more.</p>
+    <div class="fork-btns">
+      <button class="fork-stream-btn death-btn" id="fork2-death-btn" data-path="death">
+        <span>Death</span>
+        <span class="viet-label">Cái Chết →</span>
+      </button>
+      <button class="fork-stream-btn" id="fork2-other-btn" data-path="">
+        <span id="fork2-other-label">—</span>
+        <span class="viet-label" id="fork2-other-viet">—</span>
+      </button>
+    </div>
+    <p class="fork-note" id="fork2-note">Both streams must be crossed.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCREEN 6: CONVERGENCE — the climax
+     Long scrollable: rivers merge → TCS smile → pools → viewer's eyes
+     ═══════════════════════════════════════════════════ -->
+<div class="screen" id="s-convergence">
+  <!-- Sticky visual stage -->
+  <div id="conv-stage">
+    <svg id="convSvg" class="scene-svg" viewBox="0 0 390 844"
+         role="img" aria-label="The rivers converge and find a smile">
+      <defs>
+        <filter id="cvBrush" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence id="cvBrushTurb" type="fractalNoise" baseFrequency="0.018"
+                        numOctaves="3" seed="9" result="noise"/>
+          <feDisplacementMap id="cvBrushDisp" in="SourceGraphic" in2="noise" scale="8"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="cvGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <!-- Clip rivers precisely at the dam rim so they never pass through -->
+        <clipPath id="cvRiverStopClip">
+          <rect x="-20" y="-20" width="430" height="533"/>
+        </clipPath>
+        <filter id="cvTear" x="-10%" y="-5%" width="120%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2"
+                        seed="5" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <radialGradient id="cvPoolInk" cx="50%" cy="45%" r="65%">
+          <stop offset="0%"   stop-color="#1a1a1a"/>
+          <stop offset="100%" stop-color="#0d0d0d"/>
+        </radialGradient>
+        <radialGradient id="cvPondL" cx="50%" cy="50%" r="65%">
+          <stop offset="0%"   stop-color="#182030"/>
+          <stop offset="100%" stop-color="#0c1420"/>
+        </radialGradient>
+        <radialGradient id="cvPondR" cx="50%" cy="50%" r="65%">
+          <stop offset="0%"   stop-color="#182030"/>
+          <stop offset="100%" stop-color="#0c1420"/>
+        </radialGradient>
+        <radialGradient id="cvVig" cx="50%" cy="50%" r="72%">
+          <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
+          <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#8c5e2a" stop-opacity="0.18"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+
+      <!-- cvWorld: the entire scene travels up during the camera-follow phase -->
+      <g id="cvWorld">
+
+      <!-- Rivers converging from three directions -->
+      <g id="cvRiversIn" stroke="#0d0d0d" fill="none" stroke-linecap="round"
+         filter="url(#cvBrush)" opacity="0">
+        <path stroke-width="5" opacity="0.68"  d="M  18,0 Q  60,80 100,164 Q 138,244 174,322"/>
+        <path stroke-width="3" opacity="0.48"  d="M  44,0 Q  82,86 118,170 Q 152,248 180,326"/>
+        <path stroke-width="5" opacity="0.68"  d="M 372,0 Q 330,80 290,164 Q 252,244 216,322"/>
+        <path stroke-width="3" opacity="0.48"  d="M 346,0 Q 308,86 272,170 Q 238,248 210,326"/>
+        <path stroke-width="6" opacity="0.78"  d="M 118,0 Q 138,82 154,166 Q 166,248 178,322"/>
+      </g>
+
+      <!-- United river — ends AT the dam rim (y=508), clipped so it never passes through -->
+      <g id="cvRiverUnited" stroke="#0d0d0d" fill="none"
+         stroke-linecap="round" filter="url(#cvBrush)" opacity="0"
+         clip-path="url(#cvRiverStopClip)">
+        <path stroke-width="9"  d="M 174,326 C 182,362 186,402 184,444 C 183,468 187,492 193,508"/>
+        <path stroke-width="7"  d="M 195,326 C 195,362 195,402 195,444 C 195,468 195,492 195,508"/>
+        <path stroke-width="9"  d="M 216,326 C 208,362 204,402 206,444 C 207,468 203,492 197,508"/>
+        <path stroke-width="5"  d="M 158,336 C 167,372 174,412 178,444 C 178,468 181,490 188,508" opacity="0.55"/>
+        <path stroke-width="5"  d="M 232,336 C 223,372 216,412 212,444 C 212,468 209,490 202,508" opacity="0.55"/>
+      </g>
+
+      <!-- Long flow strands for Phase 2 camera-travel only — fades out before dam enters -->
+      <g id="cvRiverFlow" stroke="#0d0d0d" fill="none"
+         stroke-linecap="round" filter="url(#cvBrush)" opacity="0">
+        <path stroke-width="9"  d="M 174,326 C 182,400 185,520 184,640 C 183,740 188,840 193,950"/>
+        <path stroke-width="7"  d="M 195,326 C 195,400 195,520 195,640 C 195,740 195,840 195,950"/>
+        <path stroke-width="9"  d="M 216,326 C 208,400 205,520 206,640 C 207,740 203,840 197,950"/>
+        <path stroke-width="5"  d="M 158,336 C 167,410 174,530 178,640 C 178,740 182,840 191,950" opacity="0.55"/>
+        <path stroke-width="5"  d="M 232,336 C 223,410 216,530 212,640 C 212,740 208,840 199,950" opacity="0.55"/>
+      </g>
+
+      <!-- Clippath for smile dam water fill -->
+      <!-- The water fills upward inside the smile-shaped dam -->
+
+      <!-- TCS SMILE as the dam (the wide gentle arc of his mouth) -->
+      <!-- Smile dam: left cheek, right cheek, main arc -->
+      <!-- Water fill: uses clipPath + animated rect that rises up into the smile -->
+      <defs>
+        <clipPath id="cvSmileClip">
+          <!-- The filled smile basin shape — water is clipped to this -->
+          <path d="M 18,508 Q 20,518 26,528 Q 100,586 195,600 Q 290,586 364,528 Q 370,518 372,508 L 380,490 Q 350,460 195,452 Q 40,460 10,490 Z"/>
+        </clipPath>
+      </defs>
+      <!-- Water body filling into dam, starts from bottom, rises up -->
+      <g id="cvWaterFill" clip-path="url(#cvSmileClip)" opacity="0">
+        <!-- y=602 starts below basin bottom (y=600) — completely empty.
+             JS animates y up to 452 (brim). height=250 always covers the basin floor. -->
+        <rect id="cvWaterRect" x="0" y="602" width="390" height="250"
+              fill="#1a3550" opacity="0.72"/>
+        <!-- Surface shimmer line tracks water level -->
+        <line id="cvWaterSurface" x1="10" y1="602" x2="380" y2="602"
+              stroke="rgba(180,220,255,0.45)" stroke-width="1.5"/>
+      </g>
+
+      <path id="cvSmile"
+            d="M 26,528 Q 100,586 195,600 Q 290,586 364,528"
+            stroke="#2c2416" stroke-width="5.5" fill="none"
+            stroke-linecap="round" filter="url(#cvBrush)" opacity="0"/>
+      <path id="cvSmileL"
+            d="M 18,508 Q 20,518 26,528"
+            stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round" opacity="0"/>
+      <path id="cvSmileR"
+            d="M 372,508 Q 370,518 364,528"
+            stroke="#2c2416" stroke-width="4" fill="none" stroke-linecap="round" opacity="0"/>
+
+      <!-- Overflow cascades at corners -->
+      <g id="cvOverflowL" opacity="0" filter="url(#cvTear)">
+        <path d="M 26,528 Q 18,578 14,636 Q 10,688 8,748 Q 6,796 4,844"
+              stroke="#0d0d0d" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M 40,534 Q 30,582 26,640 Q 22,690 20,748"
+              stroke="#0d0d0d" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.65"/>
+      </g>
+      <g id="cvOverflowR" opacity="0" filter="url(#cvTear)">
+        <path d="M 364,528 Q 372,578 376,636 Q 380,688 382,748 Q 384,796 386,844"
+              stroke="#0d0d0d" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M 350,534 Q 360,582 364,640 Q 368,690 370,748"
+              stroke="#0d0d0d" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.65"/>
+      </g>
+
+      </g><!-- end #cvWorld -->
+
+      <rect x="0" y="0" width="390" height="844"
+            fill="url(#cvVig)" pointer-events="none"/>
+    </svg>
+
+    <!-- Narration beats (driven by scroll progress) -->
+    <div class="conv-narr" id="cv-n1">All rivers meet.</div>
+    <div class="conv-narr" id="cv-n2">Love. Impermanence. Death.<br>The same water.</div>
+    <div class="conv-narr" id="cv-n3">And what does it all press against?</div>
+    <div class="conv-narr" id="cv-n4">A smile.</div>
+    <div class="conv-narr" id="cv-n5"><em>How sweet it tasted.</em></div>
+
+    <!-- Final message -->
+    <div class="final-text-block" id="cv-final">
+      <p class="final-line">Now you see.</p>
+      <p class="final-line final-question">What will you taste?</p>
+    </div>
+  </div>
+
+  <!-- Scroll space (provides 400vh of scroll distance) -->
+  <div id="conv-scroll-driver"></div>
+</div>
+
+</div><!-- end #scene2 -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="prologue/animations.js"></script>
+<!-- scene-1/animations.js excluded: scene-1 runs standalone at /scene-1/ only -->
+<script src="scene-2/animations.js"></script>
+</body>
+</html>

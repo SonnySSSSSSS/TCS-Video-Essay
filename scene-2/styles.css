@@ -1,0 +1,568 @@
+:root {
+  --canvas:  #f5f1e8;
+  --ink:     #2c2416;
+  --love:    #c8804a;
+  --imp:     #6a8898;
+  --death:   #3a3028;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  /* Centre the mobile column on wide screens */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* ─── SCENE SHELL ─── */
+#scene2 {
+  position: relative;
+  width: min(100vw, 430px);
+  height: 100vh;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  #scene2 { width: min(58vh, 420px); }
+}
+
+/* ─── SCREENS ─── */
+.screen {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100vh;
+  opacity: 0;
+  pointer-events: none;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── SCENE SVGs ─── */
+.scene-svg {
+  width: min(100vw, 430px);
+  height: 100vh;
+  max-height: 100vh;
+  display: block;
+}
+@media (min-width: 768px) {
+  .scene-svg { width: min(58vh, 420px); }
+}
+
+/* ─── INTRO SCREEN ─── */
+#s-intro {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+}
+
+.intro-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+}
+.intro-narr {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(84vw, 360px);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  background: #f5f1e8;
+  padding: 1.5em 1.6em;
+  border-radius: 4px;
+  border: 2px solid rgba(212, 185, 130, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(44, 36, 22, 0.15);
+}
+.intro-narr p {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1rem, 3.8vw, 1.45rem);
+  color: #2f2a21;
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.intro-fork-btns {
+  position: absolute;
+  bottom: 9vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.8em;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  width: min(92%, 380px);
+  justify-content: center;
+}
+.intro-fork-btns.ready { pointer-events: auto; }
+
+/* ─── INTRO SIDE LABELS ─── */
+.intro-sign {
+  position: absolute;
+  top: 36%;
+  left: 3%;
+  width: 22%;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  z-index: 20;
+}
+.intro-sign-right {
+  left: auto;
+  right: 3%;
+}
+.intro-sign-viet {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.85rem, 3.5vw, 1.15rem);
+  font-weight: 700;
+  color: #2f2a21;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.intro-sign-en {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+  font-style: italic;
+  color: rgba(44,36,22,0.52);
+  margin-top: 0.18em;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.intro-fork-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  padding: 0.75em 1.3em;
+  background: none;
+  border: 1.5px solid rgba(44,36,22,0.32);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  min-width: 110px;
+}
+.intro-fork-btn:hover {
+  background: rgba(44,36,22,0.05);
+  border-color: rgba(44,36,22,0.65);
+}
+.stream-label {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.stream-label-viet {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgba(44,36,22,0.55);
+}
+
+/* ─── PATH SCREENS ─── */
+.path-screen {
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+}
+
+.path-river-header {
+  flex: 0 0 25vh;
+  height: 25vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.river-header-svg {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: block;
+  overflow: hidden;
+}
+.path-title-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.5em 1.1em;
+  background: rgba(245,241,232,0.95);
+  border-bottom: 1px solid rgba(44,36,22,0.1);
+  backdrop-filter: blur(4px);
+}
+.stream-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.love-dot  { background: var(--love); }
+.imp-dot   { background: var(--imp); }
+.death-dot { background: var(--death); }
+
+.path-name-viet {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--ink);
+}
+.path-name-en {
+  font-size: 0.78rem;
+  color: rgba(44,36,22,0.5);
+  margin-left: 0.2em;
+}
+
+/* Scrollable content inside path screens */
+.huts-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2rem;
+}
+
+/* ─── HUT CARDS ─── */
+.hut-card {
+  background: var(--canvas);
+  margin: 1.4em 1em;
+  border-radius: 2px;
+  box-shadow: 0 2px 14px rgba(44,36,22,0.07);
+  overflow: hidden;
+}
+.death-card {
+  background: #ede5d5;
+}
+
+.hut-art {
+  width: 100%;
+  background: #ede4d0;
+}
+.hut-art svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hut-content {
+  padding: 1.2em 1.25em 1.5em;
+}
+
+.hut-stop-num {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(44,36,22,0.4);
+  margin-bottom: 0.18em;
+}
+.hut-theme-tag {
+  display: inline-block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(44,36,22,0.52);
+  border-bottom: 1px solid rgba(44,36,22,0.18);
+  padding-bottom: 0.08em;
+  margin-bottom: 0.55em;
+}
+
+.song-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.42rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin: 0 0 0.12em;
+}
+.song-title-en {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(44,36,22,0.6);
+  margin-top: 0.08em;
+}
+
+.song-year {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(44,36,22,0.42);
+  letter-spacing: 0.05em;
+  margin: 0 0 0.85em;
+}
+
+.lyric-block {
+  margin: 0 0 0.85em;
+  padding: 0.55em 0 0.55em 1em;
+  border-left: 2px solid rgba(44,36,22,0.22);
+}
+.lyric-viet {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.58;
+  color: var(--ink);
+  margin: 0 0 0.4em;
+}
+.lyric-en {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(44,36,22,0.62);
+  line-height: 1.42;
+  margin: 0;
+}
+
+.song-context {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.96rem;
+  line-height: 1.58;
+  color: rgba(44,36,22,0.78);
+}
+
+/* Dividers between huts */
+.hut-divider { margin: 0 1em; }
+.hut-divider svg { width: 100%; }
+
+/* Path end */
+.path-end-block {
+  text-align: center;
+  padding: 2em 1em 3em;
+}
+.path-end-text {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  color: rgba(44,36,22,0.58);
+  line-height: 1.55;
+  margin-bottom: 1.5em;
+}
+.path-end-sub {
+  display: block;
+  font-style: italic;
+}
+.path-return-btn {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: none;
+  border: 1px solid rgba(44,36,22,0.3);
+  padding: 0.6em 1.5em;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.path-return-btn:hover {
+  background: rgba(44,36,22,0.05);
+  border-color: rgba(44,36,22,0.6);
+}
+
+/* ─── INTERMISSION SCREEN ─── */
+#s-intermission {
+  background: #eae4d4;
+}
+.intm-narr {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(82vw, 300px);
+  text-align: center;
+  pointer-events: none;
+  background: rgba(245, 241, 232, 0.90);
+  padding: 1.4em 1.8em;
+  border-radius: 3px;
+  border: 1.5px solid rgba(212, 185, 130, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 28px rgba(44, 36, 22, 0.12);
+}
+.intm-narr p {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.1rem, 4.2vw, 1.55rem);
+  color: #2c2416;
+  line-height: 1.55;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ─── FORK 2 SCREEN ─── */
+#s-fork2 {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+}
+
+.fork-choice-overlay {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 360px);
+  text-align: center;
+  z-index: 20;
+}
+.fork-prompt {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  color: rgba(44,36,22,0.6);
+  font-style: italic;
+  margin-bottom: 1.2em;
+}
+.fork-btns {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fork-stream-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.28em;
+  padding: 0.8em 1.2em;
+  background: none;
+  border: 1.5px solid rgba(44,36,22,0.32);
+  border-radius: 2px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 120px;
+  transition: background 0.2s, border-color 0.2s, opacity 0.3s;
+}
+.fork-stream-btn:hover { background: rgba(44,36,22,0.05); border-color: rgba(44,36,22,0.65); }
+.fork-stream-btn .viet-label { font-size: 0.76rem; font-style: italic; font-weight: 400; color: rgba(44,36,22,0.5); }
+.death-btn { border-color: rgba(58,48,40,0.5); }
+
+.fork-stream-btn.visited {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+.fork-note {
+  margin-top: 0.9em;
+  font-size: 0.75rem;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0.06em;
+  color: rgba(44,36,22,0.4);
+}
+
+/* ─── CONVERGENCE SCREEN ─── */
+#s-convergence {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  background: var(--canvas);
+}
+#conv-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+#conv-scroll-driver {
+  height: 400vh;
+  pointer-events: none;
+}
+
+/* Convergence narration */
+.conv-narr {
+  position: absolute;
+  opacity: 0;
+  text-align: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.05rem, 3.8vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.55;
+  width: min(84vw, 360px);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 20;
+  bottom: 9vh;
+  color: #2f2a21;
+  background: #f5f1e8;
+  padding: 1.3em 1.6em;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 24px rgba(44, 36, 22, 0.12);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Final text */
+.final-text-block {
+  position: absolute;
+  opacity: 0;
+  text-align: center;
+  bottom: 14vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(84vw, 360px);
+  background: #f5f1e8;
+  padding: 1.5em 1.8em;
+  border-radius: 4px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 32px rgba(44, 36, 22, 0.12);
+}
+  z-index: 20;
+  pointer-events: none;
+}
+.final-line {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.final-question {
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 5vw, 2.1rem);
+  margin-top: 0.35em;
+  color: #1a1408;
+}
+
+/* ─── PROGRESS DOTS ─── */
+.progress-dots {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  display: flex;
+  gap: 0.45em;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.progress-dots.visible { opacity: 1; }
+.progress-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(44,36,22,0.18);
+  border: 1px solid rgba(44,36,22,0.3);
+  transition: background 0.4s;
+}
+.progress-dot.done { background: rgba(44,36,22,0.68); }
