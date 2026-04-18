@@ -1,11 +1,12 @@
 (function () {
   'use strict';
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin, DrawSVGPlugin, ScrollSmoother, SplitText);
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const scene = {
+  svgRoot: document.querySelector("#sceneSvg"),
   eyeSystem: document.querySelector("#eyeSystem"),
   pupils: gsap.utils.toArray("#leftPupil, #rightPupil"),
   nosePaths: gsap.utils.toArray("#nose path"),
@@ -20,12 +21,23 @@ const scene = {
   riverLabels: gsap.utils.toArray(".river-label")
 };
 
-function setupStrokeDrawing(paths) {
-  paths.forEach((path) => {
-    const length = path.getTotalLength();
-    path.style.strokeDasharray = `${length}`;
-    path.style.strokeDashoffset = `${length}`;
+function maybeAddPoolRoughOverlay() {
+  if (!window.rough || !scene.svgRoot || !scene.poolScale) return;
+  if (scene.poolScale.querySelector(".pool-rough-overlay")) return;
+
+  const roughSvg = rough.svg(scene.svgRoot);
+  const d = scene.poolShape.getAttribute("d");
+  const node = roughSvg.path(d, {
+    stroke: "#20160d",
+    strokeWidth: 1.4,
+    roughness: 1.1,
+    bowing: 1.6,
+    fill: "none"
   });
+  node.classList.add("pool-rough-overlay");
+  node.setAttribute("pointer-events", "none");
+  node.setAttribute("opacity", "0.55");
+  scene.poolScale.appendChild(node);
 }
 
 function addStopMotionJitter(targets, intensity = 3.5) {
@@ -57,12 +69,12 @@ function runIntro() {
   tl.from("#frames", { opacity: 0, duration: 0.75, ease: "power2.out" })
     .from("#eyes", { opacity: 0, y: 8, duration: 0.65, ease: "power2.out" }, "<0.2")
     .from("#lids", { opacity: 0, duration: 0.55, ease: "power2.out" }, "<0.1")
-    .to(scene.nosePaths, { strokeDashoffset: 0, duration: 1.1, stagger: 0.12, ease: "power1.inOut" }, 1.4)
+    .to(scene.nosePaths, { drawSVG: "100%", duration: 1.1, stagger: 0.12, ease: "power1.inOut" }, 1.4)
     .to(scene.pupils, { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.14, ease: "none" }, 2.5)
     .to(scene.pupils, { scaleY: 1, duration: 0.18, ease: "back.out" }, 2.64)
     .to(scene.pupils, { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.14, ease: "none" }, 4.2)
     .to(scene.pupils, { scaleY: 1, duration: 0.18, ease: "back.out" }, 4.34)
-    .to(scene.tears, { strokeDashoffset: 0, duration: 2.8, stagger: 0.12, ease: "power1.inOut" }, 5.5)
+    .to(scene.tears, { drawSVG: "100%", duration: 2.8, stagger: 0.12, ease: "power1.inOut" }, 5.5)
     .to(scene.tears, { stroke: "#5f5a52", opacity: 0.8, duration: 1.4, ease: "sine.inOut" }, 8.3)
     .from(scene.poolScale, { scale: 0.1, opacity: 0, duration: 1.1, transformOrigin: "50% 50%", ease: "elastic.out" }, 9)
     .to(scene.poolScale, { scale: 1.02, duration: 0.8, transformOrigin: "50% 50%", ease: "sine.inOut" }, 10.1);
@@ -75,12 +87,11 @@ function animatePool() {
     "M -84 0 C -70 -38 -24 -44 0 -40 C 23 -44 68 -37 84 0 C 70 30 36 46 0 42 C -34 45 -70 30 -84 0 Z"
   ];
 
-  gsap.to(scene.poolShape, {
-    keyframes: morphShapes.map((d) => ({ attr: { d } })),
-    duration: 7.2,
-    repeat: -1,
-    ease: "sine.inOut"
-  });
+  const poolMorphTl = gsap.timeline({ repeat: -1, defaults: { ease: "sine.inOut" } });
+  poolMorphTl
+    .to(scene.poolShape, { morphSVG: morphShapes[1], duration: 2.4 })
+    .to(scene.poolShape, { morphSVG: morphShapes[2], duration: 2.4 })
+    .to(scene.poolShape, { morphSVG: morphShapes[0], duration: 2.4 });
 
   gsap.to(scene.ripples, {
     scaleX: 1.07,
@@ -92,6 +103,52 @@ function animatePool() {
     stagger: 0.2,
     ease: "sine.inOut"
   });
+}
+
+function narrSplit(tl, id, inAt, outAt, inDur = 0.08, outDur = 0.08) {
+  const el = document.querySelector(id);
+  if (!el || typeof SplitText === "undefined") {
+    narr(tl, id, inAt, outAt, inDur, outDur);
+    return;
+  }
+
+  const split = new SplitText(el, { type: "words,chars" });
+  tl.fromTo(split.chars,
+    { opacity: 0, y: 8 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: inDur,
+      stagger: 0.008,
+      ease: "power1.out"
+    },
+    inAt
+  ).to(split.chars,
+    {
+      opacity: 0,
+      duration: outDur,
+      stagger: 0.005,
+      ease: "power1.in"
+    },
+    outAt
+  );
+}
+
+function attachNarrationAnnotations(tl) {
+  if (!window.RoughNotation) return;
+
+  const griefEl = document.querySelector("#s1-narr-grief");
+  if (griefEl) {
+    const griefNote = RoughNotation.annotate(griefEl, {
+      type: "highlight",
+      color: "rgba(212,169,106,0.28)",
+      strokeWidth: 1.6,
+      animationDuration: 600,
+      padding: [3, 6, 3, 6]
+    });
+    tl.call(() => griefNote.show(), null, 0.13)
+      .call(() => griefNote.hide(), null, 0.50);
+  }
 }
 
 // ─── Narration helper — fade a text overlay in then out within a scrubbed timeline.
@@ -139,22 +196,18 @@ function setupScroll() {
     .to(scene.tearLayer, { opacity: 0.18, duration: 0.45, ease: "sine.inOut" }, 0.55)
     .to(scene.poolScale, { scale: 3.8, duration: 0.65, ease: "power2.out" }, 0.5);
 
+  gsap.set(scene.rivers, { drawSVG: "0%" });
   scene.rivers.forEach((river, index) => {
-    const length = river.getTotalLength();
-    river.style.strokeDasharray = `${length}`;
-    river.style.strokeDashoffset = `${length}`;
-
-    scrollTl.fromTo(
+    scrollTl.to(
       river,
-      { strokeDashoffset: length },
-      { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" },
+      { drawSVG: "100%", duration: 0.5, ease: "power2.inOut" },
       0.54 + index * 0.04
     );
   });
 
   // ── Chapter narration beats ──────────────────────────────────────────────
   // Grief: appears as pool dominates and eyes recede (early scroll 20–90vh)
-  narr(scrollTl, "#s1-narr-grief",  0.12, 0.46, 0.06, 0.06);
+  narrSplit(scrollTl, "#s1-narr-grief",  0.12, 0.46, 0.06, 0.06);
 
   // Rivers: appears as rivers start drawing and remain drawn (100–175vh)
   narr(scrollTl, "#s1-narr-rivers", 0.52, 1.10, 0.06, 0.06);
@@ -170,24 +223,36 @@ function setupScroll() {
   });
 
   // Source: long read window after all rivers and labels are visible (285–430vh)
-  narr(scrollTl, "#s1-narr-source", 1.55, 2.70, 0.15, 0.15);
+  narrSplit(scrollTl, "#s1-narr-source", 1.55, 2.70, 0.15, 0.15);
+  attachNarrationAnnotations(scrollTl);
 }
 
 function initializeScene() {
-  setupStrokeDrawing(scene.nosePaths);
-  setupStrokeDrawing(scene.tears);
+  gsap.set(scene.nosePaths, { drawSVG: "0%" });
+  gsap.set(scene.tears, { drawSVG: "0%" });
+  maybeAddPoolRoughOverlay();
 
   gsap.set(scene.poolScale, { transformOrigin: "50% 50%" });
   gsap.set(scene.riverLayer, { opacity: 0, y: 48 });
 
   if (!prefersReducedMotion) {
+    if (document.querySelector("#smooth-wrapper") && document.querySelector("#smooth-content")) {
+      ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.2,
+        effects: true,
+        smoothTouch: 0.1
+      });
+    }
     addStopMotionJitter([scene.eyeSystem, ...scene.tears], 3.5);
     runIntro();
     animatePool();
     setupScroll();
   } else {
-    gsap.set(scene.nosePaths, { strokeDashoffset: 0 });
-    gsap.set(scene.tears, { strokeDashoffset: 0 });
+    gsap.set(scene.nosePaths, { drawSVG: "100%" });
+    gsap.set(scene.tears, { drawSVG: "100%" });
+    gsap.set(scene.rivers, { drawSVG: "100%" });
     gsap.set(scene.riverLayer, { opacity: 1, y: 0 });
     gsap.set(scene.poolScale, { scale: 3.5 });
     gsap.set(scene.riverLabels, { opacity: 1 });

@@ -17,6 +17,11 @@ html, body {
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
 }
 
+#smooth-wrapper,
+#smooth-content {
+  min-height: 100vh;
+}
+
 /* ─── SHELLS (provide scroll distance) ─── */
 .prologue-shell {
   position: relative;

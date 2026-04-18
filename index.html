@@ -10,6 +10,30 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<div id="smooth-wrapper">
+<div id="smooth-content">
+<!-- ── INK-BLEED WIPE OVERLAY ─────────────────────────────── -->
+<svg id="ink-wipe-host" aria-hidden="true" focusable="false"
+     xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="inkBleedFilter" x="-8%" y="-8%" width="116%" height="116%"
+            color-interpolation-filters="linearRGB">
+      <feTurbulence id="wipeNoise" type="fractalNoise"
+                    baseFrequency="0.014 0.007" numOctaves="4"
+                    seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="38"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="wipeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5f1e8" stop-opacity="1"/>
+      <stop offset="82%" stop-color="#f5f1e8" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#f5f1e8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect id="wipeRect" x="-50" y="960" width="490" height="960"
+        fill="url(#wipeGrad)" filter="url(#inkBleedFilter)"/>
+</svg>
 <!-- ═══════════════════════════════════════════════════════
      STAGE 1 — COSMOS
      Singularity → cosmic eye opens → galaxies → earth → Huế → TCS eyes
@@ -981,6 +1005,10 @@
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="9"
                              xChannelSelector="R" yChannelSelector="G"/>
         </filter>
+        <!-- Iris clip: center matches #bPoolGroup translate(195,510) in bridge SVG -->
+        <clipPath id="irisClip">
+          <circle id="irisCircle" cx="195" cy="510" r="0"/>
+        </clipPath>
         <radialGradient id="rVig" cx="50%" cy="50%" r="72%">
           <stop offset="0%"   stop-color="#f5ead0" stop-opacity="0"/>
           <stop offset="70%"  stop-color="#d4a96a" stop-opacity="0.07"/>
@@ -988,49 +1016,51 @@
         </radialGradient>
       </defs>
 
-      <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
+      <g id="rContent" clip-path="url(#irisClip)">
+        <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
 
-      <!-- Left river: Love — meanders from top to bottom-left -->
-      <g id="rRiverLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
-         stroke-linecap="round" filter="url(#rBrush)" opacity="0">
-        <path class="rRiver" d="M 112 0 C 90 110 136 230 108 360
-                                 C 80 490 126 610 100 730 C 74 820 105 835  88 844"/>
-        <path class="rRiver" d="M 152 0 C 174 110 142 230 170 360
-                                 C 198 490 154 610 178 730 C 202 820 172 835 186 844"/>
-      </g>
+        <!-- Left river: Love — meanders from top to bottom-left -->
+        <g id="rRiverLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+           stroke-linecap="round" filter="url(#rBrush)" opacity="0">
+          <path class="rRiver" d="M 112 0 C 90 110 136 230 108 360
+                                   C 80 490 126 610 100 730 C 74 820 105 835  88 844"/>
+          <path class="rRiver" d="M 152 0 C 174 110 142 230 170 360
+                                   C 198 490 154 610 178 730 C 202 820 172 835 186 844"/>
+        </g>
 
-      <!-- Right river: Death — meanders from top to bottom-right -->
-      <g id="rRiverRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
-         stroke-linecap="round" filter="url(#rBrush)" opacity="0">
-        <path class="rRiver" d="M 238 0 C 216 110 248 230 220 360
-                                 C 192 490 236 610 212 730 C 188 820 218 835 204 844"/>
-        <path class="rRiver" d="M 278 0 C 300 110 268 230 292 360
-                                 C 316 490 272 610 296 730 C 320 820 290 835 302 844"/>
-      </g>
+        <!-- Right river: Death — meanders from top to bottom-right -->
+        <g id="rRiverRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+           stroke-linecap="round" filter="url(#rBrush)" opacity="0">
+          <path class="rRiver" d="M 238 0 C 216 110 248 230 220 360
+                                   C 192 490 236 610 212 730 C 188 820 218 835 204 844"/>
+          <path class="rRiver" d="M 278 0 C 300 110 268 230 292 360
+                                   C 316 490 272 610 296 730 C 320 820 290 835 302 844"/>
+        </g>
 
-      <!-- River labels — live inside SVG so they never exceed the column -->
-      <g id="rl-love" opacity="0" pointer-events="none">
-        <text x="68" y="292"
-              font-family="'Cormorant Garamond', Georgia, serif"
-              font-size="26" font-weight="700" fill="#2c2416"
-              text-anchor="middle" letter-spacing="0.4">Tình yêu</text>
-        <text x="68" y="318"
-              font-family="'Cormorant Garamond', Georgia, serif"
-              font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
-              text-anchor="middle">Love</text>
-      </g>
-      <g id="rl-death" opacity="0" pointer-events="none">
-        <text x="322" y="292"
-              font-family="'Cormorant Garamond', Georgia, serif"
-              font-size="26" font-weight="700" fill="#2c2416"
-              text-anchor="middle" letter-spacing="0.4">Cái chết</text>
-        <text x="322" y="318"
-              font-family="'Cormorant Garamond', Georgia, serif"
-              font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
-              text-anchor="middle">Death</text>
-      </g>
+        <!-- River labels — live inside SVG so they never exceed the column -->
+        <g id="rl-love" opacity="0" pointer-events="none">
+          <text x="68" y="292"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="26" font-weight="700" fill="#2c2416"
+                text-anchor="middle" letter-spacing="0.4">Tình yêu</text>
+          <text x="68" y="318"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
+                text-anchor="middle">Love</text>
+        </g>
+        <g id="rl-death" opacity="0" pointer-events="none">
+          <text x="322" y="292"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="26" font-weight="700" fill="#2c2416"
+                text-anchor="middle" letter-spacing="0.4">Cái chết</text>
+          <text x="322" y="318"
+                font-family="'Cormorant Garamond', Georgia, serif"
+                font-size="17" font-style="italic" fill="rgba(44,36,22,0.52)"
+                text-anchor="middle">Death</text>
+        </g>
 
-      <rect x="0" y="0" width="390" height="844" fill="url(#rVig)" pointer-events="none"/>
+        <rect x="0" y="0" width="390" height="844" fill="url(#rVig)" pointer-events="none"/>
+      </g>
     </svg>
 
     <!-- Narration beats -->
@@ -1045,6 +1075,9 @@
     </div>
   </div>
 </section>
+
+</div>
+</div>
 
 <div id="scene2-overlay">
 <!-- Progress indicator (appears after first choice) -->
@@ -1078,7 +1111,7 @@
     <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
 
     <!-- LEFT river cluster (Love) -->
-    <g id="iLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+    <g id="iLeft" stroke="#4a3521" stroke-width="5.5" fill="none"
        stroke-linecap="round" filter="url(#iBrush)" opacity="0">
       <path d="M 112 0 C 90 110 136 230 108 360
                C 80 490 126 610 100 730 C 74 820 88 838 80 844"/>
@@ -1087,7 +1120,7 @@
     </g>
 
     <!-- RIGHT river cluster (Impermanence) -->
-    <g id="iRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+    <g id="iRight" stroke="#21160f" stroke-width="5.5" fill="none"
        stroke-linecap="round" filter="url(#iBrush)" opacity="0">
       <path d="M 238 0 C 216 110 248 230 220 360
                C 192 490 236 610 212 730 C 188 820 202 838 206 844"/>
@@ -1561,12 +1594,12 @@
   </svg>
 
   <!-- Narration 1: parallel phase -->
-  <div class="intm-narr" id="intm-n1" style="opacity:0;">
+  <div class="intm-narr" id="intm-n1">
     <p>The rivers ran beside each other<br>for a while.</p>
   </div>
 
   <!-- Narration 2: convergence -->
-  <div class="intm-narr" id="intm-n2" style="opacity:0;">
+  <div class="intm-narr" id="intm-n2">
     <p>They were always<br>the same water.</p>
   </div>
 </div>
@@ -1689,7 +1722,7 @@
         </filter>
         <!-- Clip rivers precisely at the dam rim so they never pass through -->
         <clipPath id="cvRiverStopClip">
-          <rect x="-20" y="-20" width="430" height="533"/>
+          <rect x="-20" y="-200" width="430" height="728"/>
         </clipPath>
         <filter id="cvTear" x="-10%" y="-5%" width="120%" height="110%">
           <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2"
@@ -1731,15 +1764,15 @@
         <path stroke-width="6" opacity="0.78"  d="M 118,0 Q 138,82 154,166 Q 166,248 178,322"/>
       </g>
 
-      <!-- United river — ends AT the dam rim (y=508), clipped so it never passes through -->
+      <!-- United river — ends AT the dam rim (y=528), clipped so it never passes through -->
       <g id="cvRiverUnited" stroke="#0d0d0d" fill="none"
          stroke-linecap="round" filter="url(#cvBrush)" opacity="0"
          clip-path="url(#cvRiverStopClip)">
-        <path stroke-width="9"  d="M 174,326 C 182,362 186,402 184,444 C 183,468 187,492 193,508"/>
-        <path stroke-width="7"  d="M 195,326 C 195,362 195,402 195,444 C 195,468 195,492 195,508"/>
-        <path stroke-width="9"  d="M 216,326 C 208,362 204,402 206,444 C 207,468 203,492 197,508"/>
-        <path stroke-width="5"  d="M 158,336 C 167,372 174,412 178,444 C 178,468 181,490 188,508" opacity="0.55"/>
-        <path stroke-width="5"  d="M 232,336 C 223,372 216,412 212,444 C 212,468 209,490 202,508" opacity="0.55"/>
+        <path stroke-width="9"  d="M 184,-100 C 184,100 180,220 174,326 C 182,362 186,402 184,444 C 183,468 187,492 193,528"/>
+        <path stroke-width="7"  d="M 195,-100 C 195,100 195,220 195,326 C 195,362 195,402 195,444 C 195,468 195,492 195,528"/>
+        <path stroke-width="9"  d="M 206,-100 C 207,100 210,220 216,326 C 208,362 204,402 206,444 C 207,468 203,492 197,528"/>
+        <path stroke-width="5"  d="M 178,-100 C 176,60 168,200 158,336 C 167,372 174,412 178,444 C 178,468 181,490 188,528" opacity="0.55"/>
+        <path stroke-width="5"  d="M 212,-100 C 214,60 222,200 232,336 C 223,372 216,412 212,444 C 212,468 209,490 202,528" opacity="0.55"/>
       </g>
 
       <!-- Long flow strands for Phase 2 camera-travel only — fades out before dam enters -->
@@ -1827,8 +1860,14 @@
 </div><!-- end #scene2 -->
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.min.js"></script>
+<script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
 <script src="prologue/animations.js"></script>
 <!-- scene-1/animations.js excluded: scene-1 runs standalone at /scene-1/ only -->
 <script src="scene-2/animations.js"></script>

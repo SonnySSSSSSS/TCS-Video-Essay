@@ -10,6 +10,9 @@
   --love: #c8804a;
   --imp: #6a8898;
   --death: #3a3028;
+  --intro-ink: #24180f;
+  --intro-brown: #5b4127;
+  --intro-brown-soft: #9b7a52;
 }
 
 * { box-sizing: border-box; }
@@ -21,6 +24,20 @@ html, body {
   background: var(--space);
   color: var(--ink);
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+#smooth-wrapper,
+#smooth-content {
+  min-height: 100vh;
+}
+
+#ink-wipe-host {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 900;
 }
 
 /* ─── SHELLS (provide scroll distance) ─── */
@@ -236,7 +253,7 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 200;
+  z-index: 1000;
   display: none;
   background: var(--canvas);
   /* Centre the mobile column, identical to prologue stages */
@@ -284,7 +301,29 @@ html, body {
 #s-intro {
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(140, 96, 46, 0.16), transparent 38%),
+    radial-gradient(circle at 84% 76%, rgba(44, 36, 22, 0.12), transparent 35%),
+    radial-gradient(circle at 50% -10%, #fff9ef 0%, var(--canvas) 45%, #ece5d8 100%);
+}
+/* Subtle warm-light drift — gives the canvas an organic, breathing idle quality */
+#s-intro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 65% 55% at 50% 50%,
+    rgba(186, 140, 72, 0.09) 0%,
+    transparent 68%);
+  animation: introBgDrift 14s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes introBgDrift {
+  from { transform: translate(-9%, -7%) scale(1.04); opacity: 0.55; }
+  to   { transform: translate(8%,  9%) scale(0.97); opacity: 1; }
 }
 .intro-overlay {
   position: absolute;
@@ -293,38 +332,45 @@ html, body {
 }
 .intro-narr {
   position: absolute;
-  top: 8vh;
+  top: 28%;
   left: 50%;
-  transform: translateX(-50%);
-  width: min(84vw, 340px);
+  transform: translate(-50%, -50%);
+  width: min(86vw, 370px);
   text-align: center;
   opacity: 0;
   pointer-events: none;
+  background: linear-gradient(180deg, rgba(249, 245, 236, 0.96), rgba(243, 236, 224, 0.96));
+  padding: 1.1em 1.35em;
+  border-radius: 6px;
+  border: 1.5px solid rgba(155, 122, 82, 0.42);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(44, 36, 22, 0.14);
 }
 .intro-narr p {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1rem, 3.8vw, 1.45rem);
-  color: #2f2a21;
-  line-height: 1.5;
+  font-size: clamp(1.02rem, 3.9vw, 1.42rem);
+  color: var(--intro-ink);
+  line-height: 1.42;
   margin: 0;
 }
 .intro-narr-sub {
   margin-top: 0.4em;
   font-style: italic;
-  opacity: 0.7;
+  opacity: 0.72;
 }
 
 .intro-fork-btns {
   position: absolute;
-  bottom: 9vh;
+  bottom: 8vh;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.8em;
+  gap: 0.65em;
   opacity: 0;
   pointer-events: none;
   z-index: 20;
-  width: min(92%, 380px);   /* constrain so buttons never overflow column */
+  width: min(92%, 390px);   /* constrain so buttons never overflow column */
   justify-content: center;
 }
 .intro-fork-btns.ready { pointer-events: auto; }
@@ -333,7 +379,7 @@ html, body {
 /* Constrained within #scene2 column; text wraps so it never overflows */
 .intro-sign {
   position: absolute;
-  top: 36%;
+  top: 37%;
   left: 3%;
   width: 22%;          /* cap width so text wraps before hitting rivers */
   opacity: 0;
@@ -350,17 +396,17 @@ html, body {
 }
 .intro-sign-viet {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(0.85rem, 3.5vw, 1.15rem);
+  font-size: clamp(0.86rem, 3.5vw, 1.12rem);
   font-weight: 700;
-  color: #2f2a21;
-  letter-spacing: 0.02em;
+  color: var(--intro-brown);
+  letter-spacing: 0.03em;
   white-space: nowrap;
 }
 .intro-sign-en {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+  font-size: clamp(0.66rem, 2.45vw, 0.8rem);
   font-style: italic;
-  color: rgba(44,36,22,0.52);
+  color: rgba(91, 65, 39, 0.66);
   margin-top: 0.18em;
   word-break: break-word;
   white-space: normal;
@@ -371,29 +417,32 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 0.25em;
-  padding: 0.75em 1.3em;
-  background: none;
-  border: 1.5px solid rgba(44,36,22,0.32);
-  border-radius: 2px;
+  padding: 0.72em 1.15em;
+  background: linear-gradient(180deg, rgba(249, 245, 237, 0.98), rgba(241, 232, 216, 0.98));
+  border: 1.5px solid rgba(91, 65, 39, 0.38);
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  min-width: 110px;
+  transition: background 0.22s, border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+  min-width: 118px;
+  box-shadow: 0 3px 14px rgba(44, 36, 22, 0.08);
 }
 .intro-fork-btn:hover {
-  background: rgba(44,36,22,0.05);
-  border-color: rgba(44,36,22,0.65);
+  background: linear-gradient(180deg, rgba(252, 248, 241, 1), rgba(244, 235, 220, 1));
+  border-color: rgba(91, 65, 39, 0.62);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(44, 36, 22, 0.12);
 }
 .stream-label {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.1rem;
+  font-size: 1.06rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--intro-ink);
 }
 .stream-label-viet {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-style: italic;
-  color: rgba(44,36,22,0.55);
+  color: rgba(91, 65, 39, 0.72);
 }
 
 /* ─── PATH SCREENS ─── */
@@ -613,6 +662,7 @@ html, body {
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 28px rgba(44, 36, 22, 0.12);
+  opacity: 0;
 }
 .intm-narr p {
   font-family: "Cormorant Garamond", Georgia, serif;

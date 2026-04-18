@@ -22,6 +22,11 @@ body {
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
 }
 
+#smooth-wrapper,
+#smooth-content {
+  min-height: 100vh;
+}
+
 .scene-1-shell {
   min-height: 600vh;
   position: relative;

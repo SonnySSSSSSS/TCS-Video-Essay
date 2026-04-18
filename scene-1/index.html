@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
   <main class="scene-1-shell">
     <section class="stage" aria-label="TCS eyes becoming rivers">
       <svg id="sceneSvg" viewBox="0 0 390 844" role="img" aria-label="Eyes, tears, and rivers in painterly style">
@@ -173,9 +175,17 @@
       </div>
     </section>
   </main>
+    </div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.min.js"></script>
+  <script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
   <script src="animations.js"></script>
 </body>
 </html>

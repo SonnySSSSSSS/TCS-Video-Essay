@@ -4,6 +4,8 @@
 (function () {
   'use strict';
 
+  gsap.registerPlugin(DrawSVGPlugin);
+
   let eventsBound = false;
   let isActivated = false;
 
@@ -22,10 +24,39 @@ const PATH_META = {
 function setupStroke(paths) {
   paths.forEach(p => {
     try {
-      const len = p.getTotalLength();
-      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+      gsap.set(p, { drawSVG: '0%' });
     } catch (e) { /* non-stroked element, skip */ }
   });
+}
+
+function addConvergenceAnnotations(tl) {
+  if (!window.RoughNotation) return;
+
+  const smileEl = document.querySelector('#cv-n4');
+  if (smileEl) {
+    const smileAnn = RoughNotation.annotate(smileEl, {
+      type: 'box',
+      color: '#5f5a52',
+      strokeWidth: 1.8,
+      padding: [4, 8, 4, 8],
+      animationDuration: 680
+    });
+    tl.call(() => smileAnn.show(), null, 76.3)
+      .call(() => smileAnn.hide(), null, 86.2);
+  }
+
+  const finalEl = document.querySelector('#cv-final');
+  if (finalEl) {
+    const finalAnn = RoughNotation.annotate(finalEl, {
+      type: 'bracket',
+      brackets: ['left'],
+      color: '#2c2416',
+      strokeWidth: 2,
+      padding: [6, 10, 6, 10],
+      animationDuration: 850
+    });
+    tl.call(() => finalAnn.show(), null, 106.5);
+  }
 }
 
 function showScreen(newId, onComplete, dir) {
@@ -81,13 +112,50 @@ function updateDots() {
 // Called after the intermission transitions to s-intro.
 // Shows rivers, labels, and fork buttons immediately — no scrolling needed.
 function showForkChoice() {
-  gsap.set(['#iLeft', '#iRight', '#iSignL', '#iSignR'],
-    { opacity: 1, clearProps: 'scale,y' });
-  gsap.set('#intro-narr', { opacity: 1, clearProps: 'y' });
-  gsap.fromTo('#intro-fork-btns',
-    { opacity: 0, y: 14 },
-    { opacity: 1, y: 0, duration: 0.9, delay: 0.4, ease: 'power2.out' }
-  );
+  const tl = gsap.timeline();
+
+  gsap.set(['#iLeft', '#iRight'], { opacity: 0 });
+  gsap.set(['#iSignL', '#iSignR'], { opacity: 0, y: 10, scale: 0.96 });
+  gsap.set('#intro-narr', { opacity: 0, y: 12 });
+  gsap.set('#intro-fork-btns', { opacity: 0, y: 14 });
+  // Pre-tilt each button for a hand-placed, slightly off-axis look
+  gsap.set('.intro-fork-btn:nth-child(1)', { rotation: -1.8, transformOrigin: '50% 100%' });
+  gsap.set('.intro-fork-btn:nth-child(2)', { rotation:  1.4, transformOrigin: '50% 100%' });
+
+  tl
+    .to(['#iLeft', '#iRight'], {
+      opacity: 1,
+      duration: 0.9,
+      ease: 'sine.out'
+    })
+    .to(['#iSignL', '#iSignR'], {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.65,
+      ease: 'back.out(1.2)',
+      stagger: 0.08
+    }, '-=0.35')
+    .to('#intro-narr', {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      ease: 'power2.out'
+    }, '-=0.2')
+    .to('#intro-fork-btns', {
+      opacity: 1,
+      y: 0,
+      duration: 0.85,
+      ease: 'power2.out'
+    }, '-=0.25')
+    // Straighten each button with a spring — like objects set down by hand
+    .to('.intro-fork-btn', {
+      rotation: 0,
+      duration: 0.7,
+      ease: 'back.out(1.6)',
+      stagger: 0.11
+    }, '-=0.4');
+
   document.getElementById('intro-fork-btns').classList.add('ready');
 }
 
@@ -144,29 +212,29 @@ function runIntermission(onDone) {
   };
 
   // ─── Narration 1: "The rivers ran beside each other / for a while." ────────
-  gsap.to('#intm-n1', { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 1.2 });
-  gsap.to('#intm-n1', { opacity: 0,        duration: 1.0, ease: 'power2.in',  delay: 5.5 });
+  gsap.to('#intm-n1', { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out', delay: 1.0 });
+  gsap.to('#intm-n1', { opacity: 0,        duration: 0.9, ease: 'power2.in',  delay: 5.0 });
 
   // ─── Slow world scroll to a stop ─────────────────────────────────────────
-  gsap.delayedCall(5.8, () => {
-    gsap.to(worldTween, { timeScale: 0, duration: 1.5, ease: 'power3.out' });
+  gsap.delayedCall(5.2, () => {
+    gsap.to(worldTween, { timeScale: 0, duration: 1.3, ease: 'power3.out' });
   });
 
   // ─── Rivers converge toward centre ───────────────────────────────────────
-  gsap.to('#intmParL', { x:  77, duration: 2.5, ease: 'power2.inOut', delay: 7.5 });
-  gsap.to('#intmParR', { x: -77, duration: 2.5, ease: 'power2.inOut', delay: 7.5 });
+  gsap.to('#intmParL', { x:  77, duration: 2.2, ease: 'power2.inOut', delay: 6.9 });
+  gsap.to('#intmParR', { x: -77, duration: 2.2, ease: 'power2.inOut', delay: 6.9 });
 
   // ─── Merged river fades in, parallels fade out ────────────────────────────
-  gsap.to('#intmMerged', { opacity: 1, duration: 2.0, ease: 'power2.out', delay: 9.0 });
-  gsap.to(['#intmParL', '#intmParR'], { opacity: 0, duration: 1.2, ease: 'power2.in', delay: 9.2 });
+  gsap.to('#intmMerged', { opacity: 1, duration: 1.8, ease: 'power2.out', delay: 8.3 });
+  gsap.to(['#intmParL', '#intmParR'], { opacity: 0, duration: 1.0, ease: 'power2.in', delay: 8.5 });
 
   // ─── Narration 2: "They were always the same water." ─────────────────────
-  gsap.to('#intm-n2', { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 9.8 });
+  gsap.to('#intm-n2', { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out', delay: 9.0 });
 
-  // ─── Fade out n2 and auto-advance to the next screen after 13 s ────────────
-  gsap.to('#intm-n2', { opacity: 0, duration: 1.2, ease: 'power2.in', delay: 11.5 });
-  gsap.delayedCall(13, advance);
-  setTimeout(advance, 13500); // fallback if gsap.delayedCall is throttled
+  // ─── Fade out n2 and auto-advance to the next screen after ~12 s ─────────
+  gsap.to('#intm-n2', { opacity: 0, duration: 1.0, ease: 'power2.in', delay: 10.9 });
+  gsap.delayedCall(12.1, advance);
+  setTimeout(advance, 12600); // fallback if gsap.delayedCall is throttled
 }
 
 // ─── FORK 2 SETUP ────────────────────────────────────────────────────────────
@@ -253,10 +321,10 @@ function setupConvergence() {
     // ── Narr 1: "All rivers meet." ────────────────────────────────────────
     .fromTo('#cv-n1',
       { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 6, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 4, ease: 'power3.out' },
       14
     )
-    .to('#cv-n1', { opacity: 0, duration: 4, ease: 'power2.in' }, 24)
+    .to('#cv-n1', { opacity: 0, duration: 4, ease: 'sine.in' }, 24)
 
     // ══════════════════════════════════════════════════════════════════════════
     // PHASE 2 (t 18–38): Camera follows river — Y-junction exits top
@@ -281,10 +349,10 @@ function setupConvergence() {
     // ── Narr 2 (mid-pan): "Love. Impermanence. Death. The same water." ────
     .fromTo('#cv-n2',
       { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 6, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 5, ease: 'power3.out' },
       26
     )
-    .to('#cv-n2', { opacity: 0, duration: 5, ease: 'power2.in' }, 36)
+    .to('#cv-n2', { opacity: 0, duration: 5, ease: 'sine.in' }, 36)
 
     // ══════════════════════════════════════════════════════════════════════════
     // PHASE 3 (t 40–56): Dam enters from below — world drifts DOWN to y=+58
@@ -299,24 +367,24 @@ function setupConvergence() {
     // ── Narr 3: "And what does it all press against?" ────────────────────
     .fromTo('#cv-n3',
       { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 6, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 5, ease: 'power3.out' },
       54
     )
-    .to('#cv-n3', { opacity: 0, duration: 5, ease: 'power2.in' }, 64)
+    .to('#cv-n3', { opacity: 0, duration: 5, ease: 'sine.in' }, 64)
 
     // ══════════════════════════════════════════════════════════════════════════
     // PHASE 4a (t 62–72): Smile reveals
     // ══════════════════════════════════════════════════════════════════════════
     .to('#cvSmileL',
-      { strokeDashoffset: 0, opacity: 1, duration: 8, ease: 'power2.inOut' },
+      { drawSVG: '100%', opacity: 1, duration: 8, ease: 'power2.inOut' },
       62
     )
     .to('#cvSmileR',
-      { strokeDashoffset: 0, opacity: 1, duration: 8, ease: 'power2.inOut' },
+      { drawSVG: '100%', opacity: 1, duration: 8, ease: 'power2.inOut' },
       64
     )
     .to('#cvSmile',
-      { strokeDashoffset: 0, opacity: 1, duration: 10, ease: 'power2.inOut' },
+      { drawSVG: '100%', opacity: 1, duration: 10, ease: 'power2.inOut' },
       66
     )
 
@@ -350,20 +418,20 @@ function setupConvergence() {
     // ── Narr 4: "A smile." ────────────────────────────────────────────────
     .fromTo('#cv-n4',
       { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 6, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 5, ease: 'power3.out' },
       76
     )
-    .to('#cv-n4', { opacity: 0, duration: 5, ease: 'power2.in' }, 86)
+    .to('#cv-n4', { opacity: 0, duration: 5, ease: 'sine.in' }, 86)
 
     // ── Overflow starts — spills over both sides ──────────────────────────
     .to('#cvOverflowL', { opacity: 1, duration: 3, ease: 'power1.out' }, 82)
     .to('#cvOverflowR', { opacity: 1, duration: 3, ease: 'power1.out' }, 84)
     .to('#cvOverflowL path',
-      { strokeDashoffset: 0, duration: 12, ease: 'power2.inOut', stagger: 0.8 },
+      { drawSVG: '100%', duration: 12, ease: 'power2.inOut', stagger: 0.8 },
       82
     )
     .to('#cvOverflowR path',
-      { strokeDashoffset: 0, duration: 12, ease: 'power2.inOut', stagger: 0.8 },
+      { drawSVG: '100%', duration: 12, ease: 'power2.inOut', stagger: 0.8 },
       85
     )
 
@@ -379,10 +447,10 @@ function setupConvergence() {
     // ── Narr 5: "How sweet it tasted." ───────────────────────────────────
     .fromTo('#cv-n5',
       { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, duration: 7, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 6, ease: 'power3.out' },
       94
     )
-    .to('#cv-n5', { opacity: 0, duration: 6, ease: 'power2.in' }, 104)
+    .to('#cv-n5', { opacity: 0, duration: 6, ease: 'sine.in' }, 104)
 
     // ── Final text: "Now you see. / What will you taste?" ────────────────
     .fromTo('#cv-final',
@@ -390,6 +458,8 @@ function setupConvergence() {
       { opacity: 1, y: 0, scale: 1, duration: 12, ease: 'power2.out' },
       106
     );
+
+  addConvergenceAnnotations(tl);
 
   // Drive timeline with the panel's own scroll
   panel.addEventListener('scroll', () => {

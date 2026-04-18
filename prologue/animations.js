@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, ScrollSmoother, SplitText);
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -11,6 +11,8 @@
 function generateStars() {
   const ns = "http://www.w3.org/2000/svg";
   const group = document.querySelector("#cStars");
+  const svg = document.querySelector("#cosmosSvg");
+  const rc = window.rough && svg ? rough.svg(svg) : null;
   const count = 82;
 
   // Pseudo-random seeded layout so it looks intentional
@@ -38,22 +40,39 @@ function generateStars() {
   ];
 
   for (let i = 0; i < count; i++) {
-    const c = document.createElementNS(ns, "circle");
-    const r = 0.35 + (rx[i] * 1.55);          // 0.35–1.9
-    const op = 0.22 + (ry[i] * 0.68);         // 0.22–0.9
-    c.setAttribute("cx", (rx[i] * 390).toFixed(1));
-    c.setAttribute("cy", (ry[i] * 844).toFixed(1));
-    c.setAttribute("r",  r.toFixed(2));
-    c.setAttribute("fill", "white");
-    c.setAttribute("opacity", op.toFixed(2));
-    c.dataset.baseOp = op;
-    group.appendChild(c);
+    const r = 0.35 + (rx[i] * 1.55);
+    const op = 0.22 + (ry[i] * 0.68);
+    const cx = rx[i] * 390;
+    const cy = ry[i] * 844;
+
+    if (rc) {
+      const star = rc.circle(cx, cy, r * 2, {
+        stroke: "white",
+        strokeWidth: 0.28,
+        fill: "white",
+        fillStyle: "solid",
+        roughness: 0.55 + (i % 5) * 0.12,
+        bowing: 0.8
+      });
+      star.setAttribute("opacity", op.toFixed(2));
+      star.dataset.baseOp = op;
+      group.appendChild(star);
+    } else {
+      const c = document.createElementNS(ns, "circle");
+      c.setAttribute("cx", cx.toFixed(1));
+      c.setAttribute("cy", cy.toFixed(1));
+      c.setAttribute("r", r.toFixed(2));
+      c.setAttribute("fill", "white");
+      c.setAttribute("opacity", op.toFixed(2));
+      c.dataset.baseOp = op;
+      group.appendChild(c);
+    }
   }
 }
 
 // Gentle twinkle (non-scroll, runs always)
 function twinkleStars() {
-  gsap.utils.toArray("#cStars circle").forEach((star, i) => {
+  gsap.utils.toArray("#cStars > *").forEach((star, i) => {
     const base = parseFloat(star.dataset.baseOp);
     gsap.to(star, {
       opacity: Math.max(0.06, base - 0.38 + (i % 5) * 0.08),
@@ -70,11 +89,7 @@ function twinkleStars() {
 // STROKE DRAWING SETUP
 // ─────────────────────────────────────────────
 function setupStroke(paths) {
-  paths.forEach((p) => {
-    const len = p.getTotalLength();
-    p.style.strokeDasharray = len;
-    p.style.strokeDashoffset = len;
-  });
+  gsap.set(paths, { drawSVG: "0%" });
 }
 
 // ─────────────────────────────────────────────
@@ -113,6 +128,115 @@ function narr(tl, id, inAt, outAt, inDur = 4, outDur = 4, riseY = 10) {
   );
 }
 
+function narrSplit(tl, id, inAt, outAt, inDur = 4, outDur = 4) {
+  const el = document.querySelector(id);
+  if (!el || typeof SplitText === "undefined") {
+    narr(tl, id, inAt, outAt, inDur, outDur);
+    return;
+  }
+
+  const split = new SplitText(el, { type: "words,chars" });
+  tl.fromTo(split.chars,
+    { opacity: 0, y: 8 },
+    { opacity: 1, y: 0, duration: inDur, stagger: 0.03, ease: "power1.out" },
+    inAt
+  ).to(split.chars,
+    { opacity: 0, duration: outDur, stagger: 0.02, ease: "power1.in" },
+    outAt
+  );
+}
+
+function annotateOnTimeline(tl, selector, config, showAt, hideAt) {
+  if (!window.RoughNotation) return;
+  const el = document.querySelector(selector);
+  if (!el) return;
+
+  const note = RoughNotation.annotate(el, {
+    animate: true,
+    animationDuration: 800,
+    ...config
+  });
+
+  tl.call(() => note.show(), null, showAt);
+  if (hideAt !== undefined) {
+    tl.call(() => note.hide(), null, hideAt);
+  }
+}
+
+function addRoughPathOverlay(svg, sourceEl, options, id, className) {
+  if (!sourceEl || !sourceEl.getAttribute) return null;
+  const d = sourceEl.getAttribute("d");
+  if (!d) return null;
+
+  const rc = rough.svg(svg);
+  const roughNode = rc.path(d, options);
+  if (id) roughNode.id = id;
+  if (className) roughNode.classList.add(className);
+  if (className) {
+    roughNode.querySelectorAll("path").forEach((p) => p.classList.add(`${className}-path`));
+  }
+
+  const transform = sourceEl.getAttribute("transform");
+  if (transform) roughNode.setAttribute("transform", transform);
+  roughNode.setAttribute("pointer-events", "none");
+
+  sourceEl.parentNode.insertBefore(roughNode, sourceEl.nextSibling);
+  return roughNode;
+}
+
+function setupRoughOverlays() {
+  if (!window.rough) return;
+  const svg = document.querySelector("#parableSvg");
+  const bridgeSvg = document.querySelector("#bridgeSvg");
+  if (svg) {
+    const pVine = document.querySelector("#pVine");
+    if (pVine && !document.querySelector("#pVineRough")) {
+      const vine = addRoughPathOverlay(svg, pVine, {
+        stroke: "#3f5d22",
+        strokeWidth: 3,
+        roughness: 1.2,
+        bowing: 1.8,
+        fill: "none"
+      }, "pVineRough");
+      if (vine) vine.setAttribute("opacity", "0");
+    }
+
+    const berry = document.querySelector("#pStrawberry path:nth-of-type(2)");
+    if (berry && !document.querySelector("#pStrawberryRough")) {
+      const berryRough = addRoughPathOverlay(svg, berry, {
+        stroke: "#7a1b1b",
+        strokeWidth: 1.3,
+        roughness: 1.1,
+        bowing: 1.2,
+        fill: "#c63737",
+        fillStyle: "solid"
+      }, "pStrawberryRough");
+      if (berryRough) {
+        berryRough.setAttribute("opacity", "0");
+      }
+    }
+  }
+
+  if (bridgeSvg) {
+    const tearLayer = document.querySelector("#bTearLayer");
+    const tears = gsap.utils.toArray(".bTear");
+    tears.forEach((tear, index) => {
+      if (tearLayer.querySelector(`.bTear-rough[data-src='${index}']`)) return;
+      const roughTear = addRoughPathOverlay(bridgeSvg, tear, {
+        stroke: "#1a1a1a",
+        strokeWidth: 1.8,
+        roughness: 1.1,
+        bowing: 1.6,
+        fill: "none"
+      }, null, "bTear-rough");
+      if (roughTear) {
+        roughTear.dataset.src = String(index);
+        roughTear.setAttribute("opacity", "0.55");
+      }
+    });
+  }
+}
+
 // ─────────────────────────────────────────────
 // STAGE 1 — COSMOS
 // Total scroll: 600vh → timeline duration 100
@@ -141,7 +265,13 @@ function setupCosmos() {
       { scale: 1, opacity: 0.85, duration: 9, ease: "power1.out" }, 0);
 
   // narration: Śūnyatā (enters 0, exits 13–14)
-  narr(ctl, "#n-sunyata", 0, 14, 6, 5);
+  narrSplit(ctl, "#n-sunyata", 0, 14, 6, 5);
+  annotateOnTimeline(ctl, "#n-sunyata", {
+    type: "circle",
+    color: "rgba(255,255,255,0.55)",
+    strokeWidth: 1.4,
+    padding: [3, 8, 3, 8]
+  }, 0.8, 13.8);
 
   // 10–26 : eyelids open, stars revealed — separated for clarity
   ctl
@@ -206,7 +336,13 @@ function setupCosmos() {
     .to("#cHumanEyes",{ opacity: 1, duration: 8, ease: "power2.out" }, 90)
     .to("#cStars",    { opacity: 0, duration: 8, ease: "power2.in" }, 90);
 
-  narr(ctl, "#n-born", 90, 102, 5, 5);
+  narrSplit(ctl, "#n-born", 90, 102, 5, 5);
+  annotateOnTimeline(ctl, "#n-born", {
+    type: "underline",
+    color: "#5f5a52",
+    strokeWidth: 1.8,
+    padding: [0, 4, 0, 4]
+  }, 91, 101.5);
 }
 
 // ─────────────────────────────────────────────
@@ -367,6 +503,7 @@ function setupParable() {
   // 24–40 : vine appears + man transitions (clear staging)
   ptl
     .to("#pVine",       { opacity: 1, duration: 6, ease: "power2.out" }, 24)
+    .to("#pVineRough",  { opacity: 1, duration: 6, ease: "power2.out" }, 24)
     .to("#pManRun",     { opacity: 0, duration: 4, ease: "power2.in" }, 26)
     .to("#pTigerChase", { opacity: 0, duration: 4, ease: "power2.in" }, 26, "<")
     .to("#pManHang",    { opacity: 1, duration: 5, ease: "power2.out" }, 28)
@@ -383,6 +520,7 @@ function setupParable() {
 
   // 52–68 : strawberry appears (relief moment)
   ptl.to("#pStrawberry", { opacity: 1, duration: 7, ease: "power3.out" }, 52);
+  ptl.to("#pStrawberryRough", { opacity: 1, duration: 7, ease: "power3.out" }, 52);
 
   narr(ptl, "#n-parable-berry", 56, 74, 5, 6);
 
@@ -401,7 +539,7 @@ function setupParable() {
 // Total scroll: 250vh → duration 100
 // ─────────────────────────────────────────────
 function setupBridge() {
-  const tears  = gsap.utils.toArray(".bTear");
+  const tears  = gsap.utils.toArray(".bTear, .bTear-rough-path");
   const rivers = gsap.utils.toArray(".bRiver");
 
   setupStroke(tears);
@@ -439,7 +577,7 @@ function setupBridge() {
   // 26–50 : tears draw with grace (staggered to create flow)
   btl.to("#bTearLayer", { opacity: 0.96, duration: 5, ease: "power1.out" }, 26);
   tears.forEach((t, i) => {
-    btl.to(t, { strokeDashoffset: 0, duration: 16, ease: "power2.inOut" }, 26 + i * 1.8);
+    btl.to(t, { drawSVG: "100%", duration: 16, ease: "power2.inOut" }, 26 + i * 1.8);
   });
 
   // 48–64 : pool forms (resolve before rivers take focus)
@@ -457,7 +595,7 @@ function setupBridge() {
   // 66–105 : rivers draw (flow with momentum, staggered for narrative arc)
   btl.to("#bRiverLayer", { opacity: 1, y: 0, duration: 9, ease: "power2.out" }, 66);
   rivers.forEach((r, i) => {
-    btl.to(r, { strokeDashoffset: 0, duration: 24, ease: "power2.inOut" }, 68 + i * 2.6);
+    btl.to(r, { drawSVG: "100%", duration: 24, ease: "power2.inOut" }, 68 + i * 2.6);
   });
 
   // River narration 1: "From his grief – rivers." (fires as rivers start drawing)
@@ -506,7 +644,7 @@ function setupRivers() {
 
   // 0–36 : paths draw from top to bottom (4 paths, slight stagger)
   rRivers.forEach((r, i) => {
-    rtl.to(r, { strokeDashoffset: 0, duration: 30, ease: "power2.inOut" }, i * 2);
+    rtl.to(r, { drawSVG: "100%", duration: 30, ease: "power2.inOut" }, i * 2);
   });
 
   // 4–24 : first beat — "Two rivers."
@@ -526,6 +664,91 @@ function setupRivers() {
     .to("#rl-death", { opacity: 0, duration: 5, ease: "power1.in" }, 64);
 
   narr(rtl, "#n-rivers-same", 66, 96, 5, 6);
+}
+
+// ─────────────────────────────────────────────
+// INK-BLEED WIPE — fires at each prologue stage boundary
+// ─────────────────────────────────────────────
+function setupWipe() {
+  const rect = document.querySelector("#wipeRect");
+  const noise = document.querySelector("#wipeNoise");
+  if (!rect || !noise) return;
+
+  let seedTimer = null;
+
+  function startSeedCycle() {
+    let s = 3;
+    seedTimer = setInterval(() => {
+      s = (s + Math.floor(Math.random() * 3) + 1) % 120;
+      noise.setAttribute("seed", String(s));
+    }, 90);
+  }
+
+  function stopSeedCycle() {
+    clearInterval(seedTimer);
+    seedTimer = null;
+  }
+
+  const resetWipe = () => gsap.set(rect, { attr: { y: 960 } });
+
+  function runWipe() {
+    stopSeedCycle();
+    gsap.killTweensOf(rect);
+    resetWipe();
+    startSeedCycle();
+
+    gsap.timeline({ onComplete: stopSeedCycle })
+      .fromTo(
+        rect,
+        { attr: { y: 960 } },
+        { attr: { y: -80 }, duration: 0.9, ease: "power2.in" }
+      )
+      .to(rect, { attr: { y: -80 }, duration: 0.15 })
+      .to(
+        rect,
+        { attr: { y: -960 }, duration: 0.7, ease: "power2.out" }
+      )
+      .call(resetWipe);
+  }
+
+  [
+    "#eyes-shell",
+    "#parable-shell",
+    "#bridge-shell",
+    "#rivers-shell"
+  ].forEach((trigger) => {
+    ScrollTrigger.create({
+      trigger,
+      start: "top 98%",
+      onEnter: runWipe,
+      onEnterBack: runWipe
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+// IRIS REVEAL — pool circle opens into rivers stage
+// irisCircle r: 0 → 620, scrubbed over first 50vh of rivers-shell
+// ─────────────────────────────────────────────
+function setupIrisReveal() {
+  const circle = document.querySelector("#irisCircle");
+  if (!circle) return;
+
+  gsap.fromTo(
+    circle,
+    { attr: { r: 0 } },
+    {
+      attr: { r: 620 },
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#rivers-shell",
+        start: "top top",
+        end: "+=50%",
+        scrub: 1.8,
+        invalidateOnRefresh: true
+      }
+    }
+  );
 }
 
 // ─────────────────────────────────────────────
@@ -579,6 +802,7 @@ function enableReducedMotionScene2Transition() {
 // ─────────────────────────────────────────────
 function init() {
   generateStars();
+  setupRoughOverlays();
 
   if (prefersReducedMotion) {
     // Static fallback: show everything at final state
@@ -588,9 +812,10 @@ function init() {
     ], { opacity: 1 });
     gsap.set(["#cUpperLid", "#cLowerLid"], { display: "none" });
     gsap.set(".eIcon", { opacity: 1 });
-    gsap.set(".bTear",  { strokeDashoffset: 0 });
-    gsap.set(".bRiver", { strokeDashoffset: 0 });
-    gsap.set(".rRiver", { strokeDashoffset: 0 });
+    gsap.set(".bTear",  { drawSVG: "100%" });
+    gsap.set(".bRiver", { drawSVG: "100%" });
+    gsap.set(".rRiver", { drawSVG: "100%" });
+    gsap.set("#irisCircle", { attr: { r: 620 } });
     gsap.set(["#rRiverLeft", "#rRiverRight", "#rl-love", "#rl-death"], { opacity: 1 });
     gsap.set([
       "#bTearLayer", "#bPoolGroup", "#bRiverLayer",
@@ -602,6 +827,16 @@ function init() {
     return;
   }
 
+  if (document.querySelector("#smooth-wrapper") && document.querySelector("#smooth-content")) {
+    ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.2,
+      effects: true,
+      smoothTouch: 0.1
+    });
+  }
+
   twinkleStars();
   setupJitter();
   setupCosmos();
@@ -609,6 +844,8 @@ function init() {
   setupParable();
   setupBridge();
   setupRivers();
+  setupWipe();
+  setupIrisReveal();
 }
 
   window.addEventListener("load", init);

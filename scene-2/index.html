@@ -42,7 +42,7 @@
     <rect x="0" y="0" width="390" height="844" fill="#f5f1e8"/>
 
     <!-- LEFT river cluster (Love) -->
-    <g id="iLeft" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+    <g id="iLeft" stroke="#4a3521" stroke-width="5.5" fill="none"
        stroke-linecap="round" filter="url(#iBrush)" opacity="0">
       <path d="M 112 0 C 90 110 136 230 108 360
                C 80 490 126 610 100 730 C 74 820 88 838 80 844"/>
@@ -51,7 +51,7 @@
     </g>
 
     <!-- RIGHT river cluster (Impermanence) -->
-    <g id="iRight" stroke="#0d0d0d" stroke-width="5.5" fill="none"
+    <g id="iRight" stroke="#21160f" stroke-width="5.5" fill="none"
        stroke-linecap="round" filter="url(#iBrush)" opacity="0">
       <path d="M 238 0 C 216 110 248 230 220 360
                C 192 490 236 610 212 730 C 188 820 202 838 206 844"/>
@@ -76,7 +76,7 @@
   <!-- Narration and fork buttons (positioned as overlays) -->
   <div class="intro-narr" id="intro-narr">
     <p>The tears had become rivers.</p>
-    <p style="margin-top:.4em; font-style:italic; opacity:.7;">And now the river meets a choice.</p>
+    <p class="intro-narr-sub">And now the river meets a choice.</p>
   </div>
 
   <div class="intro-fork-btns" id="intro-fork-btns">
@@ -525,12 +525,12 @@
   </svg>
 
   <!-- Narration 1: parallel phase -->
-  <div class="intm-narr" id="intm-n1" style="opacity:0;">
+  <div class="intm-narr" id="intm-n1">
     <p>The rivers ran beside each other<br>for a while.</p>
   </div>
 
   <!-- Narration 2: convergence -->
-  <div class="intm-narr" id="intm-n2" style="opacity:0;">
+  <div class="intm-narr" id="intm-n2">
     <p>They were always<br>the same water.</p>
   </div>
 </div>
@@ -653,7 +653,7 @@
         </filter>
         <!-- Clip rivers precisely at the dam rim so they never pass through -->
         <clipPath id="cvRiverStopClip">
-          <rect x="-20" y="-20" width="430" height="533"/>
+          <rect x="-20" y="-200" width="430" height="728"/>
         </clipPath>
         <filter id="cvTear" x="-10%" y="-5%" width="120%" height="110%">
           <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2"
@@ -695,15 +695,15 @@
         <path stroke-width="6" opacity="0.78"  d="M 118,0 Q 138,82 154,166 Q 166,248 178,322"/>
       </g>
 
-      <!-- United river — ends AT the dam rim (y=508), clipped so it never passes through -->
+      <!-- United river — ends AT the dam rim (y=528), clipped so it never passes through -->
       <g id="cvRiverUnited" stroke="#0d0d0d" fill="none"
          stroke-linecap="round" filter="url(#cvBrush)" opacity="0"
          clip-path="url(#cvRiverStopClip)">
-        <path stroke-width="9"  d="M 174,326 C 182,362 186,402 184,444 C 183,468 187,492 193,508"/>
-        <path stroke-width="7"  d="M 195,326 C 195,362 195,402 195,444 C 195,468 195,492 195,508"/>
-        <path stroke-width="9"  d="M 216,326 C 208,362 204,402 206,444 C 207,468 203,492 197,508"/>
-        <path stroke-width="5"  d="M 158,336 C 167,372 174,412 178,444 C 178,468 181,490 188,508" opacity="0.55"/>
-        <path stroke-width="5"  d="M 232,336 C 223,372 216,412 212,444 C 212,468 209,490 202,508" opacity="0.55"/>
+        <path stroke-width="9"  d="M 184,-100 C 184,100 180,220 174,326 C 182,362 186,402 184,444 C 183,468 187,492 193,528"/>
+        <path stroke-width="7"  d="M 195,-100 C 195,100 195,220 195,326 C 195,362 195,402 195,444 C 195,468 195,492 195,528"/>
+        <path stroke-width="9"  d="M 206,-100 C 207,100 210,220 216,326 C 208,362 204,402 206,444 C 207,468 203,492 197,528"/>
+        <path stroke-width="5"  d="M 178,-100 C 176,60 168,200 158,336 C 167,372 174,412 178,444 C 178,468 181,490 188,528" opacity="0.55"/>
+        <path stroke-width="5"  d="M 212,-100 C 214,60 222,200 232,336 C 223,372 216,412 212,444 C 212,468 209,490 202,528" opacity="0.55"/>
       </g>
 
       <!-- Long flow strands for Phase 2 camera-travel only — fades out before dam enters -->
@@ -781,8 +781,11 @@
 
 </div><!-- end #scene2 -->
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
 <script src="animations.js"></script>
 </body>
 </html>
