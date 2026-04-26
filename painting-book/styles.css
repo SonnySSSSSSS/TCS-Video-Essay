@@ -1,0 +1,528 @@
+/* ═══════════════════════════════════════════════════════
+   TCS Painting Book — Styles
+   Aesthetic: Editorial + Architectural minimalism
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Color System ──────────────────────────────────────── */
+:root {
+  /* Primary */
+  --warm-black: #1a1410;
+  --cream: #f5f0e8;
+
+  /* Accents */
+  --red: #8B2A1A;
+  --faded: #9a8f80;
+
+  /* Details */
+  --rule: #c9b99a;
+  --note-border: #5a3a1a;
+
+  /* Spatial depth */
+  --dark-overlay: rgba(26, 20, 16, 0.7);
+
+  /* Typography scale */
+  --body-size: clamp(1.06rem, 0.95rem + 0.5vw, 1.25rem);
+  --heading-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+  --label-size: clamp(0.68rem, 0.6rem + 0.3vw, 0.8rem);
+  --quote-size: clamp(1.15rem, 1rem + 0.6vw, 1.35rem);
+
+  /* Spacing */
+  --page-padding-x: clamp(1.5rem, 4vw, 3rem);
+  --page-padding-y: clamp(2rem, 5vw, 4rem);
+  --max-width: 680px;
+}
+
+/* ── Reset & Base ──────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-size: var(--body-size);
+  line-height: 1.8;
+  color: var(--cream);
+  background-color: var(--warm-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Subtle grain overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem var(--page-padding-x);
+  background: var(--warm-black);
+  border-bottom: 1px solid rgba(201, 185, 154, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.header-title {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--faded);
+}
+
+.header-date {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--faded);
+  opacity: 0.6;
+}
+
+/* ── Main Content Container ────────────────────────────── */
+.draft-body {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--page-padding-y) var(--page-padding-x);
+}
+
+/* ── Essay Sections ────────────────────────────────────── */
+.essay-section {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  display: block;
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  margin-bottom: 0.6rem;
+}
+
+.section-heading {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: var(--heading-size);
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--cream);
+  margin-bottom: 1.8rem;
+}
+
+.body-text {
+  margin-bottom: 1.5rem;
+  color: var(--cream);
+}
+
+.body-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Blockquote ────────────────────────────────────────── */
+.quote-block {
+  position: relative;
+  font-size: var(--quote-size);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--cream);
+  padding: 2rem 2rem 2rem 2.2rem;
+  margin: 2.5rem 0;
+  border-left: 3px solid var(--red);
+  background: rgba(90, 58, 26, 0.12);
+  border-radius: 0 4px 4px 0;
+}
+
+.quote-block p {
+  margin: 0;
+}
+
+/* ── Vietnamese Quote ──────────────────────────────────── */
+.vietnamese-quote {
+  font-size: var(--quote-size);
+  font-style: italic;
+  color: var(--faded);
+  margin: 2.2rem 0;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+
+.vietnamese-quote em {
+  display: block;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.quote-translation {
+  display: block;
+  font-size: calc(var(--body-size) * 0.85);
+  font-style: normal;
+  color: var(--faded);
+  opacity: 0.7;
+}
+
+/* ── Emphasis Text ─────────────────────────────────────── */
+.emphasis-text {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--red);
+  font-size: var(--quote-size);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  line-height: 1.65;
+}
+
+/* ── Declaration (standalone weighty lines) ─────────────── */
+.declaration {
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--quote-size);
+  color: var(--cream);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ── Instruction ("Take a look:", "Then:") ──────────────── */
+.instruction {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--faded);
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Lead-in (short intro before blockquote) ───────────── */
+.lead-in {
+  color: var(--faded);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+
+/* ── Song titles (Vietnamese) ──────────────────────────── */
+.song-title {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ── Editorial note ([maybe]) ──────────────────────────── */
+.editorial-note {
+  font-family: "DM Mono", monospace;
+  font-size: calc(var(--label-size) * 0.9);
+  color: var(--faded);
+  opacity: 0.5;
+}
+
+/* ── Closing line ──────────────────────────────────────── */
+.closing-line {
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 3rem;
+  color: var(--faded);
+}
+
+/* ── Essay divider (internal section breaks) ───────────── */
+.essay-divider {
+  border: none;
+  border-top: 1px solid rgba(201, 185, 154, 0.12);
+  margin: 3.5rem 0;
+}
+
+/* ── Images ────────────────────────────────────────────── */
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 185, 154, 0.06);
+  border: 1px dashed rgba(201, 185, 154, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.placeholder-label {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  color: var(--faded);
+  opacity: 0.5;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Hero image — full bleed on mobile */
+.hero-image {
+  margin: 0 calc(-1 * var(--page-padding-x)) 3rem;
+}
+
+.hero-image .image-placeholder {
+  border: none;
+  border-radius: 0;
+}
+
+/* Section images */
+.section-image {
+  margin: 2.5rem auto 3rem;
+  width: 100%;
+}
+
+.image-caption {
+  font-family: "DM Mono", monospace;
+  font-size: calc(var(--label-size) * 0.9);
+  color: var(--faded);
+  opacity: 0.6;
+  margin-top: 0.8rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* Self-portrait — anchor image, red accent */
+.hero-secondary .image-placeholder {
+  border: 1px solid rgba(139, 42, 26, 0.35);
+}
+
+/* ── Divider ───────────────────────────────────────────── */
+.divider {
+  max-width: var(--max-width);
+  margin: 4rem auto;
+  padding: 0 var(--page-padding-x);
+  border: none;
+  border-top: 1px solid rgba(201, 185, 154, 0.2);
+}
+
+/* ── Notes Section ─────────────────────────────────────── */
+.notes-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x) var(--page-padding-y);
+}
+
+.notes-heading {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--faded);
+  margin-bottom: 1.5rem;
+}
+
+.note-card {
+  border-bottom: 1px solid rgba(201, 185, 154, 0.1);
+}
+
+.note-card:last-child {
+  border-bottom: none;
+}
+
+.note-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  background: none;
+  border: none;
+  color: var(--cream);
+  cursor: pointer;
+  text-align: left;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: var(--body-size);
+  font-weight: 300;
+  gap: 0.8rem;
+  transition: opacity 0.2s ease;
+}
+
+.note-toggle:hover {
+  opacity: 0.8;
+}
+
+.note-number {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  color: var(--red);
+  flex-shrink: 0;
+  width: 1.5em;
+}
+
+.note-preview {
+  flex: 1;
+  color: var(--faded);
+}
+
+.note-chevron {
+  font-family: "DM Mono", monospace;
+  font-size: 1rem;
+  color: var(--faded);
+  opacity: 0.5;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.note-card.expanded .note-chevron {
+  transform: rotate(45deg);
+}
+
+.note-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, padding 0.3s ease;
+  padding: 0 0 0 2.3rem;
+}
+
+.note-card.expanded .note-body {
+  max-height: 300px;
+  opacity: 1;
+  padding: 0 0 1.2rem 2.3rem;
+}
+
+.note-body p {
+  font-size: calc(var(--body-size) * 0.9);
+  line-height: 1.7;
+  color: var(--faded);
+}
+
+/* ── Footer ────────────────────────────────────────────── */
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem var(--page-padding-x) 4rem;
+  text-align: center;
+}
+
+.footer-text {
+  font-family: "DM Mono", monospace;
+  font-size: var(--label-size);
+  color: var(--faded);
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+}
+
+/* ── Animation Initial States ──────────────────────────── */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-image {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+.image-slide-left {
+  transform: translateX(-20px) translateY(0);
+}
+
+.image-zoom .image-placeholder {
+  transform: scale(0.95);
+  transition: transform 0.6s ease;
+}
+
+.hero-secondary {
+  transform: scale(0.9) translateY(0);
+}
+
+/* ── Responsive: Desktop (768px+) ──────────────────────── */
+@media (min-width: 768px) {
+  body {
+    line-height: 1.75;
+  }
+
+  .hero-image {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 4rem;
+  }
+
+  .hero-image .image-placeholder {
+    border-radius: 2px;
+  }
+
+  .section-image {
+    width: 70%;
+  }
+
+  .section-image.image-slide-left {
+    width: 65%;
+  }
+
+  .quote-block {
+    margin: 3rem 0;
+    padding: 2.5rem 2.5rem 2.5rem 2.5rem;
+  }
+
+  .essay-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .essay-divider {
+    margin: 4.5rem 0;
+  }
+}
+
+/* ── Responsive: Tablet (768–1024px) ───────────────────── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .section-image {
+    width: 80%;
+  }
+}
+
+/* ── Responsive: Large screens ─────────────────────────── */
+@media (min-width: 1200px) {
+  .draft-body {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* ── Reduced Motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .hero-image,
+  .image-slide-left,
+  .hero-secondary {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .image-zoom .image-placeholder {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .note-body {
+    transition: none !important;
+  }
+
+  .note-chevron {
+    transition: none !important;
+  }
+}
